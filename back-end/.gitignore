@@ -31,3 +31,11 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### properties ###
+!/src/main/resources/application.properties
+
+### schema data ###
+!/src/main/resources/initdata/schema.sql
+!/src/main/resources/initdata/data.sql
+!/src/main/resources/mybatis-config.xml
