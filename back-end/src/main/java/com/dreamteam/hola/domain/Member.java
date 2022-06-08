@@ -4,4 +4,5 @@ public class Member {
     private String memberId;
     private String nickname;
     private String password;
+    private String email;
 }
