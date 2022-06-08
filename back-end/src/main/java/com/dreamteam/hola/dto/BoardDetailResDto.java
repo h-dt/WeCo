@@ -18,5 +18,5 @@ public class BoardDetailResDto {
     private String recruitCnt;
     private String duration;
     private String contact;
-    private String startDate;
+    private Date startDate;
 }
