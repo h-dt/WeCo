@@ -65,7 +65,6 @@ const NavBtn = styled.button`
 
 function Navbar() {
   const location= useLocation();
-  console.log(location.pathname)
   return (
     <Navbardiv>
       <Link to={{pathname:"/"}}>

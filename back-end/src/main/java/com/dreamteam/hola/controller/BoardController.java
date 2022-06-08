@@ -19,8 +19,12 @@ public class BoardController {
 
     @GetMapping("/board/{id}")
     public ResponseEntity<?> getBoard(@PathVariable Long id) {
-        System.out.println("id = " + id);
         BoardDetailResDto findBoard = boardServiceimpl.getBoard(id);
         return new ResponseEntity<>(findBoard, HttpStatus.OK);
+    }
+
+    @GetMapping("/board")
+    public ResponseEntity<?> getBoardList(){
+        return new ResponseEntity<>(boardServiceimpl.getBoardList(), HttpStatus.OK);
     }
 }

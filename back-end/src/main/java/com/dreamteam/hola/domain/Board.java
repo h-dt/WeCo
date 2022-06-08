@@ -1,9 +1,6 @@
 package com.dreamteam.hola.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -11,7 +8,7 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
 public class Board {
 
     private Long boardId;          //게시믈 번호
@@ -19,7 +16,7 @@ public class Board {
     private String title;           //제목
     private String content;         // 내용
     private Long viewCnt;          // 조회수
-    private Long recruitStatus;    //모집 상태
+    private String recruitStatus;    //모집 상태
     private Date regDate;     // 등록일
     private Date modDate;     //수정일
     private String recruitType;    //모집 구분
