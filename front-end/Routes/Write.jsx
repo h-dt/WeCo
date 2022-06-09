@@ -7,6 +7,14 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { useState } from "react";
+import '@toast-ui/editor/dist/toastui-editor.css';
+import { Editor } from '@toast-ui/react-editor';
+import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
+import "tui-color-picker/dist/tui-color-picker.css";
+import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
+import "@toast-ui/editor/dist/i18n/ko-kr";
+import { Link } from "react-router-dom";
+
 
 const WriteDiv= styled.div`
   display: flex;
@@ -54,31 +62,36 @@ const Form = styled.form`
       transform: scale(1.09);
     }
   }
-  span {
-    color: red;
-  }
 `;
 const SubmitBtn = styled.input`
   :hover{
-    transform: scale(1.1);
+    transform: scale(1.05)
     
   }
 `
+const GoHomeBtn = styled.div`
+  display: flex;
+  justify-content: center;
+  font-size: 18px;
+  padding: 1px 6px;
+  margin: 10px 0px 15px 0px;
+  align-items: center;
+  width:150px;
+  height: 70px;
+  border: 1px solid black;
+  border-radius: 10px;
+  :hover{
+    transform: scale(1.05)
+  }
+`
+const BtnDiv = styled.div`
+  display: flex;
+  align-items: center;
+`
+
 const SmallTitle = styled.div`
   font-size: 20px;
   font-weight: bold;
-`
-
-const TextDiv= styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  width:1000px;
-  height: 1000px;
-  border-radius: 20px;
-  font-size: 32px;
-  font-weight: 300;
 `
 
 const ITEM_HEIGHT = 48;
@@ -238,8 +251,22 @@ function Write() {
               ))}
             </Select>
           </FormControl>
-          <TextDiv>여기는 프로젝트 소개에 대한 글을 적는 공간입니다</TextDiv>
-          <SubmitBtn type="submit" value="글 등록" style={{ fontWeight: "bolder" }}/>
+          <Editor
+            usageStatistics= {false}
+            initialValue="안녕하세요 Oraganization 입니다! 프로젝트에 대해 소개해주세요~!"
+            previewStyle="vertical"
+            width= "100%"
+            height="700px"
+            initialEditType="wysiwyg"
+            useCommandShortcut={false}
+            plugins={[colorSyntax]}
+            language="ko-KR"/>
+          <BtnDiv>
+            <SubmitBtn type="submit" value="글 등록" style={{ fontWeight: "bolder", width: "150px", height:"70px" ,marginRight:"10px"}}/>
+            <Link to={{pathname:"/"}}>
+              <GoHomeBtn>취소</GoHomeBtn>
+            </Link>
+          </BtnDiv>
           </Form>
     </>
   )
