@@ -1,7 +1,7 @@
 package com.dreamteam.hola.dao;
 
 import com.dreamteam.hola.domain.Board;
-import com.dreamteam.hola.dto.BoardDetailResDto;
+import com.dreamteam.hola.dto.BoardDto;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -11,5 +11,5 @@ import java.util.List;
 public interface BoardMapper {
     List<Board> findAll();
 
-    BoardDetailResDto findById(Long id);
+    BoardDto findById(Long id);
 }
