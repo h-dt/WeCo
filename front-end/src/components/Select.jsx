@@ -1,12 +1,14 @@
 
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import styled from 'styled-components'
-import {Link} from "react-router-dom";
 import dataSkill from './data/dataSkill'
+import { FaFolderOpen,FaBookOpen } from "react-icons/fa";
+
 
 const SelectDiv= styled.div`
+
     width:100%;
     height:100%;
     background-color: white;
@@ -76,7 +78,7 @@ justify-content: center;
 align-items: center;
 width: 800px;
 height: 200px;
-margin-bottom: 20px;
+margin-bottom: 10px;
 `
 
 const ShowSelectListItem = styled.div`
@@ -99,31 +101,65 @@ const ShowSelectListItem = styled.div`
     }
 `
 
-
-const GoBtn = styled.div`
-    width:200px;
-    height:100px;
-    background-color:white;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    line-height: 50px;
+const ResetBtn =styled.div`
+    background-color: red;
+    color:white;
+    width:150px;
+    height:70px;
     font-size: 24px;
-    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
     cursor: pointer;
-    margin-bottom: 30px;
+    border-radius: 20px;
     :hover{
-        background-color:  #FD8E8B;
-        transform: scale(1.05);
+        transform: scale(1.1);
+
+    }
+    `
+
+const ResultDiv =styled.div`
+    width:100%;
+    height:100%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 30px 40px;
+`
+const ResultSelectBtnDiv= styled.div`
+    display: flex;
+    justify-content: space-between;
+`
+
+const ResultSelectBtn =styled.div`    
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    margin:10px;
+    cursor: pointer;
+    :hover{
+        transform: scale(1.1);
     }
 `
+
+const ResultBox= styled.div`
+    width:100%;
+    height:100vh;
+    display: grid;
+    grid-template-columns: repeat(1fr);
+`
+
 
 function Select(){
     const [currentTab, setCurrentTab] = useState(0);
     const [returnitem, setReturnItem] = useState("");
     const newArray= []
+    const onResetBtn = () =>{
+        setReturnItem("")
+    }
     localStorage.setItem("skill",returnitem);
     const selectMenuHandler = (index) => {
         setCurrentTab(index);
@@ -145,6 +181,7 @@ function Select(){
         setReturnItem(newArray)
     }
     return (
+        <>
         <SelectDiv>
             <SelectBar>
             {dataSkill.map((ele,index)=>{
@@ -168,15 +205,33 @@ function Select(){
                })}
             </ShowDiv>
             {returnitem === "" ? null  : (
-                <ShowSelectList>
-                {returnitem === "" ? null : 
-                    returnitem.map((x)=> <ShowSelectListItem key={Math.random()} onClick={()=>onDelete(x)}>{x}<FontAwesomeIcon icon={faX} style={{marginLeft:10}}/></ShowSelectListItem>)}
-                </ShowSelectList>
-            )} 
-            <GoBtn>
-                <Link to={{pathname : "/project"}} >프로젝트/스터디 구하기 </Link>
-                </GoBtn>
+                <>
+                    <ShowSelectList>
+                    {returnitem === "" ? null : 
+                        returnitem.map((x)=> <ShowSelectListItem key={Math.random()} onClick={()=>onDelete(x)}>{x}<FontAwesomeIcon icon={faX} style={{marginLeft:10}}/></ShowSelectListItem>)}
+                    </ShowSelectList>
+                    <ResetBtn onClick={onResetBtn}>
+                        Reset
+                    </ResetBtn>
+                </>
+            )}
         </SelectDiv>
+        <ResultDiv>
+            <ResultSelectBtnDiv>
+                <ResultSelectBtn>
+                    <FaFolderOpen style={{marginRight:"10px"}}/>프로젝트
+                </ResultSelectBtn>
+                <ResultSelectBtn>
+                    <FaBookOpen  style={{marginRight:"10px"}}/>
+                    스터디
+                </ResultSelectBtn>
+            </ResultSelectBtnDiv>
+            <ResultBox>
+
+            </ResultBox>
+        </ResultDiv>
+        </>
+        
     )
 }
 

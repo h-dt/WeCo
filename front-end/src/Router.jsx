@@ -1,5 +1,4 @@
-import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
-import Project from './Routes/Project'
+import { BrowserRouter, Routes, Route} from "react-router-dom";
 import Home from './Routes/Home'
 import Login from './Routes/Login'
 import Write from './Routes/Write'  
@@ -11,7 +10,6 @@ function Router(){
                 <Route path="/" element={<Home/>}/>
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/sign" element={<Sign/>}/>
-                <Route path="/project" element={<Project/>}/>
                 <Route path="/write" element={<Write/>}/>
             </Routes>
         </BrowserRouter>
