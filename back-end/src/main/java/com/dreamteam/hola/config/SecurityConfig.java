@@ -9,20 +9,14 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-@Configuration//빈등록(IOC)관리
-@EnableWebSecurity//시큐리티 필터가 등록이 된다.
+@EnableWebSecurity//시큐리티 필터가 등록이 된다.(내부에 @Configure 내장)
 @EnableGlobalMethodSecurity(prePostEnabled = true)//특정 주소로 접근을 하면 권한 및 인증을 미리 체크
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-
 
     //시큐리티가 대신 로그인을 해줌.
     //그러나 password를 가로채기합니다.
@@ -35,11 +29,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
+        http.csrf().disable();
+        http.authorizeRequests()
+                .antMatchers("/user/**").authenticated()
+                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
+                .anyRequest().permitAll()
+            .and()
+                .formLogin()
+                .loginPage("/login")
+                .usernameParameter("memberId")
+                .permitAll();
+
+
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService().passwordEncoder(encoderPWD());
-    }
+
 }
