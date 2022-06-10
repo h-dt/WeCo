@@ -10,4 +10,10 @@
     <select id="findById" resultType="BoardDetailResDto">
         select * from board where board_id = #{id}
     </select>
+
+    <insert id="insert" parameterType="BoardDetailResDto">
+        insert into
+            board (title, content,reg_date,recruit_type, recruit_cnt, duration, contact, start_date)
+        VALUES (#{title}, #{content}, #{reg_date},#{recruit_type},#{recruit_cnt},#{duration},#{contact},#{start_date})
+    </insert>
 </mapper>

@@ -10,4 +10,6 @@ public interface BoardService {
     BoardDetailResDto getBoard(Long id);
 
     List<Board> getBoardList();
+
+    int write(BoardDetailResDto boardDetailResDto);
 }
