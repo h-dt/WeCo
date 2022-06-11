@@ -1,8 +1,10 @@
 package com.dreamteam.hola.config;
 
+import com.dreamteam.hola.config.oauth.PrincipalOauth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -14,7 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableWebSecurity//시큐리티 필터가 등록이 된다.(내부에 @Configure 내장)
-@EnableGlobalMethodSecurity(prePostEnabled = true)//특정 주소로 접근을 하면 권한 및 인증을 미리 체크
+@EnableGlobalMethodSecurity(securedEnabled = true,prePostEnabled = true)//@secured 어노테이션 활성화,@preAuthorize 활성화
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -23,9 +25,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //해당 password가 뭘로 해쉬가 되어 회원가입이 되었는지 알아야
     //같은 해쉬로 암호화해서 DB에 있는 해쉬랑 비교할 수 있습니다.
     @Bean
-    public BCryptPasswordEncoder encoderPWD(){
+    public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
+    private final PrincipalOauth2UserService principalOauth2UserService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -36,9 +40,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().permitAll()
             .and()
                 .formLogin()
-                .loginPage("/login")
-                .usernameParameter("memberId")
-                .permitAll();
+                .loginPage("/loginForm")
+                .loginProcessingUrl("/login")// /login 주소가 호출이 되면 시큐리티가 낚아채서 대신 로그인을 진행
+                .defaultSuccessUrl("/")
+            .and()
+                .oauth2Login()
+                .loginPage("/loginForm")
+                //구글 로그인이 완료된 뒤의 후처리가 필요(코트x,(엑세스토큰+사용자프로필 정보O)
+                .userInfoEndpoint()
+                .userService(principalOauth2UserService);
+
 
 
     }

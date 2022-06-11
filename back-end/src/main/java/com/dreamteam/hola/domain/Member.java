@@ -23,4 +23,6 @@ public class Member {
     private char withdrawalYn;
     private LocalDate withdrawalDate;
     private String socialType;//카카오,깃허브,구글
+
+
 }

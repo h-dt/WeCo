@@ -22,6 +22,6 @@ public class Board {
     private String recruitType;    //모집 구분
     private String recruitCnt;     //모집 인원
     private String duration;        //진행 기간
-    private String contact;         //연락 방법
+    private String contact;//연락 방법
     private Date startDate;   //시작 예정일
 }
