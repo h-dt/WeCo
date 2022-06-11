@@ -5,13 +5,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
-public class PrincipalDetails implements UserDetails {
+public class PrincipalDetails implements UserDetails, OAuth2User {
 //시큐리티가 /login 주소 요청이 오면 낚아채서 로그인을 진행합니다.
 //로그인 진행이 완료가 되면 시큐리티 내장 Session을 만들어줍니다.(Security ContextHolder)<- 여기에 세션정보를 저장
 //들어갈수 오브젝트는 Authentication 타입의 객체
@@ -20,9 +22,16 @@ public class PrincipalDetails implements UserDetails {
 //Security Session -> Authentication -> UserDetails 타입
 
     private Member member;//콤포지션
+    private Map<String,Object> attributes;
 
+    //일반 로그인
     public PrincipalDetails(Member member){
         this.member = member;
+    }
+    //OAuth 로그인
+    public PrincipalDetails(Member member,Map<String,Object> attributes){
+        this.member=member;
+        this.attributes=attributes;
     }
 
 
@@ -75,4 +84,14 @@ public class PrincipalDetails implements UserDetails {
         return collectors;
     }
 
+    @Override
+    public Map<String, Object> getAttributes() {
+
+        return attributes;
+    }
+
+    @Override
+    public String getName() {
+        return (String) attributes.get("sub");
+    }
 }

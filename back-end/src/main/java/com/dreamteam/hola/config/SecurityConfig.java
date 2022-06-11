@@ -4,6 +4,7 @@ import com.dreamteam.hola.config.oauth.PrincipalOauth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -24,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //해당 password가 뭘로 해쉬가 되어 회원가입이 되었는지 알아야
     //같은 해쉬로 암호화해서 DB에 있는 해쉬랑 비교할 수 있습니다.
     @Bean
-    public BCryptPasswordEncoder encoderPWD(){
+    public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 

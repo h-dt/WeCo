@@ -1,6 +1,7 @@
 package com.dreamteam.hola.controller;
 
 import com.dreamteam.hola.config.auth.PrincipalDetails;
+import com.dreamteam.hola.domain.Member;
 import com.dreamteam.hola.domain.Role;
 import com.dreamteam.hola.dto.MemberDto;
 import com.dreamteam.hola.service.MemberService;
@@ -52,7 +53,8 @@ public class MemberController {
         return "/member/index";
     }
     @GetMapping("/user")
-    public  @ResponseBody String member(){
+    public  @ResponseBody String member(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+        System.out.println("principalDetails.getMember() = " + principalDetails.getMember());
         return "user";
     }
     @GetMapping("/admin")
@@ -71,9 +73,9 @@ public class MemberController {
 
     }
     @PostMapping("/member/join")
-    public  String join(MemberDto memberDto){
-        memberDto.setProfileImage("test");
-        memberService.joinMember(memberDto);
+    public  String join(Member member){
+        member.setProfileImage("test");
+        memberService.joinMember(member);
         return "redirect:/";
     }
 

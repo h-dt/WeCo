@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MemberMapper {
 
-    void joinMember(MemberDto memberDto);
+    void joinMember(Member member);
 
     Member findByUsername(String username);
 }

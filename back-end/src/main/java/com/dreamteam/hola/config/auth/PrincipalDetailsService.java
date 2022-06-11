@@ -21,9 +21,10 @@ public class PrincipalDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         Member member = memberMapper.findByUsername(username);
-        if(member != null){
+        if (member != null) {
             return new PrincipalDetails(member);
+        } else {
+            return null;
         }
-        return null;
     }
 }
