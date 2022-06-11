@@ -1,5 +1,6 @@
 package com.dreamteam.hola.config;
 
+import com.dreamteam.hola.config.oauth.PrincipalOauth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +28,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    private final PrincipalOauth2UserService principalOauth2UserService;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
@@ -38,7 +41,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/loginForm")
                 .loginProcessingUrl("/login")// /login 주소가 호출이 되면 시큐리티가 낚아채서 대신 로그인을 진행
-                .defaultSuccessUrl("/");
+                .defaultSuccessUrl("/")
+            .and()
+                .oauth2Login()
+                .loginPage("/loginForm")
+                //구글 로그인이 완료된 뒤의 후처리가 필요(코트x,(엑세스토큰+사용자프로필 정보O)
+                .userInfoEndpoint()
+                .userService(principalOauth2UserService);
 
 
 
