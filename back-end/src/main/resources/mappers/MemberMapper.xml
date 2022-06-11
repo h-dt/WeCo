@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dreamteam.hola.dao.MemberMapper">
+
+
+    <sql id="memberColumns">
+        member_no,
+        username,
+        nickname,
+        password,
+        email,
+        profile_image,
+        role,
+        reg_date,
+        mod_date,
+        withdrawal_yn,
+        withdrawal_date,
+        social_type
+    </sql>
+
+    <insert id="joinMember" parameterType="com.dreamteam.hola.dto.MemberDto">
+        INSERT INTO member(
+                <include refid="memberColumns"/>
+        )VALUES(
+            #{memberNo},
+            #{username},
+            #{nickname},
+            #{password},
+            #{email},
+            'default value',
+            'ROLE_USER',
+            now(),
+            null,
+            'N',
+            null,
+            null
+        );
+    </insert>
+
+    <select id="findByUsername" parameterType="String" resultType="com.dreamteam.hola.domain.Member">
+        SELECT
+        <include refid="memberColumns"/>
+        FROM
+            member
+        WHERE
+            username=#{username}
+    </select>
+</mapper>
+
