@@ -10,8 +10,7 @@ import java.util.List;
 public interface MemberService {
 
 
-    int joinMember(MemberDto memberdto);
-    List<MemberDto> getMemberList();
+    void joinMember(Member member);
 
 //    default Member dtoToDomain(MemberDto dto){
 //
