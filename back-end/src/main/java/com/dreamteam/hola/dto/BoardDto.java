@@ -11,7 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class BoardDetailResDto {
+public class BoardDto {
     private String title;
     private String content;
     private Date regDate;

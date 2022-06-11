@@ -7,7 +7,7 @@
         select * from board;
     </select>
 
-    <select id="findById" resultType="BoardDetailResDto">
+    <select id="findById" resultType="BoardDto">
         select * from board where board_id = #{id}
     </select>
 </mapper>
