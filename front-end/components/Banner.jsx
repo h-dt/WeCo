@@ -6,45 +6,29 @@ import "slick-carousel/slick/slick-theme.css";
 
 
 const StyledSlider = styled(Slider)`
-  margin: 0px 250px;
-         display: flex;
-justify-content: center;
-align-items: center;
+    margin: 0px 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .slick-list{
+      margin:0px 20px;
+    }
     .slick-track {
     display: flex;
     justify-content: center;
     align-items: center;
     }
-  .slick-prev {
-    left: 30px !important;
-    z-index: 1000;
-  }
-  .slick-next {
-    right: 30px !important;
-    z-index: 1000;
-  }
   .slick-arrow.slick-next::before{
-    font-size: 40px;
-    color:black;
-    
-  }
-  .slick-arrow.slick-prev::before{
-    font-size: 40px;
+    font-size: 30px;
     color: black;
   }
-
-  .slick-dots {
-    display: flex;
-    width: 200px;
-    height:10px;
-    margin: 0;
-    padding: 0;
-    left: 50%;
-    bottom: 10px;
-    background-color: white;
-    transform: translate(-50%, -50%);
+  .slick-arrow.slick-prev::before{
+    font-size: 30px;
+    color: black;
   }
-
+  .slick-dots{
+    margin: 10px 0px;
+  }
   .slick-dots li {
     margin: 0 3.5px;
   }
@@ -81,8 +65,8 @@ const ImgBox = styled.div`
 `
 
 const OkkyImgBox= styled.div`
-  width:400px;
-  height:400px;
+  width:500px;
+  height:350px;
   cursor: pointer;
   border-radius: 10px;
   background-position: center;
@@ -114,8 +98,8 @@ const WantedImgBox= styled.div`
   background-image: url("https://file.mk.co.kr/meet/neds/2021/08/image_readtop_2021_777584_16287284604747853.jpg");
 `
 const JobImgBox= styled.div`
-  width:550px;
-  height:300px;
+  width:450px;
+  height:250px;
   cursor: pointer;
   border-radius: 10px;
   background-position: center;
@@ -136,7 +120,7 @@ const BannerDiv = styled.div`
 const NoticeBtn = styled.div`
     width: 300px;
     height:150px;
-    background-color: beige;
+    background-color: #ddddd3;
     border: none;
     text-align: center;
     margin-right: 30px;
@@ -156,7 +140,7 @@ function NextArrow(props) {
     return (
       <div
         className={className}
-        style={{ ...style, display: "block",  }}
+        style={{ ...style, display: "block"  }}
         onClick={onClick}
       />
     );
@@ -188,7 +172,7 @@ function Banner (){
       }
     return(
         <StyledSlider {...settings}>
-            <BannerDiv>
+            <BannerDiv >
               <ImgBox>
                 <NoticeBtn>
                   <a href="https://rustic-tray-8dd.notion.site/0c464036142a430d97ace8b2e9217d13" rel="noreferrer" target='_blank'> 
