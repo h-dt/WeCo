@@ -12,7 +12,7 @@
     <div >
         <h1>로그인 페이지</h1>
         <hr/>
-        <form>
+        <form th:action="@{/login}" method="post">
             <input  class="form-control" type="text" name="username" placeholder="Enter ID"><br/>
             <input type="text" class="form-control" name="password" placeholder="Enter PWD"><br/>
             <button type="submit" class="btn btn-primary">로그인</button>

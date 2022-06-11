@@ -1,6 +1,7 @@
 package com.dreamteam.hola.member;
 
 import com.dreamteam.hola.dao.MemberMapper;
+import com.dreamteam.hola.domain.Member;
 import com.dreamteam.hola.dto.MemberDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,7 +20,7 @@ public class MemberMapperTests {
     @Test
     @DisplayName("username 으로 회원단건조회")
     void findByUsername(){
-        MemberDto member = mapper.findByUsername("testID");
+        Member member = mapper.findByUsername("testID");
         try{
             String memberJson = new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(member);
             System.out.println("=================");

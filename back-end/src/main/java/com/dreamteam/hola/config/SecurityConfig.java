@@ -14,7 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableWebSecurity//시큐리티 필터가 등록이 된다.(내부에 @Configure 내장)
-@EnableGlobalMethodSecurity(prePostEnabled = true)//특정 주소로 접근을 하면 권한 및 인증을 미리 체크
+@EnableGlobalMethodSecurity(securedEnabled = true,prePostEnabled = true)//@secured 어노테이션 활성화,@preAuthorize 활성화
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -36,9 +36,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().permitAll()
             .and()
                 .formLogin()
-                .loginPage("/login")
-                .usernameParameter("memberId")
-                .permitAll();
+                .loginPage("/loginForm")
+                .loginProcessingUrl("/login")// /login 주소가 호출이 되면 시큐리티가 낚아채서 대신 로그인을 진행
+                .defaultSuccessUrl("/");
+
 
 
     }

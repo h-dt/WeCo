@@ -24,15 +24,10 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public int joinMember(MemberDto memberDto) {
+    public void joinMember(MemberDto memberDto) {
         memberDto.setPassword(encoder.encode(memberDto.getPassword()));
-        memberDto.setRole(Role.USER);
+        memberDto.setRole(Role.ROLE_USER);
         memberMapper.joinMember(memberDto);
-        return memberDto.getMember_no().intValue();
     }
 
-    @Override
-    public List<MemberDto> getMemberList() {
-        return memberMapper.getMemberList();
-    }
 }
