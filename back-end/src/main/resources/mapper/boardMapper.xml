@@ -11,9 +11,10 @@
         select * from board where board_id = #{id}
     </select>
 
+<!--    mysql join? member의 pk를 join하면 member의 종류가 나오게 할 수 있다. -->
     <insert id="insert" parameterType="BoardDetailResDto">
         insert into
-            board (title, content,reg_date,recruit_type, recruit_cnt, duration, contact, start_date)
-        VALUES (#{title}, #{content}, #{reg_date},#{recruit_type},#{recruit_cnt},#{duration},#{contact},#{start_date})
+            board (board_id ,title, content,reg_date,recruit_type, recruit_cnt, duration, contact, start_date)
+        VALUES (#{boardId},#{title}, #{content}, #{regDate},#{recruitType},#{recruitCnt},#{duration},#{contact},#{startDate})
     </insert>
 </mapper>

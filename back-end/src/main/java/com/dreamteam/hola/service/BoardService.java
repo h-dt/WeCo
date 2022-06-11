@@ -11,5 +11,5 @@ public interface BoardService {
 
     List<Board> getBoardList();
 
-    int write(BoardDetailResDto boardDetailResDto);
+    int register(BoardDetailResDto boardDetailResDto) throws Exception;
 }

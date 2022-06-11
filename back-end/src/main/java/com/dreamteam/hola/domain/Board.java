@@ -11,7 +11,8 @@ import java.time.LocalDate;
 public class Board {
 
     private Long boardId;          //게시믈 번호
-    //    private Long memberId;         //작성자 번호
+//    private Long memberId;         //작성자 번호
+    private Long nickname;         // 닉네임
     private String title;           //제목
     private String content;         // 내용
     private Long viewCnt;          // 조회수

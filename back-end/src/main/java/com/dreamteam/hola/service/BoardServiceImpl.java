@@ -31,7 +31,7 @@ public class BoardServiceImpl implements BoardService{
 
     //Board 게시물 등록하기_2022_06_10_by_정은비
     @Override
-    public int write(BoardDetailResDto boardDetailResDto){
+    public int register(BoardDetailResDto boardDetailResDto)throws Exception{
         return boardMapper.insert(boardDetailResDto);
     }
 }

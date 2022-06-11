@@ -12,6 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Data
 public class BoardDetailResDto {
+    private Long boardId;          //게시믈 번호
     private String title;
     private String content;
     private Date regDate;

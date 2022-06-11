@@ -1,7 +1,17 @@
 package com.dreamteam.hola.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDate;
 
+//임의로 @붙임
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
 public class Member {
     private String memberId;
     private String nickname;

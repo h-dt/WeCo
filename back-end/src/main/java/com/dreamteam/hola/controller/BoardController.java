@@ -1,5 +1,7 @@
 package com.dreamteam.hola.controller;
 
+import com.dreamteam.hola.domain.Board;
+import com.dreamteam.hola.domain.Member;
 import com.dreamteam.hola.dto.BoardDetailResDto;
 import com.dreamteam.hola.service.BoardService;
 import com.dreamteam.hola.service.BoardServiceImpl;
@@ -24,28 +26,24 @@ public class BoardController {
     }
 
     @GetMapping("/board")
-    public ResponseEntity<?> getBoardList(){
+    public ResponseEntity<?> getBoardList() {
         return new ResponseEntity<>(boardServiceimpl.getBoardList(), HttpStatus.OK);
     }
 
-    @PostMapping("/board/write")
-    public ResponseEntity<?> write(@RequestBody BoardDetailResDto dto){
+    @PostMapping("/board/register")
+    public ResponseEntity<?> register(@RequestBody BoardDetailResDto dto) {
+//        Board.builder()
 
-        //session에서 id받아와서
-//        dto.setCommenter(commenter);
 
-//        try {
-//            if (BoardService.write(dto) !=1)
-//                throw new Exception("Write failed");
-//
-//            return new ResponseEntity<>("WRT_OK", HttpStatus.OK);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return new ResponseEntity<>("WRT_ERR", HttpStatus.BAD_REQUEST);
-//        }
-        return new ResponseEntity<>(boardServiceimpl.write(dto),HttpStatus.OK);
+        try {
+                int rowCnt = boardServiceimpl.register(dto);
+            if (rowCnt != 1) {
+                throw new Exception();
+            }
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
-
-
 }
