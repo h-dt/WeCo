@@ -1,18 +1,18 @@
 package com.dreamteam.hola.dto;
 
-import com.dreamteam.hola.domain.Board;
+import com.dreamteam.hola.domain.Comment;
+import com.dreamteam.hola.domain.Skill;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class BoardDetailResDto {
-    private Long boardId;          //게시믈 번호
+public class BoardDto {
     private String title;
     private String content;
     private Date regDate;
@@ -21,4 +21,6 @@ public class BoardDetailResDto {
     private String duration;
     private String contact;
     private Date startDate;
+    private List<Comment> comments;
+    private List<Skill> skills;
 }

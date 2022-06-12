@@ -3,7 +3,7 @@ package com.dreamteam.hola.service;
 import com.dreamteam.hola.dao.BoardMapper;
 import com.dreamteam.hola.dao.boardDao;
 import com.dreamteam.hola.domain.Board;
-import com.dreamteam.hola.dto.BoardDetailResDto;
+import com.dreamteam.hola.dto.BoardDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ public class BoardServiceImpl implements BoardService{
 
     // Board 1개 가져오기_2022_06_06_by_김우진
     @Override
-    public BoardDetailResDto getBoard(Long id) {
+    public BoardDto getBoard(Long id) {
         return boardMapper.findById(id);
     }
 
