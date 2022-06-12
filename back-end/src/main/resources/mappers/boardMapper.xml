@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dreamteam.hola.dao.BoardMapper">
+    <resultMap id="boardDetailMap" type="BoardDto">
+        <result property="regDate" column="reg_date"/>
+        <result property="recruitType" column="recruit_type"/>
+        <result property="recruitCnt" column="recruit_cnt"/>
+        <result property="startDate" column="start_date"/>
+        <collection property="comments" column="board_id" javaType="ArrayList" ofType="CommentDto" select="findBoardCommentList">
+            <id property="commentId" column="comment_id"/>
+            <result property="regDate" column="reg_date"/>
+        </collection>
+        <collection property="skills" column="board_id" javaType="ArrayList" ofType="SkillDto" select="findBoardSkillList">
+            <id property="skillId" column="skill_id"/>
+        </collection>
+    </resultMap>
+
+    <select id="findAll" resultType="Board">
+        select * from board;
+    </select>
+
+    <select id="findById" resultMap="boardDetailMap">
+        select * from board b where b.board_id = #{id}
+    </select>
+
+    <select id="findBoardCommentList" resultType="CommentDto">
+        select * from comment c where c.board_id = #{id}
+    </select>
+
+    <select id="findBoardSkillList" resultType="SkillDto">
+        select * from skill s left outer join board_skill bs on bs.board_id = #{id} group by skill_type
+    </select>
+</mapper>
