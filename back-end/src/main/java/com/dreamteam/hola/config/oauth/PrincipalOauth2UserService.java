@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+//구글로 부터 받은 userRequest 데이터에 대한 후처리되는 함수
 @Service
 @RequiredArgsConstructor
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
@@ -26,25 +27,27 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        System.out.println("userRequest : "+userRequest.getClientRegistration());
+        System.out.println("getClientRegistration : "+userRequest.getClientRegistration());//registration로 어떤 OAuth로 로그인 하였는지 확인가능.
         System.out.println("getAccessToken : "+userRequest.getAccessToken().getTokenValue());
-        System.out.println("userRequest : "+userRequest.getClientRegistration().getRegistrationId());
-        System.out.println("loadUser : "+super.loadUser(userRequest).getAttributes());
+        //구글 로그인 버튼 -> 구글 로그인 창 -> 로그인 완료 -> code를 리턴 받는데(OAuth-Client 라이브러리가 대신받음) -> AccessTocken 요청
+        //userRequest 정보 -> loadUser 함수 -> 구글로부터 회원 프로필 받음
 
         OAuth2User oAuth2User = super.loadUser(userRequest);
-        System.out.println("getAttributes"+oAuth2User.getAttributes());
+        System.out.println("getAttributes :"+oAuth2User.getAttributes());
+
 
         //회원가입 강제로 진행
         String provider = userRequest.getClientRegistration().getRegistrationId();//google
         String providerId = oAuth2User.getAttribute("sub");//google의 sub
         String email = oAuth2User.getAttribute("email");
-        String username = oAuth2User.getAttribute("email");;//google_sub(pk)
+        String username = provider+"_"+providerId;;//google_sub(pk)
         String password = UUID.randomUUID().toString();
         String defaultImage = oAuth2User.getAttribute("picture");
         String str = oAuth2User.getAttribute("email");
         String nickname = str.substring(0, str.indexOf("@"));
 
         Member member = memberMapper.findByUsername(username);
+
         if(member == null){
             Member domain = Member.builder()
                     .username(username)
@@ -60,7 +63,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         }
 
 
-        return new PrincipalDetails(member,oAuth2User.getAttributes()){
-        };
+        return super.loadUser(userRequest);
     }
 }

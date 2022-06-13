@@ -13,7 +13,7 @@ import java.util.Map;
 
 @Data
 @NoArgsConstructor
-public class PrincipalDetails implements UserDetails, OAuth2User {
+public class PrincipalDetails implements UserDetails,OAuth2User {
 //시큐리티가 /login 주소 요청이 오면 낚아채서 로그인을 진행합니다.
 //로그인 진행이 완료가 되면 시큐리티 내장 Session을 만들어줍니다.(Security ContextHolder)<- 여기에 세션정보를 저장
 //들어갈수 오브젝트는 Authentication 타입의 객체
@@ -70,7 +70,6 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         return true;
     }
 
-
     //계정이 갖고 있는 권한 목록을 리턴합니다.
     //권한이 여러개 있을 수 있어서 루프를 돌아야 한다.
     @Override
@@ -95,6 +94,6 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 
     @Override
     public String getName() {
-        return member.getMemberNo()+"";
+        return attributes.get("sub")+"";
     }
 }

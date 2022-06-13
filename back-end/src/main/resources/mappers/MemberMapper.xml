@@ -18,7 +18,7 @@
         social_type
     </sql>
 
-    <insert id="joinMember" parameterType="com.dreamteam.hola.dto.MemberDto">
+    <insert id="joinMember" parameterType="com.dreamteam.hola.domain.Member">
         INSERT INTO member(
                 <include refid="memberColumns"/>
         )VALUES(
@@ -27,13 +27,13 @@
             #{nickname},
             #{password},
             #{email},
-            'default value',
+            #{profileImage},
             'ROLE_USER',
             now(),
             null,
             'N',
             null,
-            null
+            IFNULL(#{socialType},null)
         );
     </insert>
 

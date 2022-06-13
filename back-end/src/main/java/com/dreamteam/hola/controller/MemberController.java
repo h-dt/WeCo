@@ -28,22 +28,24 @@ public class MemberController {
 
     @GetMapping("/test/login")
     public @ResponseBody String loginTest(Authentication authentication,
-                                          @AuthenticationPrincipal PrincipalDetails userDeatils){
+                                          @AuthenticationPrincipal PrincipalDetails principalDetails){
         System.out.println("/test/login ============");
-        PrincipalDetails principalDetails = (PrincipalDetails)authentication.getPrincipal();
-        System.out.println("authencitaion : "+principalDetails.getMember());
+        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+        System.out.println("authenticaion : "+principal.getMember());
 
-        System.out.println("userDeatils : "+userDeatils.getMember());
+        System.out.println("userDatils : "+principalDetails.getMember());
+
+
         return "세션 정보 확인하기";
   }
 
     @GetMapping("/test/oauth/login")
     public @ResponseBody String oAuthLoginTest(Authentication authentication,
-                                               @AuthenticationPrincipal OAuth2User oauth){
+                                               @AuthenticationPrincipal OAuth2User oAuth){
         System.out.println("/test/login ============");
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        System.out.println("oAuth2User.getAttributes() = " + oAuth2User.getAttributes());
-        System.out.println("oAuth2User = " + oauth.getAttributes());
+        OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
+        System.out.println("authencation = " + oauth2User.getAttributes());
+        System.out.println("oauth2User = " + oAuth.getAttributes());
 
         return "OAuth세션 정보 확인하기";
     }
