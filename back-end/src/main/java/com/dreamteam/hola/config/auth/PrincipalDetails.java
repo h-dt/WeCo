@@ -33,6 +33,9 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         this.member=member;
         this.attributes=attributes;
     }
+    public Member getMember(){
+        return member;
+    }
 
 
     @Override
@@ -92,6 +95,6 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 
     @Override
     public String getName() {
-        return (String) attributes.get("sub");
+        return member.getMemberNo()+"";
     }
 }
