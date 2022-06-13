@@ -35,10 +35,10 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         System.out.println("getAttributes"+oAuth2User.getAttributes());
 
         //회원가입 강제로 진행
-        String provider = userRequest.getClientRegistration().getClientId();//google
+        String provider = userRequest.getClientRegistration().getRegistrationId();//google
         String providerId = oAuth2User.getAttribute("sub");//google의 sub
         String email = oAuth2User.getAttribute("email");
-        String username = provider+"_"+providerId;//google_sub(pk)
+        String username = oAuth2User.getAttribute("email");;//google_sub(pk)
         String password = UUID.randomUUID().toString();
         String defaultImage = oAuth2User.getAttribute("picture");
         String str = oAuth2User.getAttribute("email");
@@ -60,6 +60,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         }
 
 
-        return new PrincipalDetails(member,oAuth2User.getAttributes());
+        return new PrincipalDetails(member,oAuth2User.getAttributes()){
+        };
     }
 }
