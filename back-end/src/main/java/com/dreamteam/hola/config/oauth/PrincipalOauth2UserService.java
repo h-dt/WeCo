@@ -1,6 +1,9 @@
 package com.dreamteam.hola.config.oauth;
 
 import com.dreamteam.hola.config.auth.PrincipalDetails;
+import com.dreamteam.hola.config.oauth.provider.GitHubUserInfo;
+import com.dreamteam.hola.config.oauth.provider.GoogleUserInfo;
+import com.dreamteam.hola.config.oauth.provider.OAuth2UserInfo;
 import com.dreamteam.hola.dao.MemberMapper;
 import com.dreamteam.hola.domain.Member;
 import com.dreamteam.hola.domain.Role;
@@ -35,16 +38,20 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(userRequest);
         System.out.println("getAttributes :"+oAuth2User.getAttributes());
 
-
+        OAuth2UserInfo oAuth2UserInfo = null;
+        if (userRequest.getClientRegistration().getRegistrationId().equals("google")){
+            oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
+        }else if(userRequest.getClientRegistration().getRegistrationId().equals("github")){
+            oAuth2UserInfo = new GitHubUserInfo(oAuth2User.getAttributes());
+        }
         //회원가입 강제로 진행
-        String provider = userRequest.getClientRegistration().getRegistrationId();//google
-        String providerId = oAuth2User.getAttribute("sub");//google의 sub
-        String email = oAuth2User.getAttribute("email");
+        String provider = oAuth2UserInfo.getProvider();//google
+        String providerId = oAuth2UserInfo.getProviderId();//google의 sub
+        String email = oAuth2UserInfo.getEmail();
         String username = provider+"_"+providerId;;//google_sub(pk)
         String password = UUID.randomUUID().toString();
         String defaultImage = oAuth2User.getAttribute("picture");
-        String str = oAuth2User.getAttribute("email");
-        String nickname = str.substring(0, str.indexOf("@"));
+        String nickname = email.substring(0, email.indexOf("@"));
 
         Member member = memberMapper.findByUsername(username);
 
@@ -60,6 +67,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                     .build();
             memberMapper.joinMember(domain);
 
+        }else {
+            System.out.println("이미 회원가입한 적이있습니다");
         }
 
 

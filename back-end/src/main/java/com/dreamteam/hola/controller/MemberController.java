@@ -45,7 +45,7 @@ public class MemberController {
         System.out.println("/test/login ============");
         OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
         System.out.println("authencation = " + oauth2User.getAttributes());
-        System.out.println("oauth2User = " + oAuth.getAttributes());
+//        System.out.println("oauth2User = " + oAuth.getAttributes());
 
         return "OAuth세션 정보 확인하기";
     }
@@ -55,8 +55,7 @@ public class MemberController {
         return "/member/index";
     }
     @GetMapping("/user")
-    public  @ResponseBody String member(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-        System.out.println("principalDetails.getMember() = " + principalDetails.getMember());
+    public  @ResponseBody String member() {
         return "user";
     }
     @GetMapping("/admin")
