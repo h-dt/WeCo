@@ -12,6 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Data
 public class BoardDto {
+
     private String title;
     private String content;
     private Date regDate;
