@@ -45,5 +45,14 @@
         WHERE
             username=#{username}
     </select>
+
+    <select id="findByEmail" parameterType="String" resultType="com.dreamteam.hola.domain.Member">
+        SELECT
+        <include refid="memberColumns"/>
+        FROM
+            member
+        WHERE
+            email=#{email}
+    </select>
 </mapper>
 

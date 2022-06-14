@@ -11,21 +11,32 @@ public class GitHubUserInfo implements OAuth2UserInfo{
 
     @Override
     public String getProviderId() {
-        return null;
+        return String.valueOf(attributes.get("id"));
     }
 
     @Override
     public String getProvider() {
-        return null;
+        return "GitHub";
     }
 
     @Override
     public String getEmail() {
-        return null;
+        String id = String.valueOf( attributes.get("id"));
+        return  attributes.get("email") == null ? id+"@github.com" : (String) attributes.get("email");
+    }
+
+    @Override
+    public String profileImage() {
+        return (String) attributes.get("avatar_url");
     }
 
     @Override
     public String getName() {
-        return null;
+        return (String) attributes.get("node_id");
+    }
+
+    @Override
+    public String nickname() {
+        return (String)attributes.get("login");
     }
 }
