@@ -33,20 +33,6 @@ export const SelectBtn = styled(BtnShape)`
         align-items: center;
     }
 `
-export const LoginToggleBtn = styled(BtnShape)`
-    width:230px;
-    color:${(props)=>props.theme.fontColor};
-    height:60px;
-    margin: 0px 10px;
-    :hover{
-        transform: scale(1.05);
-    }
-    div{
-        height:5px;
-        margin-top: 5px;
-        background-color: ${(props)=>props.theme.underLineColor};
-    }
-`
 
 export const NavBtn = styled(BtnShape)`
         color:${(props)=>props.theme.fontColor};
@@ -138,31 +124,35 @@ export const ResultSelectBtn =styled.div`
 `
 
 export const GoogleBtn = styled(LoginShape)`
-  width: 200px;
-  height: 66px;
+  width: 50px;
+  height: 50px;
   background-color: transparent;
-  background-image: url("img/logofile/googleimage.png");
-  margin: 10px 20px;
+  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjzC2JyZDZ_RaWf0qp11K0lcvB6b6kYNMoqtZAQ9hiPZ4cTIOB");
 `;
 
 export const GithubBtn = styled(LoginShape)`
-  width: 80px;
-  height: 80px;
+width: 50px;
+  height: 50px;
   background-image: url("img/logofile/gitimage.png");
-  margin: 10px 20px;
+  
 `;
 export const KaKaoBtn = styled(LoginShape)`
-  width: 80px;
-  height: 80px;
+    width: 50px;
+  height: 50px;
   background-image: url("https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fem7IrN%2Fbtq7snvbsK4%2FEKApcyLKGqBGWr8tmsbkXK%2Fimg.png");
-  font-size: 16px;
-  margin: 10px 20px;
+
 `;
 
 export const LoginSubmitBtn = styled.input`
+    margin:auto;
+    margin-top:40px;
+    width:50%;
+    height:40px;
+    cursor: pointer;
     color: ${(props)=>props.theme.fontColor};
     border:  1px solid  ${(props)=>props.theme.fontColor};
     background-color: ${(props)=>props.theme.submitBtnColor};
+    border-radius: 10px;
     :hover{
         transform: scale(1.05);
         background-color: ${(props)=>props.theme.underLineColor};

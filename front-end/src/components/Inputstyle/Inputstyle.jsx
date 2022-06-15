@@ -16,3 +16,19 @@ export const PopupSubmitInput = styled.input`
       transform: scale(1.05);
   }
 `
+
+export const Inputs = styled.input`
+    font-size: 18px;
+  cursor: pointer;
+  height: 50px;
+  border:none;
+  border-bottom: 1px solid ${(props)=>props.theme.loginColor};
+  margin: 10px;
+  color: ${(props)=>props.theme.fontColor};
+  text-align: center;
+  font-weight: 100;
+  :focus {
+    border:none;
+    border-bottom: 2px solid ${(props)=>props.theme.loginColor};
+  }
+`
