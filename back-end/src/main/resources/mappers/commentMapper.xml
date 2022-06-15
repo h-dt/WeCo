@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dreamteam.hola.dao.CommentMapper">
+    <select id="findAllByBoardId" resultType="com.dreamteam.hola.domain.Comment">
+        select
+               content,
+               reg_date
+        from comment
+        where board_id = #{id};
+    </select>
+
+    <select id="CountByBoardId" resultType="int">
+        select
+            count(comment_id)
+        from comment
+        where board_id = #{id}
+    </select>
+</mapper>

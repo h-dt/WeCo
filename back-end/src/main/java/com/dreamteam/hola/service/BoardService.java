@@ -1,13 +1,13 @@
 package com.dreamteam.hola.service;
 
-import com.dreamteam.hola.domain.Board;
 import com.dreamteam.hola.dto.BoardDto;
+import com.dreamteam.hola.dto.BoardDetailDto;
 
 import java.util.List;
 
 public interface BoardService {
 
-    BoardDto getBoard(Long id);
+    BoardDetailDto getBoard(Long id);
 
-    List<Board> getBoardList();
+    List<BoardDto> getBoardList(String recruitType);
 }
