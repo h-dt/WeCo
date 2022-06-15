@@ -3,29 +3,25 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { useState } from "react";
 import { LoginForm,LoginModalForm } from "../components/Formstyle/Formstyle";
-import { LoginToggleBtn,GoogleBtn,GithubBtn,KaKaoBtn,LoginSubmitBtn } from "../components/Btnstyle/Btnstyle";
-import {LoginToggleDiv,LoginBtnDiv} from '../components/DivStyle/Divstyle'
-import { SmallLoginTitle,SmallTitle,LoginTitle } from "../components/Titlestyle/Titlestyle";
+import { GoogleBtn,GithubBtn,KaKaoBtn,LoginSubmitBtn } from "../components/Btnstyle/Btnstyle";
+import {LoginBtnDiv} from '../components/DivStyle/Divstyle'
 import {LoginInputForm} from '../components/Formstyle/Formstyle'
+import { InputTitle,SeperateDivTitle } from "../components/Titlestyle/Titlestyle";
+import { Inputs } from "../components/Inputstyle/Inputstyle";
 
 const LoginLogo =styled.div`
- text-transform: uppercase;
- background-image: ${(props)=>props.theme.logo};
-  background-size: auto auto;
-  background-clip: border-box;
-  background-size: 200% auto;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: textclip 2s linear infinite;
-  display: inline-block;
-  font-size: 55px;
-  
-  @keyframes textclip {
-  to {
-    background-position: 200% center;
-  }
-}
+    margin: 30px 0px 10px 0px;
+    text-align: center;
+    font-size: 55px;
+    height:70px;
+    font-weight: 600;
+`
+
+const SeperateDiv = styled.div`
+  display: flex;
+  width:100%;
+  margin-bottom:10px;
+  justify-content: space-evenly;
 `
 
 function Login() {
@@ -36,69 +32,50 @@ function Login() {
     formState: { errors },
   } = useForm({mode:"onChange"});
   const [login, setLogin] = useState("")
-  const [logintoggle,setLoginToggle] =useState(false);
   const onSubmitValid=(data)=>{
     setLogin(data)
     reset()
   }
-  const onToggle = (boolean) =>{
-    setLoginToggle(boolean)
-  }
   return (
     <>
       <Navbar/>
-      <LoginTitle>Organiztion에 오신 것을 환영합니다!
-      <SmallLoginTitle>(로그인)</SmallLoginTitle>
-      </LoginTitle>
         <LoginForm>
         <LoginModalForm>
-          <LoginToggleDiv>
-            <LoginToggleBtn onClick={()=>onToggle(true)}>
-              소셜 계정으로 로그인하기
-              {logintoggle ? <div/> : null}
-            </LoginToggleBtn>
-            <LoginToggleBtn onClick={()=>onToggle(false)}>
-              ID/PW 으로 로그인하기
-              {logintoggle ? null:  <div/> }
-            </LoginToggleBtn>
-          </LoginToggleDiv>
-          {logintoggle ? 
-          <>
-            <LoginBtnDiv style={{backgroundColor:"white"}}>
-              <GoogleBtn/>
-            </LoginBtnDiv>
-            <SmallTitle>Google 로그인</SmallTitle>  
-            <LoginBtnDiv style={{backgroundColor:"#1B1F23"}}>
-              <GithubBtn/>
-            </LoginBtnDiv>
-            <SmallTitle>Github 로그인</SmallTitle>        
-            <LoginBtnDiv  style={{backgroundColor:"#FAE300"}}>
-              <KaKaoBtn/>
-            </LoginBtnDiv>
-            <SmallTitle>KaKao 로그인</SmallTitle>        
-          </> : 
-          <>
-          <LoginLogo>Organization</LoginLogo> 
+          <LoginLogo>Login</LoginLogo> 
           <LoginInputForm onSubmit={handleSubmit(onSubmitValid)}>
-              <input
+              <InputTitle>Username</InputTitle>
+              <Inputs
               {...register("username", {
-                 required: "아이디를 입력해주세요",
+                 required: "Usename 을 반드시 입력해주세요",
                 })}
                 type="text"
-                placeholder="아이디를 입력해주세요"
+                placeholder="Type your Username"
               />
               <span>{errors.username?.message}</span>
-              <input
+              <InputTitle>Password</InputTitle>
+              <Inputs
               {...register("password", {
-              required: "비밀번호를 입력해주세요",
+              required: "Password 를 반드시 입력해주세요",
               })}
               type="password"
-              placeholder="비밀번호를 입력해주세요"
+              placeholder="Type your Password"
               />
               <span>{errors.password?.message}</span>
-              <LoginSubmitBtn type="submit" value="로그인" style={{ fontWeight: "bolder" }}/>
+              <LoginSubmitBtn type="submit" value="로그인" style={{ fontWeight: "bolder" }}/>   
           </LoginInputForm>
-          </>}
+              <SeperateDivTitle>Or Sign Up Using Platform</SeperateDivTitle>
+              <SeperateDiv>
+                <LoginBtnDiv style={{backgroundColor:"white"}}>
+                  <GoogleBtn/>
+                </LoginBtnDiv>
+                <LoginBtnDiv style={{backgroundColor:"#1B1F23"}}>
+                  <GithubBtn/>
+                </LoginBtnDiv>
+                <LoginBtnDiv  style={{backgroundColor:"#FAE300"}}>
+                  <KaKaoBtn/>
+                </LoginBtnDiv>
+              </SeperateDiv>
+             
         </LoginModalForm>
         </LoginForm>
     </>

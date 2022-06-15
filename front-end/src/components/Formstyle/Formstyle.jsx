@@ -10,8 +10,9 @@ export const PopupForm = styled.form`
 
 export const LoginForm = styled.div`
   display: flex;
+  padding:70px;
   justify-content: center;
-  align-items: center;
+  
 `
 
 export const LoginModalForm = styled.div`
@@ -20,8 +21,6 @@ height: 650px;
   display: flex;
   flex-direction: column;
   color: ${(props)=>props.theme.fontColor};
-  justify-content: center;
-  align-items: center;
   margin: 20px;
   border: 1px solid ${(props)=>props.theme.fontColor};
   border-radius: 10px;
@@ -30,31 +29,17 @@ height: 650px;
 export const LoginInputForm = styled.form`
 display: flex;
 font-weight: 100;
-justify-content: center;
 height: 400px;
 color: ${(props)=>props.theme.fontColor};
-align-items: center;
+margin:20px;
+padding:30px;
 flex-direction: column;
-input {
-  font-size: 18px;
-  cursor: pointer;
-  width: 300px;
-  height: 50px;
-  margin: 10px;
-  margin-bottom: 20px;
-  color: ${(props)=>props.theme.fontColor};
-  border-radius: 10px;
-  text-align: center;
-  font-weight: 100;
-  :focus {
-    font-weight: bolder;
-    transform: scale(1.09);
-  }
-}
 span {
   font-weight: bold;
   font-size:18px;
   color:${(props)=>props.theme.reset};
+  display:flex;
+  justify-content: center;
 }
 `;
 
