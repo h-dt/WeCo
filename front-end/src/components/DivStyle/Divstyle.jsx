@@ -146,19 +146,13 @@ export const ShowSelectListItemDiv = styled.div`
     }
 `
 
-export const LoginToggleDiv= styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height:100px;
-`
 
 
 export const LoginBtnDiv = styled.div`
   border-radius: 10px;
   display: flex;
-  width:300px;
-  height: 100px;
+  width:60px;
+  height: 60px;
   justify-content: center;
   align-items: center;
   margin: 10px 0px;

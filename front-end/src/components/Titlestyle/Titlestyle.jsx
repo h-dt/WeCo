@@ -16,28 +16,16 @@ color: ${(props)=>props.theme.bannerHover};
 font-weight: 300;
 `
 
-export const SmallTitle = styled.div`
-  font-size: 18px;
-  margin-bottom: 10px;
-  color: ${(props)=>props.theme.underLineColor};
-  font-weight: bold;
+export const InputTitle= styled.p`
+  margin:10px 0px;
+  color:${(props)=>props.theme.loginColor};
 `
-export const LoginTitle = styled.div`
-  margin-top: 50px;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  font-size: 25px;
-  font-weight: 600;
-  color: ${(props)=>props.theme.fontColor};
+export const SeperateDivTitle= styled.div`
+  margin:auto;
+  margin-bottom: 20px;
+  color:${(props)=>props.theme.loginColor};
 `
 
-export const SmallLoginTitle = styled.div`
-  font-size: 20px;
-  font-weight: 600;
-  margin-top: 20px;
-`
 export const WriteTitle = styled.div`
 display: flex;
 justify-content: center;

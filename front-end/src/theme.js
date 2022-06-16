@@ -1,4 +1,5 @@
 export const darkTheme = {
+  loginColor: "white",
   boxFontHoverColor: "#17191c",
   fontColor: "white",
   bgColor: "#17191c", //화이트
@@ -14,6 +15,7 @@ export const darkTheme = {
 };
 
 export const lightTheme = {
+  loginColor: "grey",
   boxFontHoverColor: "#FFFFFF",
   fontColor: "black",
   bgColor: "#FFFFFF", //화이트
