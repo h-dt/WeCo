@@ -12,13 +12,18 @@ public class GoogleUserInfo implements OAuth2UserInfo{
     }
 
     @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+
+    @Override
     public String getProviderId() {
         return (String) attributes.get("sub");
     }
 
     @Override
     public String getProvider() {
-        return "google";
+        return"Google";
     }
 
     @Override
@@ -29,5 +34,15 @@ public class GoogleUserInfo implements OAuth2UserInfo{
     @Override
     public String getName() {
         return (String) attributes.get("name");
+    }
+
+    @Override
+    public String profileImage() {
+        return (String) attributes.get("picture");
+    }
+
+    @Override
+    public String nickname() {
+        return getEmail().substring(0,getEmail().indexOf("@"));
     }
 }

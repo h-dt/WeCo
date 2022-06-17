@@ -3,6 +3,7 @@ package com.dreamteam.hola.config.oauth;
 import com.dreamteam.hola.config.auth.PrincipalDetails;
 import com.dreamteam.hola.config.oauth.provider.GitHubUserInfo;
 import com.dreamteam.hola.config.oauth.provider.GoogleUserInfo;
+import com.dreamteam.hola.config.oauth.provider.KakaoUserInfo;
 import com.dreamteam.hola.config.oauth.provider.OAuth2UserInfo;
 import com.dreamteam.hola.dao.MemberMapper;
 import com.dreamteam.hola.domain.Member;
@@ -41,8 +42,12 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         OAuth2UserInfo oAuth2UserInfo = null;
         if (userRequest.getClientRegistration().getRegistrationId().equals("google")){
             oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
+
         }else if(userRequest.getClientRegistration().getRegistrationId().equals("github")){
             oAuth2UserInfo = new GitHubUserInfo(oAuth2User.getAttributes());
+
+        }else if(userRequest.getClientRegistration().getRegistrationId().equals("kakao")){
+            oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
         }
         //회원가입 강제로 진행
         String provider = oAuth2UserInfo.getProvider();//google
