@@ -8,4 +8,6 @@ import java.util.List;
 @Mapper
 public interface SkillMapper {
     List<Skill> findAllByBoardId(Long id);
+
+    int skillTypeToId(String skill);
 }

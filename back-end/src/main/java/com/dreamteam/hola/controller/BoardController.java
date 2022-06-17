@@ -7,9 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 @RequiredArgsConstructor
 @RestController
 public class BoardController {
+
 
     private final BoardServiceImpl boardServiceimpl;
 
@@ -20,25 +22,16 @@ public class BoardController {
     }
 
     @GetMapping("/boards/{recruitType}")
-    public ResponseEntity<?> getBoardList(@PathVariable String recruitType){
+    public ResponseEntity<?> getBoardList(@PathVariable String recruitType) {
         System.out.println(recruitType);
         return new ResponseEntity<>(boardServiceimpl.getBoardList(recruitType), HttpStatus.OK);
     }
 
     @PostMapping("/board/register")
-    public ResponseEntity<?> register(@RequestBody BoardDetailResDto dto) {
-//        Board.builder()
+    public ResponseEntity<?> register(@RequestBody BoardDetailDto dto) {
 
+        boardServiceimpl.register(dto);
+        return new ResponseEntity<>(HttpStatus.OK);
 
-        try {
-                int rowCnt = boardServiceimpl.register(dto);
-            if (rowCnt != 1) {
-                throw new Exception();
-            }
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
     }
 }

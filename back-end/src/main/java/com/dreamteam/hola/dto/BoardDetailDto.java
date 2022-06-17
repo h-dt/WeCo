@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class BoardDetailDto {
+    private Integer boardId;
 //    private String nickname;
     private String title;
     private String content;

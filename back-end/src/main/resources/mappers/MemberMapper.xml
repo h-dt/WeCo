@@ -20,20 +20,20 @@
 
     <insert id="joinMember" parameterType="com.dreamteam.hola.dto.MemberDto">
         INSERT INTO member(
-                <include refid="memberColumns"/>
+        <include refid="memberColumns"/>
         )VALUES(
-            #{memberNo},
-            #{username},
-            #{nickname},
-            #{password},
-            #{email},
-            'default value',
-            'ROLE_USER',
-            now(),
-            null,
-            'N',
-            null,
-            null
+        #{memberNo},
+        #{username},
+        #{nickname},
+        #{password},
+        #{email},
+        'default value',
+        'ROLE_USER',
+        now(),
+        null,
+        'N',
+        null,
+        null
         );
     </insert>
 
@@ -41,9 +41,9 @@
         SELECT
         <include refid="memberColumns"/>
         FROM
-            member
+        member
         WHERE
-            username=#{username}
+        username=#{username}
     </select>
 </mapper>
 
