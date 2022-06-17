@@ -37,7 +37,7 @@ public class GoogleUserInfo implements OAuth2UserInfo{
     }
 
     @Override
-    public String profileImage() {
+    public String getProfileImage() {
         return (String) attributes.get("picture");
     }
 
@@ -45,4 +45,5 @@ public class GoogleUserInfo implements OAuth2UserInfo{
     public String nickname() {
         return getEmail().substring(0,getEmail().indexOf("@"));
     }
+
 }

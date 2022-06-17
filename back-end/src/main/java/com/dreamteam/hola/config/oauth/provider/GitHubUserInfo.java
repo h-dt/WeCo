@@ -30,8 +30,10 @@ public class GitHubUserInfo implements OAuth2UserInfo{
         return  attributes.get("email") == null ? id+"@github.com" : (String) attributes.get("email");
     }
 
+
+
     @Override
-    public String profileImage() {
+    public String getProfileImage() {
         return (String) attributes.get("avatar_url");
     }
 

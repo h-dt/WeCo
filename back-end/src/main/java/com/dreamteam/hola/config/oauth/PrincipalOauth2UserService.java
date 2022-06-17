@@ -55,7 +55,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         String email = oAuth2UserInfo.getEmail();
         String username = provider+"_"+providerId;;//google_sub(pk)
         String password = UUID.randomUUID().toString();
-        String defaultImage = oAuth2User.getAttribute("picture");
+        String profileImage = oAuth2UserInfo.getProfileImage();
         String nickname = email.substring(0, email.indexOf("@"));
 
         Member member = memberMapper.findByUsername(username);
@@ -67,7 +67,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                     .nickname(nickname)
                     .email(email)
                     .role(Role.ROLE_USER)
-                    .profileImage(defaultImage)
+                    .profileImage(profileImage)
                     .socialType(provider)
                     .build();
             memberMapper.joinMember(domain);
