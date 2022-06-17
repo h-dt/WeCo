@@ -12,4 +12,6 @@ public interface MemberMapper {
     void joinMember(Member member);
 
     Member findByUsername(String username);
+
+    Member findByEmail(String email);
 }

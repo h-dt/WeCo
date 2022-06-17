@@ -12,11 +12,6 @@ public class GoogleUserInfo implements OAuth2UserInfo{
     }
 
     @Override
-    public Map<String, Object> getAttributes() {
-        return attributes;
-    }
-
-    @Override
     public String getProviderId() {
         return (String) attributes.get("sub");
     }
@@ -37,7 +32,7 @@ public class GoogleUserInfo implements OAuth2UserInfo{
     }
 
     @Override
-    public String getProfileImage() {
+    public String profileImage() {
         return (String) attributes.get("picture");
     }
 
@@ -45,5 +40,4 @@ public class GoogleUserInfo implements OAuth2UserInfo{
     public String nickname() {
         return getEmail().substring(0,getEmail().indexOf("@"));
     }
-
 }
