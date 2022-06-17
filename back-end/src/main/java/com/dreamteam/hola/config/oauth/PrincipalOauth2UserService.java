@@ -39,6 +39,13 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(userRequest);
         System.out.println("getAttributes :"+oAuth2User.getAttributes());
 
+        forceLogin(userRequest, oAuth2User);
+
+
+        return super.loadUser(userRequest);
+    }
+
+    private void forceLogin(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
         OAuth2UserInfo oAuth2UserInfo = null;
         if (userRequest.getClientRegistration().getRegistrationId().equals("google")){
             oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
@@ -49,11 +56,12 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         }else if(userRequest.getClientRegistration().getRegistrationId().equals("kakao")){
             oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
         }
-        //회원가입 강제로 진행
+
         String provider = oAuth2UserInfo.getProvider();//google
         String providerId = oAuth2UserInfo.getProviderId();//google의 sub
         String email = oAuth2UserInfo.getEmail();
-        String username = provider+"_"+providerId;;//google_sub(pk)
+        String username = provider+"_"+providerId;
+        ;//google_sub(pk)
         String password = UUID.randomUUID().toString();
         String profileImage = oAuth2UserInfo.getProfileImage();
         String nickname = email.substring(0, email.indexOf("@"));
@@ -75,8 +83,5 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         }else {
             System.out.println("이미 회원가입한 적이있습니다");
         }
-
-
-        return super.loadUser(userRequest);
     }
 }
