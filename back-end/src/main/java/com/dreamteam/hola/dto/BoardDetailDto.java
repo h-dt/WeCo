@@ -20,6 +20,7 @@ public class BoardDetailDto {
     private String recruitType;
     private String recruitCnt;
     private String duration;
+    private String contactType;
     private String contact;
     private Date startDate;
     private List<Comment> comments;
