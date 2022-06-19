@@ -13,4 +13,6 @@ public interface BoardMapper {
     List<BoardDto> findAllByRecruitType(String recruitType);
 
     void updateBoardViewCnt(Long id);
+
+    List<BoardDto> findAllBySkillTypes(List<String> skillTypes);
 }
