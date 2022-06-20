@@ -9,8 +9,8 @@
     </settings>
 
     <typeAliases>
-        <typeAlias type="com.dreamteam.hola.dto.BoardDetailResDto" alias="BoardDetailResDto"/>
-        <typeAlias type="com.dreamteam.hola.domain.Board" alias="Board"/>
+        <typeAlias type="com.dreamteam.hola.dto.BoardDto" alias="BoardDto"/>
+        <typeAlias type="com.dreamteam.hola.dto.BoardDetailDto" alias="BoardDetailDto"/>
     </typeAliases>
 </configuration>
 
