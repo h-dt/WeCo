@@ -11,8 +11,11 @@ public interface BoardService {
 
     BoardDetailDto getBoard(Long id);
 
+    List<BoardDto> getBoardList(String recruitType);
+
+    int register(BoardDto dto);
+  
     List<BoardDto> getBoardListByRecruitType(String recruitType);
 
     List<BoardDto> getBoardListBySKillType(List<String> skills);
-
 }

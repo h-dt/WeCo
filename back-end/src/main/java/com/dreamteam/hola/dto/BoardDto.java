@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class BoardDto {
-    private Long id;
+    private Long  id;
 //    private String nickname;         //작성자 번호
     private String title;           //제목
     private Long viewCnt;          // 조회수
@@ -21,4 +21,6 @@ public class BoardDto {
     private Date startDate;   //시작 예정일
     private int commentCnt;
     private List<String> skills;
+
+
 }

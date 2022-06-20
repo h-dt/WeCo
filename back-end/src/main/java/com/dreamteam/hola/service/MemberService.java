@@ -15,7 +15,7 @@ public interface MemberService {
 //    default Member dtoToDomain(MemberDto dto){
 //
 //        Member member = Member.builder()
-//                .member_id(dto.getMember_id())
+//                .member_no(dto.getmember_no())
 //                .nickname(dto.getNickname())
 //                .password(dto.getPassword())
 //                .email(dto.getEmail())

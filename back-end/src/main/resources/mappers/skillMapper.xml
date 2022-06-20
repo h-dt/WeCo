@@ -12,4 +12,10 @@
                 on bs.skill_id = s.skill_id
         where b.board_id = #{id};
     </select>
+
+    <select id="skillTypeToId" parameterType="String" resultType="long">
+        select skill_id
+        from skill
+        where skill_type = #{skillType}
+    </select>
 </mapper>
