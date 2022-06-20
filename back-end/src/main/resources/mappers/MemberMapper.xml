@@ -18,22 +18,22 @@
         social_type
     </sql>
 
-    <insert id="joinMember" parameterType="com.dreamteam.hola.dto.MemberDto">
+    <insert id="joinMember" parameterType="com.dreamteam.hola.domain.Member">
         INSERT INTO member(
         <include refid="memberColumns"/>
         )VALUES(
-        #{memberNo},
-        #{username},
-        #{nickname},
-        #{password},
-        #{email},
-        'default value',
-        'ROLE_USER',
-        now(),
-        null,
-        'N',
-        null,
-        null
+            #{memberNo},
+            #{username},
+            #{nickname},
+            #{password},
+            #{email},
+            #{profileImage},
+            'ROLE_USER',
+            now(),
+            null,
+            'N',
+            null,
+            IFNULL(#{socialType},null)
         );
     </insert>
 
@@ -44,6 +44,15 @@
         member
         WHERE
         username=#{username}
+    </select>
+
+    <select id="findByEmail" parameterType="String" resultType="com.dreamteam.hola.domain.Member">
+        SELECT
+        <include refid="memberColumns"/>
+        FROM
+            member
+        WHERE
+            email=#{email}
     </select>
 </mapper>
 

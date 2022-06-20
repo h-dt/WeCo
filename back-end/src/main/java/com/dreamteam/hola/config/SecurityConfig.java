@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    private final PrincipalOauth2UserService principalOauth2UserService;
+    private  final PrincipalOauth2UserService principalOauth2UserService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -44,9 +44,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/login")// /login 주소가 호출이 되면 시큐리티가 낚아채서 대신 로그인을 진행
                 .defaultSuccessUrl("/")
             .and()
+                .logout()
+                .logoutSuccessUrl("/loginForm")
+            .and()
                 .oauth2Login()
-                .loginPage("/loginForm")
-                //구글 로그인이 완료된 뒤의 후처리가 필요(코트x,(엑세스토큰+사용자프로필 정보O)
+                .loginPage("/login")
+                //구글 로그인이 완료된 뒤의 후처리가 필요(코드x,(엑세스토큰+사용자프로필 정보O)
                 .userInfoEndpoint()
                 .userService(principalOauth2UserService);
 

@@ -10,6 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class BoardDto {
+
     private Long  id;
 //    private String nickname;         //작성자 번호
     private String title;           //제목

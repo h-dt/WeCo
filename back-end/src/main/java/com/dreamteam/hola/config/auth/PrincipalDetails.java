@@ -13,7 +13,7 @@ import java.util.Map;
 
 @Data
 @NoArgsConstructor
-public class PrincipalDetails implements UserDetails, OAuth2User {
+public class PrincipalDetails implements UserDetails {
 //시큐리티가 /login 주소 요청이 오면 낚아채서 로그인을 진행합니다.
 //로그인 진행이 완료가 되면 시큐리티 내장 Session을 만들어줍니다.(Security ContextHolder)<- 여기에 세션정보를 저장
 //들어갈수 오브젝트는 Authentication 타입의 객체
@@ -22,17 +22,20 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 //Security Session -> Authentication -> UserDetails 타입
 
     private Member member;//콤포지션
-    private Map<String,Object> attributes;
+//    private Map<String,Object> attributes;
 
     //일반 로그인
     public PrincipalDetails(Member member){
         this.member = member;
     }
     //OAuth 로그인
-    public PrincipalDetails(Member member,Map<String,Object> attributes){
-        this.member=member;
-        this.attributes=attributes;
-    }
+//    public PrincipalDetails(Member member,Map<String,Object> attributes){
+//        this.member=member;
+//        this.attributes=attributes;
+//    }
+//    public Member getMember(){
+//        return member;
+//    }
 
 
     @Override
@@ -67,7 +70,6 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         return true;
     }
 
-
     //계정이 갖고 있는 권한 목록을 리턴합니다.
     //권한이 여러개 있을 수 있어서 루프를 돌아야 한다.
     @Override
@@ -84,14 +86,14 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         return collectors;
     }
 
-    @Override
-    public Map<String, Object> getAttributes() {
-
-        return attributes;
-    }
-
-    @Override
-    public String getName() {
-        return (String) attributes.get("sub");
-    }
+//    @Override
+//    public Map<String, Object> getAttributes() {
+//
+//        return attributes;
+//    }
+//
+//    @Override
+//    public String getName() {
+//        return attributes.get("sub")+"";
+//    }
 }
