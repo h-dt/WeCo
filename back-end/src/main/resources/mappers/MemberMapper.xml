@@ -20,7 +20,7 @@
 
     <insert id="joinMember" parameterType="com.dreamteam.hola.domain.Member">
         INSERT INTO member(
-                <include refid="memberColumns"/>
+        <include refid="memberColumns"/>
         )VALUES(
             #{memberNo},
             #{username},
@@ -41,9 +41,9 @@
         SELECT
         <include refid="memberColumns"/>
         FROM
-            member
+        member
         WHERE
-            username=#{username}
+        username=#{username}
     </select>
 
     <select id="findByEmail" parameterType="String" resultType="com.dreamteam.hola.domain.Member">

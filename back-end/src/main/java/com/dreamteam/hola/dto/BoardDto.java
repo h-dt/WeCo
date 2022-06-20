@@ -1,24 +1,27 @@
 package com.dreamteam.hola.dto;
 
-import com.dreamteam.hola.domain.Board;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class BoardDto {
 
-    private String title;
-    private String content;
-    private Date regDate;
-    private String recruitType;
-    private String recruitCnt;
-    private String duration;
-    private String contact;
-    private Date startDate;
+    private Long  id;
+//    private String nickname;         //작성자 번호
+    private String title;           //제목
+    private Long viewCnt;          // 조회수
+    private String recruitStatus;    //모집 상태
+    private String recruitType;    //모집 구분
+    private String recruitCnt;     //모집 인원
+    private String duration;        //진행 기간
+    private Date startDate;   //시작 예정일
+    private int commentCnt;
+    private List<String> skills;
+
+
 }
