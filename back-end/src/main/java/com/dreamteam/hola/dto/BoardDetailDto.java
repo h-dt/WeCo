@@ -25,4 +25,5 @@ public class BoardDetailDto {
     private Date startDate;
     private List<Comment> comments;
     private List<String> skills;
+
 }

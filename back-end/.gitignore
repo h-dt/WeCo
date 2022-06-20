@@ -11,8 +11,8 @@ target/
 .project
 .settings
 .springBeans
-.sts4-cache
-
+.sts4-cach
+application-oauth.properties
 ### IntelliJ IDEA ###
 .idea
 *.iws

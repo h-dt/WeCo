@@ -11,11 +11,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class BoardServiceImpl implements BoardService{
+public class BoardServiceImpl implements BoardService {
 
     private final BoardMapper boardMapper;
     private final CommentMapper commentMapper;
@@ -53,6 +54,23 @@ public class BoardServiceImpl implements BoardService{
         return allByRecruitType;
     }
 
+    //Board 게시물 등록하기_2022_06_10_by_정은비
+    @Override
+    public int register(BoardDto dto) {
+        boardMapper.insertBoard(dto);
+        Long boardId = dto.getId();
+
+        List<String> skills = dto.getSkills();
+        Map<String, Long> map = new HashMap<>();
+        for (String skill : skills) {
+            map.put("boardId", (long) boardId);
+            map.put("skill", skillMapper.skillTypeToId(skill));
+            boardMapper.insertBoardSkill(map);
+        }
+
+        return 1;
+    }
+  
     // SkillType으로 Board 조회_2022_06_17_by_김우진
     @Override
     public List<BoardDto> getBoardListBySkillType(List<String> skills) {

@@ -15,4 +15,5 @@ public class Comment {
     private Long boardId;
     private String content;
     private Date regDate;
+
 }

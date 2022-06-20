@@ -23,8 +23,8 @@ public class PrincipalDetailsService implements UserDetailsService {
         Member member = memberMapper.findByUsername(username);
         if (member != null) {
             return new PrincipalDetails(member);
-        } else {
-            return null;
+        }
+        return null;
         }
     }
-}
+
