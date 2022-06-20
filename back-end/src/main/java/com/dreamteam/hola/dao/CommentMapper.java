@@ -13,4 +13,6 @@ public interface CommentMapper {
     int CountByBoardId(Long id);
 
     int save(CommentDto commentDto);
+
+    int update(CommentDto comment);
 }

@@ -41,9 +41,11 @@
         select b.title,
                b.content,
                b.reg_date,
+               b.recruit_status,
                b.recruit_type,
                b.recruit_cnt,
                b.duration,
+               b.contact_type,
                b.contact,
                b.start_date
         from board b
@@ -102,4 +104,23 @@
             </foreach>
         </if>
     </select>
+
+    <update id="updateRecruitStatus">
+        update board
+        set recruit_status=#{status}
+        where board_id=#{id}
+    </update>
+    
+    <update id="update" parameterType="BoardDetailDto">
+        update board
+        set title = #{board.title},
+            content = #{board.content},
+            recruit_type = #{board.recruitType},
+            recruit_cnt = #{board.recruitCnt},
+            duration = #{board.duration},
+            start_date = #{board.startDate},
+            contact_type = #{board.contactType},
+            contact = #{board.contact}
+        where board_id=#{id}
+    </update>
 </mapper>

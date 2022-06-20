@@ -15,4 +15,9 @@ public class CommentServiceImpl {
     public int save(CommentDto commentDto) {
         return commentMapper.save(commentDto);
     }
+    
+    // Comment 수정하기_2022_06_19_by_김우진
+    public int update(CommentDto commentDto) {
+        return commentMapper.update(commentDto);
+    }
 }

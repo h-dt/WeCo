@@ -1,7 +1,6 @@
 package com.dreamteam.hola.dto;
 
 import com.dreamteam.hola.domain.Comment;
-import com.dreamteam.hola.domain.Skill;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +16,7 @@ public class BoardDetailDto {
     private String title;
     private String content;
     private Date regDate;
+    private String recruitStatus;
     private String recruitType;
     private String recruitCnt;
     private String duration;

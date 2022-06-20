@@ -22,4 +22,10 @@
         insert into comment (board_id, content)
         values (#{boardId}, #{content});
     </insert>
+
+    <update id="update" parameterType="CommentDto">
+        update comment
+        set content = #{comment.content}
+        where comment_id = #{comment.commentId}
+    </update>
 </mapper>
