@@ -2,13 +2,11 @@ package com.dreamteam.hola.controller;
 
 import com.dreamteam.hola.dto.BoardDetailDto;
 import com.dreamteam.hola.service.BoardServiceImpl;
-import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -32,8 +30,21 @@ public class BoardController {
         return new ResponseEntity<>(boardServiceimpl.getBoardListByRecruitType(recruitType), HttpStatus.OK);
     }
 
+    // SkillType으로 Board 조회_2022_06_17_by_김우진
     @GetMapping("/boards")
     public ResponseEntity<?> getBoardListBySkillType(@RequestBody Map<String,List<String>> skills) {
-        return new ResponseEntity<>(boardServiceimpl.getBoardListBySKillType(skills.get("skills")), HttpStatus.OK);
+        return new ResponseEntity<>(boardServiceimpl.getBoardListBySkillType(skills.get("skills")), HttpStatus.OK);
+    }
+
+    // 모집 마감 토글_2022_06_19_by_김우진
+    @PatchMapping("/board/{id}")
+    public ResponseEntity<?> updateRecruitStatus(@PathVariable Long id){
+        return new ResponseEntity<>(boardServiceimpl.updateRecruitStatus(id),HttpStatus.OK);
+    }
+
+    // Board 전체 수정_2022_06_19_by_김우진
+    @PutMapping("/board/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody BoardDetailDto boardDetailDto){
+        return new ResponseEntity<>(boardServiceimpl.update(id, boardDetailDto), HttpStatus.OK);
     }
 }

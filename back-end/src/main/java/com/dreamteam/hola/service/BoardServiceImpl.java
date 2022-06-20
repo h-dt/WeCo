@@ -3,16 +3,15 @@ package com.dreamteam.hola.service;
 import com.dreamteam.hola.dao.BoardMapper;
 import com.dreamteam.hola.dao.CommentMapper;
 import com.dreamteam.hola.dao.SkillMapper;
-import com.dreamteam.hola.dto.BoardDto;
 import com.dreamteam.hola.domain.Comment;
 import com.dreamteam.hola.domain.Skill;
 import com.dreamteam.hola.dto.BoardDetailDto;
+import com.dreamteam.hola.dto.BoardDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -38,8 +37,8 @@ public class BoardServiceImpl implements BoardService{
         return findBoard;
     }
 
-    @Override
     // Board 전체 List 가져오기_2022_06_08_by_김우진
+    @Override
     public List<BoardDto> getBoardListByRecruitType(String recruitType) {
         List<BoardDto> allByRecruitType = boardMapper.findAllByRecruitType(recruitType);
         for (BoardDto boardDto : allByRecruitType) {
@@ -54,9 +53,22 @@ public class BoardServiceImpl implements BoardService{
         return allByRecruitType;
     }
 
+    // SkillType으로 Board 조회_2022_06_17_by_김우진
     @Override
-    public List<BoardDto> getBoardListBySKillType(List<String> skills) {
+    public List<BoardDto> getBoardListBySkillType(List<String> skills) {
         List<String> skillTypes = new ArrayList<>(skills);
         return boardMapper.findAllBySkillTypes(skillTypes);
+    }
+
+    // 모집 마감 토글_2022_06_19_by_김우진
+    @Override
+    public int updateRecruitStatus(Long id) {
+        BoardDetailDto findBoard = boardMapper.findById(id);
+        return findBoard.getRecruitStatus().equals("N") ? boardMapper.updateRecruitStatus(id, "Y") : boardMapper.updateRecruitStatus(id, "N");
+    }
+
+    @Override
+    public int update(Long id, BoardDetailDto boardDetailDto) {
+        return boardMapper.update(id, boardDetailDto);
     }
 }
