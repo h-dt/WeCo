@@ -19,6 +19,6 @@ public interface BoardMapper {
 
     void insertBoardSkill(Map<String, Long> map);
 
-//    public List<DTO> 변수명(); - DB데이터를 불러오는 메서드
-//    public void 변수명(DTO dto); - DB에 데이터를 저장하는 메소드
+    List<BoardDto> findAllBySkillTypes(List<String> skillTypes);
+
 }

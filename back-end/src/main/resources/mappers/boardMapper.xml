@@ -3,43 +3,42 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.dreamteam.hola.dao.BoardMapper">
-<!--    <resultMap id="boardDetailMap" type="BoardDto">-->
-<!--        <result property="regDate" column="reg_date"/>-->
-<!--        <result property="recruitType" column="recruit_type"/>-->
-<!--        <result property="recruitCnt" column="recruit_cnt"/>-->
-<!--        <result property="startDate" column="start_date"/>-->
-<!--        <collection property="comments" column="board_id" javaType="ArrayList" ofType="CommentDto" select="findBoardCommentList">-->
-<!--            <id property="commentId" column="comment_id"/>-->
-<!--            <result property="regDate" column="reg_date"/>-->
-<!--        </collection>-->
-<!--        <collection property="skills" column="board_id" javaType="ArrayList" ofType="SkillDto" select="findBoardSkillList">-->
-<!--            <id property="skillId" column="skill_id"/>-->
-<!--        </collection>-->
-<!--    </resultMap>-->
+    <!--    <resultMap id="boardDetailMap" type="BoardDto">-->
+    <!--        <result property="regDate" column="reg_date"/>-->
+    <!--        <result property="recruitType" column="recruit_type"/>-->
+    <!--        <result property="recruitCnt" column="recruit_cnt"/>-->
+    <!--        <result property="startDate" column="start_date"/>-->
+    <!--        <collection property="comments" column="board_id" javaType="ArrayList" ofType="CommentDto" select="findBoardCommentList">-->
+    <!--            <id property="commentId" column="comment_id"/>-->
+    <!--            <result property="regDate" column="reg_date"/>-->
+    <!--        </collection>-->
+    <!--        <collection property="skills" column="board_id" javaType="ArrayList" ofType="SkillDto" select="findBoardSkillList">-->
+    <!--            <id property="skillId" column="skill_id"/>-->
+    <!--        </collection>-->
+    <!--    </resultMap>-->
 
-<!--    <select id="findAll" resultType="Board">-->
-<!--        select * from board;-->
-<!--    </select>-->
+    <!--    <select id="findAll" resultType="Board">-->
+    <!--        select * from board;-->
+    <!--    </select>-->
 
-<!--    <select id="findById" resultMap="boardDetailMap">-->
-<!--        select * from board b where b.board_id = #{id}-->
-<!--    </select>-->
+    <!--    <select id="findById" resultMap="boardDetailMap">-->
+    <!--        select * from board b where b.board_id = #{id}-->
+    <!--    </select>-->
 
-<!--    <select id="findBoardCommentList" resultType="CommentDto">-->
-<!--        select * from comment c where c.board_id = #{id}-->
-<!--    </select>-->
+    <!--    <select id="findBoardCommentList" resultType="CommentDto">-->
+    <!--        select * from comment c where c.board_id = #{id}-->
+    <!--    </select>-->
 
-<!--    <select id="findBoardSkillList" resultType="SkillDto">-->
-<!--        select * from skill s left outer join board_skill bs on bs.board_id = #{id} group by skill_type-->
-<!--    </select>-->
+    <!--    <select id="findBoardSkillList" resultType="SkillDto">-->
+    <!--        select * from skill s left outer join board_skill bs on bs.board_id = #{id} group by skill_type-->
+    <!--    </select>-->
 
     <sql id="boardColumns">
 
     </sql>
 
     <select id="findById" resultType="BoardDetailDto">
-        select
-               b.title,
+        select b.title,
                b.content,
                b.reg_date,
                b.recruit_type,
@@ -52,8 +51,7 @@
     </select>
 
     <select id="findAllByRecruitType" resultType="BoardDto">
-        select
-               board_id id,
+        select board_id id,
                title,
                view_cnt,
                recruit_status,
@@ -68,8 +66,7 @@
     <update id="updateBoardViewCnt">
         update
             board
-        set
-            view_cnt = view_cnt + 1
+        set view_cnt = view_cnt + 1
         where board_id = #{id}
     </update>
 
@@ -86,4 +83,23 @@
         values (#{boardId},#{skill})
     </insert>
 
+    <select id="findAllBySkillTypes" resultType="BoardDto">
+        select distinct b.board_id id,
+               title,
+               view_cnt,
+               recruit_status,
+               recruit_type,
+               recruit_cnt,
+               duration,
+               start_date
+        from board b
+        join board_skill bs on b.board_id = bs.board_id
+        join skill s on bs.skill_id = s.skill_id
+        <if test="skillTypes != null">
+            where
+            <foreach collection="skillTypes" item="skill" separator="or">
+                skill_type = #{skill}
+            </foreach>
+        </if>
+    </select>
 </mapper>

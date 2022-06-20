@@ -39,8 +39,9 @@ public class BoardServiceImpl implements BoardService {
         return findBoard;
     }
 
+    @Override
     // Board 전체 List 가져오기_2022_06_08_by_김우진
-    public List<BoardDto> getBoardList(String recruitType) {
+    public List<BoardDto> getBoardListByRecruitType(String recruitType) {
         List<BoardDto> allByRecruitType = boardMapper.findAllByRecruitType(recruitType);
         for (BoardDto boardDto : allByRecruitType) {
             List<Skill> skills = skillMapper.findAllByBoardId(boardDto.getId());
@@ -70,5 +71,11 @@ public class BoardServiceImpl implements BoardService {
         }
 
         return 1;
+    }
+      
+    @Override
+    public List<BoardDto> getBoardListBySKillType(List<String> skills) {
+        List<String> skillTypes = new ArrayList<>(skills);
+        return boardMapper.findAllBySkillTypes(skillTypes);
     }
 }
