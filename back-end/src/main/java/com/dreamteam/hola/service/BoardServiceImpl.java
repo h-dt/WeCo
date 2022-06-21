@@ -1,6 +1,7 @@
 package com.dreamteam.hola.service;
 
 import com.dreamteam.hola.dao.BoardMapper;
+import com.dreamteam.hola.dao.BoardSkillMapper;
 import com.dreamteam.hola.dao.CommentMapper;
 import com.dreamteam.hola.dao.SkillMapper;
 import com.dreamteam.hola.domain.Comment;
@@ -13,12 +14,14 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
 public class BoardServiceImpl implements BoardService {
 
     private final BoardMapper boardMapper;
+    private final BoardSkillMapper boardSkillMapper;
     private final CommentMapper commentMapper;
     private final SkillMapper skillMapper;
 
@@ -54,20 +57,19 @@ public class BoardServiceImpl implements BoardService {
         return allByRecruitType;
     }
 
-    //Board 게시물 등록하기_2022_06_10_by_정은비
+    //Board 게시물 등록하기_2022_06_22_by_정은비
     @Override
-    public int register(BoardDto dto) {
-        boardMapper.insertBoard(dto);
-        Long boardId = dto.getId();
+    public int register(BoardDto boardDto) {
+        boardMapper.insertBoard(boardDto);
+        Long id = boardDto.getId();
 
-        List<String> skills = dto.getSkills();
+        List<String> skills = boardDto.getSkills();
         Map<String, Long> map = new HashMap<>();
         for (String skill : skills) {
-            map.put("boardId", (long) boardId);
-            map.put("skill", skillMapper.skillTypeToId(skill));
-            boardMapper.insertBoardSkill(map);
+            map.put("id", id);
+            map.put("skill", skillMapper.selectId(skill));
+            boardSkillMapper.insert(map);
         }
-
         return 1;
     }
   

@@ -9,5 +9,5 @@ import java.util.List;
 public interface SkillMapper {
     List<Skill> findAllByBoardId(Long id);
 
-    long skillTypeToId(String skill);
+    long selectId(String skill);
 }
