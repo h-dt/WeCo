@@ -17,6 +17,8 @@ public class MemberDto {
     private String username;
     private String nickname;
     private String password;
+//    @Pattern(regexp = "^(?:\\w+\\.?)*\\w+@(?:\\w+\\.)+\\w+$", message = "이메일 형식이 올바르지 않습니다.")
+//    @NotBlank(message = "이메일은 필수 입력 값입니다.")
     private String email;
     private String profileImage;
     private Role role;

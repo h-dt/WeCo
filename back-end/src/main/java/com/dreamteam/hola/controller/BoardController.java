@@ -4,7 +4,6 @@ import com.dreamteam.hola.config.auth.PrincipalDetails;
 import com.dreamteam.hola.dto.BoardDetailDto;
 import com.dreamteam.hola.dto.BoardDto;
 import com.dreamteam.hola.service.BoardServiceImpl;
-import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
