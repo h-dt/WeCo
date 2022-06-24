@@ -9,11 +9,14 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,13 +26,12 @@ public class MemberApiController {
     private final MemberService memberService;
 
     @GetMapping("/test/login")
-    public @ResponseBody String loginTest(Authentication authentication,
-                                          @AuthenticationPrincipal PrincipalDetails principalDetails){
+    public @ResponseBody String loginTest(Authentication authentication, @AuthenticationPrincipal PrincipalDetails userDetails){
         System.out.println("/test/login ============");
-        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
-        System.out.println("authenticaion : "+principal.getMember());
+        PrincipalDetails principalDetails = (PrincipalDetails)authentication.getPrincipal();
+        System.out.println("authentication = " + principalDetails.getMember());
 
-        System.out.println("userDatils : "+principalDetails.getMember());
+//        System.out.println("userDatils : "+principalDetails.getMember());
 
 
         return "세션 정보 확인하기";
@@ -51,7 +53,8 @@ public class MemberApiController {
         return "/member/index";
     }
     @GetMapping("/user")
-    public  @ResponseBody String member() {
+    public  @ResponseBody String member(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+        log.info("authentication = " + principalDetails.getMember());
         return "user";
     }
     @GetMapping("/admin")
