@@ -21,4 +21,7 @@ public interface BoardMapper {
 
     List<BoardDto> findAllBySkillTypes(List<String> skillTypes);
 
+    int updateRecruitStatus(Long id, String status);
+
+    int update(Long id, BoardDetailDto board);
 }
