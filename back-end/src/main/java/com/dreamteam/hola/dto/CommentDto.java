@@ -1,5 +1,6 @@
 package com.dreamteam.hola.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +21,7 @@ public class CommentDto {
 
     @NotNull
     @Positive
+    @JsonProperty(value = "board_id")
     private Long boardId;
 
     @NotBlank
