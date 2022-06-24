@@ -56,9 +56,9 @@ public class BoardServiceImpl implements BoardService {
 
         List<String> skills = boardDto.getSkills();
         Map<String, Long> map = new HashMap<>();
-        for (String skill : skills) {
+        for (String skillType : skills) {
             map.put("id", id);
-            map.put("skill", skillMapper.selectId(skill));
+            map.put("skill", skillMapper.findBySkillType(skillType));
             boardSkillMapper.insert(map);
         }
         return 1;

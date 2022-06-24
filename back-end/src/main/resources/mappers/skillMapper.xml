@@ -13,7 +13,7 @@
         where b.board_id = #{id};
     </select>
 
-    <select id="selectId" parameterType="String" resultType="long">
+    <select id="findBySkillType" parameterType="String" resultType="long">
         select skill_id
         from skill
         where skill_type = #{skillType}
