@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dreamteam.hola.dao.BoardSkillMapper">
+    <insert id="insert" parameterType="hashMap">
+        insert into board_skill (board_id, skill_id)
+        values (#{id},#{skill})
+    </insert>
+
+</mapper>
+

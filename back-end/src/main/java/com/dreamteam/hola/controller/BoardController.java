@@ -37,28 +37,26 @@ public class BoardController {
 
     // SkillType으로 Board 조회_2022_06_17_by_김우진
     @GetMapping("/boards")
-    public ResponseEntity<?> getBoardListBySkillType(@RequestBody Map<String,List<String>> skills) {
+    public ResponseEntity<?> getBoardListBySkillType(@RequestBody Map<String, List<String>> skills) {
         return new ResponseEntity<>(boardServiceimpl.getBoardListBySkillType(skills.get("skills")), HttpStatus.OK);
     }
 
     // 모집 마감 토글_2022_06_19_by_김우진
     @PatchMapping("/board/{id}")
-    public ResponseEntity<?> updateRecruitStatus(@PathVariable Long id){
-        return new ResponseEntity<>(boardServiceimpl.updateRecruitStatus(id),HttpStatus.OK);
+    public ResponseEntity<?> updateRecruitStatus(@PathVariable Long id) {
+        return new ResponseEntity<>(boardServiceimpl.updateRecruitStatus(id), HttpStatus.OK);
     }
 
     // Board 전체 수정_2022_06_19_by_김우진
     @PutMapping("/board/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody BoardDetailDto boardDetailDto){
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody BoardDetailDto boardDetailDto) {
         return new ResponseEntity<>(boardServiceimpl.update(id, boardDetailDto), HttpStatus.OK);
     }
 
+    //Board 게시물 등록하기_2022_06_22_by_정은비
     @PostMapping("/board/register")
-    public ResponseEntity<?> register(@RequestBody BoardDto dto, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        System.out.println(principalDetails.getMember().toString());
-
-        boardServiceimpl.register(dto);
+    public ResponseEntity<?> register(@RequestBody BoardDto boardDto) {
+        boardServiceimpl.register(boardDto);
         return new ResponseEntity<>(HttpStatus.OK);
-
     }
 }
