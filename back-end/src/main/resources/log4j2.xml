@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- appender : where -->
+<!-- layout : how -->
+<!-- message : what -->
+<!-- logger : who -->
+<!-- logging event level : logger가 메시지를 기록할 지 여부를 결정하는 기준. -->
+<!-- debug -> info -> warn -> error -> fatal -->
+<!-- logger에 설정된 이벤트 등급 이상의 이벤트만 기록. -->
+
+<!--<Configuration status="WARN">-->
+<!--    <Appenders>-->
+<!--        <Console name="Console" target="SYSTEM_OUT">-->
+<!--            <PatternLayout pattern="[%t] %-5level %logger{1.} - %msg%n"/>-->
+<!--        </Console>-->
+<!--    </Appenders>-->
+<!--    <Loggers>-->
+<!--        <Logger name="kr.or.ddit" level="info" additivity="false">-->
+<!--            <AppenderRef ref="Console"/>-->
+<!--        </Logger>-->
+<!--        <Logger name="jdbc.sqltiming" level="debug" additivity="false">-->
+<!--            <AppenderRef ref="Console"/>-->
+<!--        </Logger>-->
+<!--        <Logger name="jdbc.resultsettable" level="debug" additivity="false">-->
+<!--            <AppenderRef ref="Console"/>-->
+<!--        </Logger>-->
+<!--        <Root level="error">-->
+<!--            <AppenderRef ref="Console"/>-->
+<!--        </Root>-->
+<!--    </Loggers>-->
+<!--</Configuration>-->
+
+<configuration>
+    <!-- SQL문 보여준다. -->
+    <logger name="jdbc.sqlonly" level="OFF"/>
+    <!-- SQL문과 수행시간을 같이 보여준다. -->
+    <logger name="jdbc.sqltiming" level="info"/>
+    <!-- SQL문 실행 결과를 table 형태로 보여준다. -->
+    <logger name="jdbc.resultsettable" level="info"/>
+    <!-- ResultSet을 제외한 모든 JDBC 호출 정보를 로그로 보여준다. 상당히 많아 권장하지 않음 -->
+    <logger name="jdbc.audit" level="OFF"/>
+    <!-- ResultSet을 포함한 모든 JDBC 호출 정보를 로그로 보여준다. 상당히 많아 권장하지 않음 -->
+    <logger name="jdbc.resultset" level="OFF"/>
+    <!-- DB 연결, 연결 해제와 관련된 로그를 보여준다. -->
+    <logger name="jdbc.connection" level="OFF"/>
+</configuration>
