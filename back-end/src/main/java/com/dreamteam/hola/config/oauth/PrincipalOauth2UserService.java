@@ -10,6 +10,7 @@ import com.dreamteam.hola.domain.Member;
 import com.dreamteam.hola.domain.Role;
 import com.dreamteam.hola.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +25,7 @@ import java.util.UUID;
 //구글로 부터 받은 userRequest 데이터에 대한 후처리되는 함수
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
 
@@ -37,23 +39,20 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         //userRequest 정보 -> loadUser 함수 -> 구글로부터 회원 프로필 받음
 
         OAuth2User oAuth2User = super.loadUser(userRequest);
-        System.out.println("getAttributes :"+oAuth2User.getAttributes());
-
-        forceLogin(userRequest, oAuth2User);
+        System.out.println("getAttributes :"+super.loadUser(userRequest).getAttributes());
 
 
-        return super.loadUser(userRequest);
-    }
-
-    private void forceLogin(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
         OAuth2UserInfo oAuth2UserInfo = null;
         if (userRequest.getClientRegistration().getRegistrationId().equals("google")){
+            log.info("구글 로그인 요청");
             oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
 
         }else if(userRequest.getClientRegistration().getRegistrationId().equals("github")){
+            log.info("깃허브 로그인 요청");
             oAuth2UserInfo = new GitHubUserInfo(oAuth2User.getAttributes());
 
         }else if(userRequest.getClientRegistration().getRegistrationId().equals("kakao")){
+            log.info("카카오 로그인 요청");
             oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
         }
 
@@ -69,7 +68,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         Member member = memberMapper.findByUsername(username);
 
         if(member == null){
-            Member domain = Member.builder()
+            member = Member.builder()
                     .username(username)
                     .password(password)
                     .nickname(nickname)
@@ -78,10 +77,56 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                     .profileImage(profileImage)
                     .socialType(provider)
                     .build();
-            memberMapper.joinMember(domain);
+            memberMapper.joinMember(member);
 
         }else {
             System.out.println("이미 회원가입한 적이있습니다");
         }
+
+        return new PrincipalDetails(member,oAuth2User.getAttributes());
+    }
+
+    private void forceLogin(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
+        OAuth2UserInfo oAuth2UserInfo = null;
+        if (userRequest.getClientRegistration().getRegistrationId().equals("google")){
+            log.info("구글 로그인 요청");
+            oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
+
+        }else if(userRequest.getClientRegistration().getRegistrationId().equals("github")){
+            log.info("깃허브 로그인 요청");
+            oAuth2UserInfo = new GitHubUserInfo(oAuth2User.getAttributes());
+
+        }else if(userRequest.getClientRegistration().getRegistrationId().equals("kakao")){
+            log.info("카카오 로그인 요청");
+            oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
+        }
+
+        String provider = oAuth2UserInfo.getProvider();//google
+        String providerId = oAuth2UserInfo.getProviderId();//google의 sub
+        String email = oAuth2UserInfo.getEmail();
+        String username = provider+"_"+providerId;
+        ;//google_sub(pk)
+        String password = UUID.randomUUID().toString();
+        String profileImage = oAuth2UserInfo.getProfileImage();
+        String nickname = email.substring(0, email.indexOf("@"));
+
+        Member member = memberMapper.findByUsername(username);
+
+        if(member == null){
+             member = Member.builder()
+                    .username(username)
+                    .password(password)
+                    .nickname(nickname)
+                    .email(email)
+                    .role(Role.ROLE_USER)
+                    .profileImage(profileImage)
+                    .socialType(provider)
+                    .build();
+            memberMapper.joinMember(member);
+
+        }else {
+            System.out.println("이미 회원가입한 적이있습니다");
+        }
+
     }
 }
