@@ -15,9 +15,7 @@ public interface BoardMapper {
 
     void updateBoardViewCnt(Long id);
 
-    int insertBoard(BoardDto dto);
-
-    void insertBoardSkill(Map<String, Long> map);
+    void insertBoard(BoardDto boardDto);
 
     List<BoardDto> findAllBySkillTypes(List<String> skillTypes);
 
