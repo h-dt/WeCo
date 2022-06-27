@@ -24,13 +24,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //그러나 password를 가로채기합니다.
     //해당 password가 뭘로 해쉬가 되어 회원가입이 되었는지 알아야
     //같은 해쉬로 암호화해서 DB에 있는 해쉬랑 비교할 수 있습니다.
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
-    private  final PrincipalOauth2UserService principalOauth2UserService;
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
+    private  final PrincipalOauth2UserService principalOauth2UserService;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
