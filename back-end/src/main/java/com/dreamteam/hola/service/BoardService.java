@@ -1,13 +1,12 @@
 package com.dreamteam.hola.service;
 
 import com.dreamteam.hola.dto.BoardDto;
-import com.dreamteam.hola.dto.BoardDetailDto;
 
 import java.util.List;
 
 public interface BoardService {
 
-    BoardDetailDto getBoard(Long id);
+    BoardDto getBoard(Long id);
 
     int register(BoardDto dto);
   
@@ -17,5 +16,5 @@ public interface BoardService {
 
     int updateRecruitStatus(Long id);
 
-    int update(Long id, BoardDetailDto boardDetailDto);
+    int update(Long id, BoardDto BoardDto);
 }
