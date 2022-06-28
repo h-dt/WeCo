@@ -39,11 +39,11 @@ public class MemberApiController {
 
     @GetMapping("/test/oauth/login")
     public @ResponseBody String oAuthLoginTest(Authentication authentication,
-                                               @AuthenticationPrincipal OAuth2User oAuth){
+                                               @AuthenticationPrincipal PrincipalDetails principalDetails){
         System.out.println("/test/login ============");
         OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
         System.out.println("authencation = " + oauth2User.getAttributes());
-//        System.out.println("oauth2User = " + oAuth.getAttributes());
+        log.info("AuthenticationPrincipal.getMember : "+ principalDetails.getMember());
 
         return "OAuth세션 정보 확인하기";
     }
