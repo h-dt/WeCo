@@ -1,6 +1,5 @@
 package com.dreamteam.hola.dto;
 
-import com.dreamteam.hola.domain.Comment;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
@@ -32,5 +31,5 @@ public class BoardDto {
     private Date regDate;
     private List<String> skills;
     private int commentCnt;
-    private List<Comment> comments;
+    private List<CommentDto> comments;
 }

@@ -4,8 +4,8 @@ import com.dreamteam.hola.dao.BoardMapper;
 import com.dreamteam.hola.dao.BoardSkillMapper;
 import com.dreamteam.hola.dao.CommentMapper;
 import com.dreamteam.hola.dao.SkillMapper;
-import com.dreamteam.hola.domain.Comment;
 import com.dreamteam.hola.dto.BoardDto;
+import com.dreamteam.hola.dto.CommentDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,9 +27,14 @@ public class BoardServiceImpl implements BoardService {
     public BoardDto getBoard(Long id) {
         BoardDto findBoard = boardMapper.findById(id);
         boardMapper.updateBoardViewCnt(id);
-        List<Comment> comments = commentMapper.findAllByBoardId(id);
-        List<String> skills = skillMapper.findAllByBoardId(id);
+        List<CommentDto> comments = commentMapper.findAllCommentByBoardId(id);
+        findBoard.setCommentCnt(commentMapper.CountByBoardId(id));
+        for (CommentDto commentDto : comments) {
+            commentDto.setBigCommentCnt(commentMapper.CountBigComments(id, commentDto.getCommentId()));
+            commentDto.setBigComments(commentMapper.findAllBigCommentByBoardIdAndCGroup(id, commentDto.getCommentId()));
+        }
         findBoard.setComments(comments);
+        List<String> skills = skillMapper.findAllByBoardId(id);
         findBoard.setSkills(skills);
         return findBoard;
     }

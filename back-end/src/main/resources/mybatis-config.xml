@@ -11,6 +11,7 @@
     <typeAliases>
         <typeAlias type="com.dreamteam.hola.dto.BoardDto" alias="BoardDto"/>
         <typeAlias type="com.dreamteam.hola.dto.CommentDto" alias="CommentDto"/>
+        <typeAlias type="com.dreamteam.hola.domain.BigComment" alias="BigComment"/>
     </typeAliases>
 </configuration>
 
