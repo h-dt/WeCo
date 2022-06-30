@@ -1,13 +1,10 @@
 package com.dreamteam.hola.controller;
 
-import com.dreamteam.hola.config.auth.PrincipalDetails;
-import com.dreamteam.hola.dto.BoardDetailDto;
 import com.dreamteam.hola.dto.BoardDto;
 import com.dreamteam.hola.service.BoardServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +21,7 @@ public class BoardController {
     // Board 1개 가져오기_2022_06_06_by_김우진
     @GetMapping("/board/{id}")
     public ResponseEntity<?> getBoard(@PathVariable Long id) {
-        BoardDetailDto findBoard = boardServiceimpl.getBoard(id);
+        BoardDto findBoard = boardServiceimpl.getBoard(id);
         return new ResponseEntity<>(findBoard, HttpStatus.OK);
     }
 
@@ -49,8 +46,8 @@ public class BoardController {
 
     // Board 전체 수정_2022_06_19_by_김우진
     @PutMapping("/board/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody BoardDetailDto boardDetailDto) {
-        return new ResponseEntity<>(boardServiceimpl.update(id, boardDetailDto), HttpStatus.OK);
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody BoardDto BoardDto) {
+        return new ResponseEntity<>(boardServiceimpl.update(id, BoardDto), HttpStatus.OK);
     }
 
     //Board 게시물 등록하기_2022_06_22_by_정은비

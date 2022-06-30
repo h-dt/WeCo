@@ -3,41 +3,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.dreamteam.hola.dao.BoardMapper">
-    <!--    <resultMap id="boardDetailMap" type="BoardDto">-->
-    <!--        <result property="regDate" column="reg_date"/>-->
-    <!--        <result property="recruitType" column="recruit_type"/>-->
-    <!--        <result property="recruitCnt" column="recruit_cnt"/>-->
-    <!--        <result property="startDate" column="start_date"/>-->
-    <!--        <collection property="comments" column="board_id" javaType="ArrayList" ofType="CommentDto" select="findBoardCommentList">-->
-    <!--            <id property="commentId" column="comment_id"/>-->
-    <!--            <result property="regDate" column="reg_date"/>-->
-    <!--        </collection>-->
-    <!--        <collection property="skills" column="board_id" javaType="ArrayList" ofType="SkillDto" select="findBoardSkillList">-->
-    <!--            <id property="skillId" column="skill_id"/>-->
-    <!--        </collection>-->
-    <!--    </resultMap>-->
-
-    <!--    <select id="findAll" resultType="Board">-->
-    <!--        select * from board;-->
-    <!--    </select>-->
-
-    <!--    <select id="findById" resultMap="boardDetailMap">-->
-    <!--        select * from board b where b.board_id = #{id}-->
-    <!--    </select>-->
-
-    <!--    <select id="findBoardCommentList" resultType="CommentDto">-->
-    <!--        select * from comment c where c.board_id = #{id}-->
-    <!--    </select>-->
-
-    <!--    <select id="findBoardSkillList" resultType="SkillDto">-->
-    <!--        select * from skill s left outer join board_skill bs on bs.board_id = #{id} group by skill_type-->
-    <!--    </select>-->
-
     <sql id="boardColumns">
 
     </sql>
 
-    <select id="findById" resultType="BoardDetailDto">
+    <select id="findById" resultType="BoardDto">
         select b.title,
                b.content,
                b.reg_date,
@@ -45,6 +15,7 @@
                b.recruit_type,
                b.recruit_cnt,
                b.duration,
+               b.progress_type,
                b.contact_type,
                b.contact,
                b.start_date
@@ -59,6 +30,7 @@
                recruit_status,
                recruit_type,
                recruit_cnt,
+               progress_type,
                duration,
                start_date
         from board
@@ -73,8 +45,10 @@
     </update>
 
     <insert id="insertBoard" parameterType="BoardDto">
-        insert into board (title, content, recruit_type, recruit_cnt, progress_type, duration, contact_type, contact, start_date)
-        values (#{title}, #{content}, #{recruitType}, #{recruitCnt},#{progressType}, #{duration}, #{contactType}, #{contact}, #{startDate})
+        insert into board (title, content, recruit_type, recruit_cnt, progress_type, duration, contact_type, contact,
+        start_date)
+        values (#{title}, #{content}, #{recruitType}, #{recruitCnt},#{progressType}, #{duration}, #{contactType},
+        #{contact}, #{startDate})
         <selectKey keyProperty="id" resultType="long" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
@@ -82,13 +56,14 @@
 
     <select id="findAllBySkillTypes" resultType="BoardDto">
         select distinct b.board_id id,
-               title,
-               view_cnt,
-               recruit_status,
-               recruit_type,
-               recruit_cnt,
-               duration,
-               start_date
+        title,
+        view_cnt,
+        recruit_status,
+        recruit_type,
+        recruit_cnt,
+        duration,
+        start_date,
+        progress_type
         from board b
         join board_skill bs on b.board_id = bs.board_id
         join skill s on bs.skill_id = s.skill_id
@@ -103,19 +78,20 @@
     <update id="updateRecruitStatus">
         update board
         set recruit_status=#{status}
-        where board_id=#{id}
+        where board_id = #{id}
     </update>
-    
-    <update id="update" parameterType="BoardDetailDto">
+
+    <update id="update" parameterType="BoardDto">
         update board
-        set title = #{board.title},
-            content = #{board.content},
+        set title        = #{board.title},
+            content      = #{board.content},
             recruit_type = #{board.recruitType},
-            recruit_cnt = #{board.recruitCnt},
-            duration = #{board.duration},
-            start_date = #{board.startDate},
+            recruit_cnt  = #{board.recruitCnt},
+            duration     = #{board.duration},
+            start_date   = #{board.startDate},
+            progress_type = #{board.progress_type},
             contact_type = #{board.contactType},
-            contact = #{board.contact}
-        where board_id=#{id}
+            contact      = #{board.contact}
+        where board_id = #{id}
     </update>
 </mapper>

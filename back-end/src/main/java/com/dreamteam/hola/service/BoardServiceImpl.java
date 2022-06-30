@@ -4,13 +4,11 @@ import com.dreamteam.hola.dao.BoardMapper;
 import com.dreamteam.hola.dao.BoardSkillMapper;
 import com.dreamteam.hola.dao.CommentMapper;
 import com.dreamteam.hola.dao.SkillMapper;
-import com.dreamteam.hola.domain.Comment;
-import com.dreamteam.hola.dto.BoardDetailDto;
 import com.dreamteam.hola.dto.BoardDto;
+import com.dreamteam.hola.dto.CommentDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,12 +24,17 @@ public class BoardServiceImpl implements BoardService {
 
     // Board 1개 가져오기_2022_06_06_by_김우진
     @Override
-    public BoardDetailDto getBoard(Long id) {
-        BoardDetailDto findBoard = boardMapper.findById(id);
+    public BoardDto getBoard(Long id) {
+        BoardDto findBoard = boardMapper.findById(id);
         boardMapper.updateBoardViewCnt(id);
-        List<Comment> comments = commentMapper.findAllByBoardId(id);
-        List<String> skills = skillMapper.findAllByBoardId(id);
+        List<CommentDto> comments = commentMapper.findAllCommentByBoardId(id);
+        findBoard.setCommentCnt(commentMapper.CountByBoardId(id));
+        for (CommentDto commentDto : comments) {
+            commentDto.setBigCommentCnt(commentMapper.CountBigComments(id, commentDto.getCommentId()));
+            commentDto.setBigComments(commentMapper.findAllBigCommentByBoardIdAndCGroup(id, commentDto.getCommentId()));
+        }
         findBoard.setComments(comments);
+        List<String> skills = skillMapper.findAllByBoardId(id);
         findBoard.setSkills(skills);
         return findBoard;
     }
@@ -67,19 +70,24 @@ public class BoardServiceImpl implements BoardService {
     // SkillType으로 Board 조회_2022_06_17_by_김우진
     @Override
     public List<BoardDto> getBoardListBySkillType(List<String> skills) {
-        List<String> skillTypes = new ArrayList<>(skills);
-        return boardMapper.findAllBySkillTypes(skillTypes);
+        List<BoardDto> allBySkillTypes = boardMapper.findAllBySkillTypes(skills);
+        for (BoardDto boardDto : allBySkillTypes) {
+            List<String> skillTypes = skillMapper.findAllByBoardId(boardDto.getId());
+            boardDto.setCommentCnt(commentMapper.CountByBoardId(boardDto.getId()));
+            boardDto.setSkills(skillTypes);
+        }
+        return allBySkillTypes;
     }
 
     // 모집 마감 토글_2022_06_19_by_김우진
     @Override
     public int updateRecruitStatus(Long id) {
-        BoardDetailDto findBoard = boardMapper.findById(id);
+        BoardDto findBoard = boardMapper.findById(id);
         return findBoard.getRecruitStatus().equals("N") ? boardMapper.updateRecruitStatus(id, "Y") : boardMapper.updateRecruitStatus(id, "N");
     }
 
     @Override
-    public int update(Long id, BoardDetailDto boardDetailDto) {
-        return boardMapper.update(id, boardDetailDto);
+    public int update(Long id, BoardDto boardDto) {
+        return boardMapper.update(id, boardDto);
     }
 }
