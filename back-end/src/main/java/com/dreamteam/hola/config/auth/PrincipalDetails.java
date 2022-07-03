@@ -1,6 +1,7 @@
 package com.dreamteam.hola.config.auth;
 
 import com.dreamteam.hola.domain.Member;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -44,16 +45,19 @@ public class PrincipalDetails implements UserDetails,OAuth2User{
         return member.getUsername();
     }
     //계정이 만료 되었는가?(true : 만료x)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
     //계정이 잠겨있는가?(true : 잠기지x)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
     //비밀번호가 만료되었는가?(true : 만료x)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
@@ -61,6 +65,7 @@ public class PrincipalDetails implements UserDetails,OAuth2User{
     //계정이 활성화 상태인가?(true : 활성화)
     //만약 1년동안 회원이 로그인을 안하면 휴면 계정으로 하기로함.
     //현재시간 - 마지막로그인시간 -> 1년을 초과하면 return false 로 설정
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Override
     public boolean isEnabled() {
         return true;

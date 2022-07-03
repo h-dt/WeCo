@@ -26,10 +26,10 @@ public class BoardDto {
     private String progressType;
     private String duration;        //진행 기간
     private Date startDate;   //시작 예정일
-    private int commentCnt;
     private String contactType;
     private String contact;
+    private Date regDate;
     private List<String> skills;
-
-
+    private int commentCnt;
+    private List<CommentDto> comments;
 }
