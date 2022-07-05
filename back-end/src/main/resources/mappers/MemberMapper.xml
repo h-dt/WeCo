@@ -54,5 +54,10 @@
         WHERE
             email=#{email}
     </select>
+
+    <insert id="signup" parameterType="MemberDto">
+        insert into member (username, nickname, password, email, profile_image, role)
+        values (#{username}, #{nickname}, #{password}, #{email}, #{profileImage}, #{role})
+    </insert>
 </mapper>
 
