@@ -1,6 +1,7 @@
 package com.dreamteam.hola.config.auth;
 
 import com.dreamteam.hola.domain.Member;
+import com.dreamteam.hola.domain.Role;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,6 +29,7 @@ public class PrincipalDetails implements UserDetails,OAuth2User{
     public PrincipalDetails(Member member){
         this.member = member;
     }
+
     public PrincipalDetails(Member member,Map<String,Object>attributes){
         this.member = member;
         this.attributes = attributes;
@@ -43,6 +45,11 @@ public class PrincipalDetails implements UserDetails,OAuth2User{
     public String getUsername() {
         return member.getUsername();
     }
+
+    public Role getRole() {
+        return member.getRole();
+    }
+
     //계정이 만료 되었는가?(true : 만료x)
     @Override
     public boolean isAccountNonExpired() {

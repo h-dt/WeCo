@@ -2,10 +2,6 @@ package com.dreamteam.hola.service;
 
 import com.dreamteam.hola.domain.Member;
 import com.dreamteam.hola.dto.MemberDto;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 public interface MemberService {
 
@@ -31,4 +27,5 @@ public interface MemberService {
 //        return member;
 //    }
 
+    boolean signup(MemberDto memberDto);
 }
