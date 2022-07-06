@@ -1,6 +1,5 @@
 package com.dreamteam.hola.controller;
 
-import com.dreamteam.hola.config.auth.PrincipalDetails;
 import com.dreamteam.hola.config.auth.PrincipalDetailsService;
 import com.dreamteam.hola.dto.MemberDto;
 import com.dreamteam.hola.service.MemberService;
@@ -25,11 +24,11 @@ public class MemberController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> signin(@RequestBody MemberDto memberDto) {
-        PrincipalDetails findMember = (PrincipalDetails) principalDetailsService.loadUserByUsername(memberDto.getUsername());
-        if (!passwordEncoder.matches(memberDto.getPassword(), findMember.getPassword())) {
-            return new ResponseEntity<>("fail", HttpStatus.FORBIDDEN);
-        }
-        return new ResponseEntity<>(jwtTokenProvider.createtoken(findMember.getUsername(), findMember.getRole()), HttpStatus.ACCEPTED);
+        String result = memberServiceImpl.signin(memberDto);
+        if(result.equals("fail"))
+            return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+        else
+            return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
     }
 
     @PostMapping("/signup")

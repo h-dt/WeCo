@@ -1,5 +1,6 @@
 package com.dreamteam.hola.service;
 
+import com.dreamteam.hola.config.auth.PrincipalDetails;
 import com.dreamteam.hola.config.auth.PrincipalDetailsService;
 import com.dreamteam.hola.dao.MemberMapper;
 import com.dreamteam.hola.domain.Member;
@@ -45,4 +46,13 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
+    @Override
+    @Transactional
+    public String signin(MemberDto memberDto) {
+        PrincipalDetails findMember = (PrincipalDetails) principalDetailsService.loadUserByUsername(memberDto.getUsername());
+        if (!passwordEncoder.matches(memberDto.getPassword(), findMember.getPassword())) {
+            return "fail";
+        }
+        return jwtTokenProvider.createtoken(findMember.getUsername(), findMember.getRole());
+    }
 }

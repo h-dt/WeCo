@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 @Data
 public class MemberDto {
-    private Long memberNo;
+    private Long memberId;
     private String username;
     private String nickname;
     private String password;

@@ -4,7 +4,7 @@
 
 
     <sql id="memberColumns">
-        member_no,
+        member_id,
         username,
         nickname,
         password,
@@ -22,7 +22,7 @@
         INSERT INTO member(
         <include refid="memberColumns"/>
         )VALUES(
-            #{memberNo},
+            #{memberId},
             #{username},
             #{nickname},
             #{password},
