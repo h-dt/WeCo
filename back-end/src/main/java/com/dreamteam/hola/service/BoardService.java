@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BoardService {
 
-    BoardDto getBoard(Long id);
+    BoardDto getBoard(Long memberId, Long boardId);
 
     int register(BoardDto dto);
   

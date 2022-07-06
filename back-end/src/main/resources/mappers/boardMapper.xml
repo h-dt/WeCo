@@ -9,6 +9,7 @@
 
     <select id="findById" resultType="BoardDto">
         select b.title,
+               m.nickname writer,
                b.content,
                b.reg_date,
                b.recruit_status,
@@ -20,7 +21,8 @@
                b.contact,
                b.start_date
         from board b
-        where b.board_id = #{id}
+        join member m on m.member_id = b.member_id
+        where b.board_id = #{id} and m.member_id = #{memberId}
     </select>
 
     <select id="findAllByRecruitType" resultType="BoardDto">

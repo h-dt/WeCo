@@ -24,17 +24,17 @@ public class BoardServiceImpl implements BoardService {
 
     // Board 1개 가져오기_2022_06_06_by_김우진
     @Override
-    public BoardDto getBoard(Long id) {
-        BoardDto findBoard = boardMapper.findById(id);
-        boardMapper.updateBoardViewCnt(id);
-        List<CommentDto> comments = commentMapper.findAllCommentByBoardId(id);
-        findBoard.setCommentCnt(commentMapper.CountByBoardId(id));
+    public BoardDto getBoard(Long memberId, Long boardId) {
+        BoardDto findBoard = boardMapper.findById(boardId, memberId);
+        boardMapper.updateBoardViewCnt(boardId);
+        List<CommentDto> comments = commentMapper.findAllCommentByBoardId(boardId);
+        findBoard.setCommentCnt(commentMapper.CountByBoardId(boardId));
         for (CommentDto commentDto : comments) {
-            commentDto.setBigCommentCnt(commentMapper.CountBigComments(id, commentDto.getCommentId()));
-            commentDto.setBigComments(commentMapper.findAllBigCommentByBoardIdAndCGroup(id, commentDto.getCommentId()));
+            commentDto.setBigCommentCnt(commentMapper.CountBigComments(boardId, commentDto.getCommentId()));
+//            commentDto.setBigComments(commentMapper.findAllBigCommentByBoardIdAndCGroup(boardId, commentDto.getCommentId()));
         }
         findBoard.setComments(comments);
-        List<String> skills = skillMapper.findAllByBoardId(id);
+        List<String> skills = skillMapper.findAllByBoardId(boardId);
         findBoard.setSkills(skills);
         return findBoard;
     }
@@ -82,8 +82,9 @@ public class BoardServiceImpl implements BoardService {
     // 모집 마감 토글_2022_06_19_by_김우진
     @Override
     public int updateRecruitStatus(Long id) {
-        BoardDto findBoard = boardMapper.findById(id);
-        return findBoard.getRecruitStatus().equals("N") ? boardMapper.updateRecruitStatus(id, "Y") : boardMapper.updateRecruitStatus(id, "N");
+//        BoardDto findBoard = boardMapper.findById(id);
+//        return findBoard.getRecruitStatus().equals("N") ? boardMapper.updateRecruitStatus(id, "Y") : boardMapper.updateRecruitStatus(id, "N");
+        return 1;
     }
 
     @Override

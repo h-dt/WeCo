@@ -16,7 +16,7 @@ import java.util.List;
 public class BoardDto {
 
     private Long  id;
-//    private String nickname;         //작성자 번호
+    private String writer;         //작성자 번호
     private String title;           //제목
     private String content;
     private Long viewCnt;          // 조회수
