@@ -1,12 +1,9 @@
 //package com.dreamteam.hola.config.jwt;
 //
-//import com.dreamteam.hola.domain.Role;
 //import io.jsonwebtoken.Claims;
 //import io.jsonwebtoken.Jws;
 //import io.jsonwebtoken.Jwts;
 //import io.jsonwebtoken.SignatureAlgorithm;
-//import lombok.AllArgsConstructor;
-//import lombok.NoArgsConstructor;
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,12 +13,9 @@
 //import org.springframework.stereotype.Component;
 //
 //import javax.annotation.PostConstruct;
-//import javax.servlet.http.HttpServlet;
 //import javax.servlet.http.HttpServletRequest;
-//import java.time.ZonedDateTime;
 //import java.util.Base64;
 //import java.util.Date;
-//import java.util.List;
 //
 //@RequiredArgsConstructor
 //@Component
