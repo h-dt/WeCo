@@ -28,4 +28,6 @@ public interface MemberService {
 //    }
 
     boolean signup(MemberDto memberDto);
+
+    String signin(MemberDto memberDto);
 }
