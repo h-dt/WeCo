@@ -7,7 +7,7 @@ import java.util.List;
 
 @Mapper
 public interface BoardMapper {
-    BoardDto findById(Long id);
+    BoardDto findById(Long memberId, Long id);
 
     List<BoardDto> findAllByRecruitType(String recruitType);
 

@@ -2,7 +2,6 @@ package com.dreamteam.hola.domain;
 
 import lombok.*;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
 @Getter
@@ -12,7 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 public class Member{
-    private Long memberNo;
+    private Long memberId;
     private String username;
     private String nickname;
     private String password;

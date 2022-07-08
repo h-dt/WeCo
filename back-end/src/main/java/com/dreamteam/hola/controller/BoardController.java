@@ -1,16 +1,20 @@
 package com.dreamteam.hola.controller;
 
+import com.dreamteam.hola.config.auth.PrincipalDetails;
 import com.dreamteam.hola.dto.BoardDto;
 import com.dreamteam.hola.service.BoardServiceImpl;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 public class BoardController {
@@ -20,14 +24,17 @@ public class BoardController {
 
     // Board 1개 가져오기_2022_06_06_by_김우진
     @GetMapping("/board/{id}")
-    public ResponseEntity<?> getBoard(@PathVariable Long id) {
-        BoardDto findBoard = boardServiceimpl.getBoard(id);
+    public ResponseEntity<?> getBoard(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long id) {
+        log.info(id + "번의 게시글 조회 API");
+        Long memberId = principalDetails.getMember().getMemberId();
+        BoardDto findBoard = boardServiceimpl.getBoard(memberId, id);
         return new ResponseEntity<>(findBoard, HttpStatus.OK);
     }
 
     // Board 전체 List 가져오기_2022_06_08_by_김우진
     @GetMapping("/boards/{recruitType}")
     public ResponseEntity<?> getBoardList(@PathVariable String recruitType) {
+
         System.out.println(recruitType);
         return new ResponseEntity<>(boardServiceimpl.getBoardListByRecruitType(recruitType), HttpStatus.OK);
     }

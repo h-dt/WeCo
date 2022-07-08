@@ -14,4 +14,6 @@ public interface MemberMapper {
     Member findByUsername(String username);
 
     Member findByEmail(String email);
+
+    int signup(MemberDto memberDto);
 }
