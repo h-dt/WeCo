@@ -31,6 +31,7 @@ public class BoardController {
         return new ResponseEntity<>(findBoard, HttpStatus.OK);
     }
 
+
     // Board 전체 List 가져오기_2022_06_08_by_김우진
     @GetMapping("/boards/{recruitType}")
     public ResponseEntity<?> getBoardList(@PathVariable String recruitType) {
@@ -59,8 +60,10 @@ public class BoardController {
 
     //Board 게시물 등록하기_2022_06_22_by_정은비
     @PostMapping("/board/register")
-    public ResponseEntity<?> register(@RequestBody BoardDto boardDto) {
-        boardServiceimpl.register(boardDto);
+    public ResponseEntity<?> register(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody BoardDto boardDto) {
+        Long memberId = principalDetails.getMember().getMemberId();
+        log.info("register");
+        boardServiceimpl.register(memberId, boardDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

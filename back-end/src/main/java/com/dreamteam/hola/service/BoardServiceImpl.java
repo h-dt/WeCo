@@ -9,9 +9,7 @@ import com.dreamteam.hola.dto.CommentDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -36,6 +34,7 @@ public class BoardServiceImpl implements BoardService {
         findBoard.setComments(comments);
         List<String> skills = skillMapper.findAllByBoardId(boardId);
         findBoard.setSkills(skills);
+
         return findBoard;
     }
 
@@ -53,7 +52,8 @@ public class BoardServiceImpl implements BoardService {
 
     //Board 게시물 등록하기_2022_06_22_by_정은비
     @Override
-    public int register(BoardDto boardDto) {
+    public int register(Long memberId, BoardDto boardDto) {
+        boardDto.setMemberId(memberId);
         boardMapper.insertBoard(boardDto);
         Long id = boardDto.getId();
 
@@ -66,7 +66,7 @@ public class BoardServiceImpl implements BoardService {
         }
         return 1;
     }
-  
+
     // SkillType으로 Board 조회_2022_06_17_by_김우진
     @Override
     public List<BoardDto> getBoardListBySkillType(List<String> skills) {

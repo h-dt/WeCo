@@ -47,9 +47,9 @@
     </update>
 
     <insert id="insertBoard" parameterType="BoardDto">
-        insert into board (title, content, recruit_type, recruit_cnt, progress_type, duration, contact_type, contact,
+        insert into board (member_id, title, content, recruit_type, recruit_cnt, progress_type, duration, contact_type, contact,
         start_date)
-        values (#{title}, #{content}, #{recruitType}, #{recruitCnt},#{progressType}, #{duration}, #{contactType},
+        values (#{memberId}, #{title}, #{content}, #{recruitType}, #{recruitCnt},#{progressType}, #{duration}, #{contactType},
         #{contact}, #{startDate})
         <selectKey keyProperty="id" resultType="long" order="AFTER">
             SELECT LAST_INSERT_ID()
@@ -96,4 +96,9 @@
             contact      = #{board.contact}
         where board_id = #{id}
     </update>
+
+    <select id="selectAllBoard" resultType="boardDto">
+        select board_id,title,view_cnt,reg_date
+        from board;
+    </select>
 </mapper>

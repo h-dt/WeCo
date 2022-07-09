@@ -1,5 +1,6 @@
 package com.dreamteam.hola.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
@@ -15,8 +16,11 @@ import java.util.List;
 @Data
 public class BoardDto {
 
+
     private Long  id;
-    private String writer;         //작성자 번호
+//    @JsonProperty(value = "member_id")
+//    private String writer;         //작성자 번호
+    private Long memberId;
     private String title;           //제목
     private String content;
     private Long viewCnt;          // 조회수
