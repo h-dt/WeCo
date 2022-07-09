@@ -19,7 +19,7 @@ public class BoardDto {
 
     private Long  id;
 //    @JsonProperty(value = "member_id")
-//    private String writer;         //작성자 번호
+    private String writer;         //작성자 번호
     private Long memberId;
     private String title;           //제목
     private String content;
