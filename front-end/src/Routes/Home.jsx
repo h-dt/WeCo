@@ -8,10 +8,9 @@ function Home() {
   return (
     <>
       <Navbar/>
-      <Popup/>
       <Banner/>
+      <Popup/>
       <Select/>
-      
     </>
   )
 }

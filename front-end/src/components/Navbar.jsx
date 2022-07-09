@@ -7,10 +7,16 @@ import {isDarkAtom} from "../atom"
 import DarkModeToggle from "react-dark-mode-toggle";
 
 const NavLogo =styled.div`
- text-transform: uppercase;
+  text-transform: uppercase;
   background-image: ${(props)=>props.theme.logo};
   background-size: auto auto;
+  text-align: center;
   background-clip: border-box;
+  width:30%;
+  margin:10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-size: 200% auto;
   :hover{
     transform: scale(1.05);
@@ -20,13 +26,20 @@ const NavLogo =styled.div`
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: textclip 2s linear infinite;
-  display: inline-block;
   font-size: 35px;
   @keyframes textclip {
   to {
     background-position: 200% center;
   }
 }
+  @media all and (min-width: 480px) and (max-width: 767px) {
+        width: 40%;
+        font-size: 20px;
+    }
+    @media all and (max-width: 479px) {
+        width: 40%;
+        font-size: 20px;
+    }
 `
 
 function Navbar() {
@@ -36,31 +49,32 @@ function Navbar() {
   const toggleDarkAtom = () => setDarkAtom((prev)=>!prev)
   return ( 
     <Navbardiv>
-      <Link to={{pathname:"/"}}>
-        <NavLogo>Organization</NavLogo> 
-      </Link>
+        <NavLogo>
+          <Link to={{pathname:"/"}}>
+            Organization
+          </Link>
+        </NavLogo> 
       <NavbarRightDiv>
-        <Link to={{pathname : "/write"}}>
           <NavBtn>
-            새 글 쓰기
-            <div/>
+            <Link to={{pathname : "/write"}}>
+              새 글 쓰기
+            </Link>
           </NavBtn>
-        </Link>
-        {location.pathname === "/login" ?  <Link to={{pathname: "/sign"}}>
+        {location.pathname === "/login" ? 
           <NavBtn>
-            회원가입
-            <div/>
-          </NavBtn>
-          </Link> :  <Link to={{pathname: "/login"}}>
+              <Link to={{pathname: "/sign"}}>
+                회원가입
+              </Link>
+          </NavBtn>: 
             <NavBtn>
-            로그인
-            <div/>
-            </NavBtn>
-          </Link>}
+              <Link to={{pathname: "/login"}}>
+                로그인
+              </Link>
+            </NavBtn>}
           <DarkModeToggle
             onChange={toggleDarkAtom}
             checked={DarkAtom}
-            size={70}
+            size={60}
             speed={2}
           />
       </NavbarRightDiv>

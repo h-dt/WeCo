@@ -24,8 +24,9 @@ import skills from '../components/data/skillList'
 
 const SmallTitle = styled.div`
   font-size: 20px;
-  margin:20 0px 30px 20px;
   display: flex;
+  margin-bottom: 20px;
+  width: 30%;
   justify-content: center;
   align-items: center;
   flex-direction: column;
@@ -38,7 +39,10 @@ const ColumnDiv =styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  width:90%;
+  z-index: 2;
 `
+
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -135,7 +139,7 @@ function Write() {
               </select>
             </SmallTitle>
             <SmallTitle>기술 스택
-              <FormControl sx={{ m: 1, width: 400, mt: 3 }}>
+              <FormControl sx={{ m: 1, width: "100%", mt: 3 }}>
                 <Select
                   multiple
                   displayEmpty
@@ -178,7 +182,7 @@ function Write() {
             </SmallTitle>
             <Editor
               usageStatistics= {false}
-              initialValue="안녕하세요 Oraganization 입니다! 프로젝트에 대해 소개해주세요~!"
+              initialValue=" "
               previewStyle="vertical"
               width= "100%"
               height="700px"
@@ -187,10 +191,12 @@ function Write() {
               plugins={[colorSyntax]}
               language="ko-KR"/>
             <WriteBtnDiv>
-              <LoginSubmitBtn type="submit" value="글 등록" style={{ fontWeight: "bolder", width: "150px", height:"70px" ,marginRight:"10px"}}/>
-              <Link to={{pathname:"/"}}>
-                <GoHomeBtn>취소</GoHomeBtn>
-              </Link>
+              <LoginSubmitBtn type="submit" value="글 등록" style={{ fontWeight: "bolder", width: "150px", height:"70px" ,margin: "37px 20px 20px 20px"}}/>
+                <GoHomeBtn>
+                  <Link to={{pathname:"/"}} style={{textAlign:"center"}}>
+                    취소
+                  </Link>
+                </GoHomeBtn>
             </WriteBtnDiv>
           </ColumnDiv>
           </WriteForm>
