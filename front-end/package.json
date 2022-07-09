@@ -35,6 +35,7 @@
     "recoil": "^0.7.3",
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.3.5",
+    "swiper": "^8.2.6",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

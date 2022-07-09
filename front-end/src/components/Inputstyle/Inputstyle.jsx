@@ -18,7 +18,7 @@ export const PopupSubmitInput = styled.input`
 `
 
 export const Inputs = styled.input`
-    font-size: 18px;
+  font-size: 18px;
   cursor: pointer;
   height: 50px;
   border:none;
@@ -28,7 +28,7 @@ export const Inputs = styled.input`
   text-align: center;
   font-weight: 100;
   :focus {
-    border:none;
+    outline: none;
     border-bottom: 2px solid ${(props)=>props.theme.loginColor};
   }
 `
