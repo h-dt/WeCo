@@ -3,6 +3,7 @@ import Home from './Routes/Home'
 import Login from './Routes/Login'
 import Write from './Routes/Write'  
 import Sign from './Routes/Sign'
+import MyPost from "./Routes/MyPost";
 import { Info } from "./Routes/Info";
 function Router(){
     return (
@@ -11,6 +12,7 @@ function Router(){
                 <Route path="/" element={<Home/>}/>
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/sign" element={<Sign/>}/>
+                <Route path= "/mypost" element={<MyPost/>}/>
                 <Route path="/write" element={<Write/>}/>
                 <Route path="/info/:id" element={<Info/>}/>
             </Routes>
