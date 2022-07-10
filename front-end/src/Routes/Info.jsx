@@ -10,15 +10,15 @@ const InfoDiv =styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
-    padding-top: 150px;
+    padding: 150px 10% 0px 10%;
     margin : 0 auto;
     @media all and (min-width: 480px) and (max-width: 767px) {
         margin : 0 auto;
-        padding-top: 150px;
+        padding: 150px 5% 0px 5%;
     }
     @media all and (max-width: 479px) {
         margin : 0 auto;
-        padding-top : 150px;
+        padding: 150px 5% 0px 5%;
     }
 `
 
@@ -190,6 +190,49 @@ const CommentListitem= styled.div`
     font-size: 24px;
 `
 
+const LeftDiv =styled.div`
+    width: 85%;
+    margin-right: 20px;
+    @media all and (min-width: 480px) and (max-width: 767px) {
+        margin: 0 auto;
+    }
+    @media all and (max-width: 479px) {
+        margin: 0 auto;
+    }
+`
+
+const RightDiv =styled.div`
+    width: 15%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin: 0 auto;
+    @media all and (min-width: 480px) and (max-width: 767px) {
+        display: none;
+    }
+    @media all and (max-width: 479px) {
+        display: none;
+    }
+`
+
+const RightTitle =styled.div`
+    font-size: 16px;
+    margin-bottom: 10px;
+`
+
+const RightTitleBox = styled.div`
+    width: 100%;
+    height: 300px;
+    background-color: grey;
+`
+
+const InfoTotalDiv = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+
+
 
 export function Info(){
     const {
@@ -209,65 +252,73 @@ export function Info(){
     return (
         <>
             <Navbar/>
-            <InfoDiv>
-                <InfoTitle>{listdata.title}</InfoTitle>
-                <InfoTitleWrite>{` ${listdata.write} 〡 ${listdata.year}`}</InfoTitleWrite>
-                <ProjectUnderLine style={{margin:"60px 0px 40px 0px"}}/>
-                <InfoSubTitleDiv>
-                    <InfoSubTitleDivSeperate>
-                        <InfoSubListTitle>모집 구문</InfoSubListTitle>
-                        <InfoSubListObject>{listdata.type}</InfoSubListObject>
-                    </InfoSubTitleDivSeperate>
-                    <InfoSubTitleDivSeperate>
-                        <InfoSubListTitle>진행 방식</InfoSubListTitle>
-                        <InfoSubListObject>{listdata.tag[0].slice(1)}</InfoSubListObject>
-                    </InfoSubTitleDivSeperate>
-                    <InfoSubTitleDivSeperate>
-                        <InfoSubListTitle>모집 인원</InfoSubListTitle>
-                        <InfoSubListObject>{listdata.tag[1].slice(1)}</InfoSubListObject>
-                    </InfoSubTitleDivSeperate>
-                    <InfoSubTitleDivSeperate>
-                        <InfoSubListTitle>시작 예정</InfoSubListTitle>
-                        <InfoSubListObject>{listdata.year}</InfoSubListObject>
-                    </InfoSubTitleDivSeperate>
-                    <InfoSubTitleDivSeperate>
-                        <InfoSubListTitle>연락 방법</InfoSubListTitle>
-                        <InfoSubListObject>{listdata.contact}</InfoSubListObject>
-                    </InfoSubTitleDivSeperate>
-                    <InfoSubTitleDivSeperate>
-                        <InfoSubListTitle>예상 기간</InfoSubListTitle>
-                        <InfoSubListObject>{listdata.tag[2].slice(1)}</InfoSubListObject>
-                    </InfoSubTitleDivSeperate>
-                    <InfoSubTitleDivSeperate>
-                        <InfoSubListTitle>사용 언어</InfoSubListTitle>
-                        <InfoSubListObject>{listdata.skills.join("  ")}</InfoSubListObject>
-                    </InfoSubTitleDivSeperate>
-                </InfoSubTitleDiv>
-                <ProjectUnderLine style={{margin:"60px 0px 40px 0px"}}/>
-                <InfoExplanationDiv>
-                    <InfoExplanationTitle>프로젝트 소개</InfoExplanationTitle>
-                    <InfoExplanationSubtitle>{listdata.explan}</InfoExplanationSubtitle>
-                </InfoExplanationDiv>
-                <ProjectUnderLine style={{margin:"60px 0px 40px 0px"}}/>
-                <InfoExplanationDiv>
-                    <InfoExplanationTitle>댓글</InfoExplanationTitle>                   
-                    <InfoCommentForm onSubmit={handleSubmit(onSubmitValid)}>
-                        <InfoCommentInputText {...register('comment' , {
-                            required: "댓글을 입력해주세요",
-                        })}
-                        type="text"
-                        placeholder="댓글을 입력해주세요"
-                        />
-                        <InfoCommentInputSubmit type="submit" value="댓글등록"/>
-                    </InfoCommentForm>
-                    <CommentList>{commentlist.map((x)=>(
-                                <CommentListitem key={Math.random()}>{x.comment}
-                                <ProjectUnderLine style={{width:"100%", margin:"20px 0px 20px 0px"}}/>
-                                </CommentListitem>
-                    )
-                        )}</CommentList>
-                </InfoExplanationDiv>
-            </InfoDiv>
+            <InfoTotalDiv>
+                <LeftDiv>
+                    <InfoDiv>
+                        <InfoTitle>{listdata.title}</InfoTitle>
+                        <InfoTitleWrite>{` ${listdata.write} 〡 ${listdata.year}`}</InfoTitleWrite>
+                        <ProjectUnderLine style={{margin:"60px 0px 40px 0px"}}/>
+                        <InfoSubTitleDiv>
+                            <InfoSubTitleDivSeperate>
+                                <InfoSubListTitle>모집 구문</InfoSubListTitle>
+                                <InfoSubListObject>{listdata.type}</InfoSubListObject>
+                            </InfoSubTitleDivSeperate>
+                            <InfoSubTitleDivSeperate>
+                                <InfoSubListTitle>진행 방식</InfoSubListTitle>
+                                <InfoSubListObject>{listdata.tag[0].slice(1)}</InfoSubListObject>
+                            </InfoSubTitleDivSeperate>
+                            <InfoSubTitleDivSeperate>
+                                <InfoSubListTitle>모집 인원</InfoSubListTitle>
+                                <InfoSubListObject>{listdata.tag[1].slice(1)}</InfoSubListObject>
+                            </InfoSubTitleDivSeperate>
+                            <InfoSubTitleDivSeperate>
+                                <InfoSubListTitle>시작 예정</InfoSubListTitle>
+                                <InfoSubListObject>{listdata.year}</InfoSubListObject>
+                            </InfoSubTitleDivSeperate>
+                            <InfoSubTitleDivSeperate>
+                                <InfoSubListTitle>연락 방법</InfoSubListTitle>
+                                <InfoSubListObject>{listdata.contact}</InfoSubListObject>
+                            </InfoSubTitleDivSeperate>
+                            <InfoSubTitleDivSeperate>
+                                <InfoSubListTitle>예상 기간</InfoSubListTitle>
+                                <InfoSubListObject>{listdata.tag[2].slice(1)}</InfoSubListObject>
+                            </InfoSubTitleDivSeperate>
+                            <InfoSubTitleDivSeperate>
+                                <InfoSubListTitle>사용 언어</InfoSubListTitle>
+                                <InfoSubListObject>{listdata.skills.join("  ")}</InfoSubListObject>
+                            </InfoSubTitleDivSeperate>
+                        </InfoSubTitleDiv>
+                        <ProjectUnderLine style={{margin:"60px 0px 40px 0px"}}/>
+                        <InfoExplanationDiv>
+                            <InfoExplanationTitle>프로젝트 소개</InfoExplanationTitle>
+                            <InfoExplanationSubtitle>{listdata.explan}</InfoExplanationSubtitle>
+                        </InfoExplanationDiv>
+                        <ProjectUnderLine style={{margin:"60px 0px 40px 0px"}}/>
+                        <InfoExplanationDiv>
+                            <InfoExplanationTitle>댓글</InfoExplanationTitle>                   
+                            <InfoCommentForm onSubmit={handleSubmit(onSubmitValid)}>
+                                <InfoCommentInputText {...register('comment' , {
+                                    required: "댓글을 입력해주세요",
+                                })}
+                                type="text"
+                                placeholder="댓글을 입력해주세요"
+                                />
+                                <InfoCommentInputSubmit type="submit" value="댓글등록"/>
+                            </InfoCommentForm>
+                            <CommentList>{commentlist.map((x)=>(
+                                        <CommentListitem key={Math.random()}>{x.comment}
+                                        <ProjectUnderLine style={{width:"100%", margin:"20px 0px 20px 0px"}}/>
+                                        </CommentListitem>
+                            )
+                                )}</CommentList>
+                        </InfoExplanationDiv>
+                    </InfoDiv>
+                </LeftDiv>
+                <RightDiv>
+                    <RightTitle>좋아하는 글목록</RightTitle>
+                    <RightTitleBox/>
+                </RightDiv>
+            </InfoTotalDiv>
         </>
         
     )
