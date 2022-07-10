@@ -232,7 +232,16 @@ const InfoTotalDiv = styled.div`
     align-items: center;
 `
 
-
+const ArrowDiv = styled.div`
+    margin: 0px 0px 30px 5px;
+    font-size: 36px;
+    svg{
+        :hover{
+            cursor: pointer;
+            transform: scale(1.05);
+        }
+    }
+`
 
 export function Info(){
     const {
@@ -255,6 +264,12 @@ export function Info(){
             <InfoTotalDiv>
                 <LeftDiv>
                     <InfoDiv>
+                    <ArrowDiv>
+                        <Link to ={'/'}>
+                            <FaArrowLeft/>
+                        </Link>
+                        
+                    </ArrowDiv>
                         <InfoTitle>{listdata.title}</InfoTitle>
                         <InfoTitleWrite>{` ${listdata.write} 〡 ${listdata.year}`}</InfoTitleWrite>
                         <ProjectUnderLine style={{margin:"60px 0px 40px 0px"}}/>
