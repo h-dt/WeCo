@@ -101,4 +101,24 @@
         select board_id,title,view_cnt,reg_date
         from board;
     </select>
+
+    <update id="calScore">
+        UPDATE board
+        SET score = ((DATE(reg_date)- DATE(CURRENT_TIMESTAMP)) * 0.001) + (view_cnt * 0.5) + (comment_cnt * 1.5);
+    </update>
+
+    <select id="selectRecommendedBoard" resultType="RecommendedBoardDto">
+        select board_id,title
+        from board
+        order by score desc,reg_date desc
+        limit 0,10;
+    </select>
+
+    <update id="updateCommentCnt">
+        update board
+        set comment_cnt = (
+            SELECT count(comment_id)
+            FROM comment
+            where board.board_id = comment.board_id);
+    </update>
 </mapper>

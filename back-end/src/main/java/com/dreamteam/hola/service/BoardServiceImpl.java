@@ -6,6 +6,7 @@ import com.dreamteam.hola.dao.CommentMapper;
 import com.dreamteam.hola.dao.SkillMapper;
 import com.dreamteam.hola.dto.BoardDto;
 import com.dreamteam.hola.dto.CommentDto;
+import com.dreamteam.hola.dto.RecommendedBoardDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -90,5 +91,15 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public int update(Long id, BoardDto boardDto) {
         return boardMapper.update(id, boardDto);
+    }
+
+    // 추천게시물 _2022_07_11_by_정은비
+    @Override
+    public List<RecommendedBoardDto> getRecommendedBoardList() {
+        boardMapper.updateCommentCnt();
+        boardMapper.calScore();
+        List<RecommendedBoardDto> recommendedBoard = boardMapper.selectRecommendedBoard();
+
+        return recommendedBoard;
     }
 }

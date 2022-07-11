@@ -66,4 +66,10 @@ public class BoardController {
         boardServiceimpl.register(memberId, boardDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    // 추천 게시물 List 가져오기_2022_07_11_by_정은비
+    @GetMapping("/board/recommend")
+    public ResponseEntity<?> getRecommendedBoardList() {
+        return new ResponseEntity<>(boardServiceimpl.getRecommendedBoardList(), HttpStatus.OK);
+    }
 }

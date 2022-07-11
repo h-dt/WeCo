@@ -1,6 +1,7 @@
 package com.dreamteam.hola.dao;
 
 import com.dreamteam.hola.dto.BoardDto;
+import com.dreamteam.hola.dto.RecommendedBoardDto;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -20,4 +21,10 @@ public interface BoardMapper {
     int updateRecruitStatus(Long id, String status);
 
     int update(Long id, BoardDto board);
+
+    void calScore();
+
+    List<RecommendedBoardDto> selectRecommendedBoard();
+
+    void updateCommentCnt();
 }
