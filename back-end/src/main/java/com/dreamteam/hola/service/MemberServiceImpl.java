@@ -8,17 +8,16 @@ import com.dreamteam.hola.domain.Role;
 import com.dreamteam.hola.dto.MemberDto;
 import com.dreamteam.hola.util.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class MemberServiceImpl implements MemberService {
 
     private final MemberMapper memberMapper;
-    private final BCryptPasswordEncoder encoder;
+//    private final BCryptPasswordEncoder encoder;
 
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
@@ -28,9 +27,9 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public void joinMember(Member member) {
-        member.setPassword(encoder.encode(member.getPassword()));
-        member.setRole(Role.ROLE_USER);
-        memberMapper.joinMember(member);
+//        member.setPassword(encoder.encode(member.getPassword()));
+//        member.setRole(Role.ROLE_USER);
+//        memberMapper.joinMember(member);
     }
 
     @Override
