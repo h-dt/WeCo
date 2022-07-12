@@ -91,4 +91,9 @@ public class BoardServiceImpl implements BoardService {
     public int update(Long id, BoardDto boardDto) {
         return boardMapper.update(id, boardDto);
     }
+
+    @Override
+    public List<BoardDto> getMyBoards(Long memberId) {
+        return boardMapper.findAllByMemberId(memberId);
+    }
 }
