@@ -21,8 +21,9 @@
                b.contact,
                b.start_date
         from board b
-        join member m on m.member_id = b.member_id
-        where b.board_id = #{id} and m.member_id = #{memberId}
+                 join member m on m.member_id = b.member_id
+        where b.board_id = #{id}
+          and m.member_id = #{memberId}
     </select>
 
     <select id="findAllByRecruitType" resultType="BoardDto">
@@ -85,15 +86,30 @@
 
     <update id="update" parameterType="BoardDto">
         update board
-        set title        = #{board.title},
-            content      = #{board.content},
-            recruit_type = #{board.recruitType},
-            recruit_cnt  = #{board.recruitCnt},
-            duration     = #{board.duration},
-            start_date   = #{board.startDate},
+        set title         = #{board.title},
+            content       = #{board.content},
+            recruit_type  = #{board.recruitType},
+            recruit_cnt   = #{board.recruitCnt},
+            duration      = #{board.duration},
+            start_date    = #{board.startDate},
             progress_type = #{board.progress_type},
-            contact_type = #{board.contactType},
-            contact      = #{board.contact}
+            contact_type  = #{board.contactType},
+            contact       = #{board.contact}
         where board_id = #{id}
     </update>
+
+    <select id="findAllByMemberId" resultType="BoardDto">
+        select b.board_id id,
+               b.title,
+               m.nickname writer,
+               m.profile_image writerProfile,
+               b.recruit_type,
+               b.recruit_cnt,
+               b.progress_type,
+               b.start_date,
+               b.view_cnt
+        from board b
+                 join member m on b.member_id = m.member_id
+        where b.member_id = #{memberId}
+    </select>
 </mapper>

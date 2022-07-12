@@ -20,4 +20,6 @@ public interface BoardMapper {
     int updateRecruitStatus(Long id, String status);
 
     int update(Long id, BoardDto board);
+
+    List<BoardDto> findAllByMemberId(Long memberId);
 }

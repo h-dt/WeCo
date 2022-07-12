@@ -63,4 +63,12 @@ public class BoardController {
         boardServiceimpl.register(boardDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    // 내가 작성한 게시글 보기_2022_07_12_by_김우진
+    @GetMapping("/my-boards")
+    public ResponseEntity<?> getMyBoards(@AuthenticationPrincipal PrincipalDetails principalDetails){
+        log.info("내가 작성한 게시글 조회 API");
+        Long memberId = principalDetails.getMember().getMemberId();
+        return new ResponseEntity<>(boardServiceimpl.getMyBoards(memberId), HttpStatus.OK);
+    }
 }
