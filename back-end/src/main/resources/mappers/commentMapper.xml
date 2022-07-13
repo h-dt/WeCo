@@ -3,38 +3,41 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.dreamteam.hola.dao.CommentMapper">
+    <sql id="commentCommonColumns">
+        c.comment_id,
+        c.board_id,
+        m.nickname writer,
+        c.content,
+        c.reg_date
+    </sql>
+
     <select id="findAllCommentByBoardId" resultType="CommentDto">
         select
-               comment_id,
-               board_id,
-               content,
-               reg_date
-        from comment
-        where board_id = #{id} and c_depth = false
-        order by reg_date desc, comment_id desc;
+        <include refid="commentCommonColumns"/>
+        from comment c
+        join member m on m.member_id = c.member_id
+        where c.board_id = #{id} and c.c_depth = false
+        order by c.reg_date desc, c.comment_id desc;
     </select>
 
     <select id="findAllBigCommentByBoardIdAndCGroup" resultType="BigComment">
         select
-            comment_id,
-            board_id,
-            content,
-            reg_date
-        from comment
-        where board_id = #{boardId} and c_depth = true and c_group = #{cGroup}
-        order by reg_date desc, comment_id desc;
+        <include refid="commentCommonColumns"/>
+        from comment c
+        join member m on m.member_id = c.member_id
+        where c.board_id = #{boardId} and c.c_depth = true and c.c_group = #{cGroup}
+        order by c.reg_date desc, c.comment_id desc;
     </select>
 
-    <select id="CountByBoardId" resultType="int">
-        select
-            count(comment_id)
+    <select id="CountByBoardId" resultType="Long">
+        select count(comment_id)
         from comment
         where board_id = #{id}
     </select>
 
     <insert id="save" parameterType="CommentDto">
-        insert into comment (board_id, content, c_depth, c_group)
-        values (#{boardId}, #{content}, #{cDepth}, #{cGroup});
+        insert into comment (board_id, member_id, content, c_depth, c_group)
+        values (#{boardId}, #{memberId}, #{content}, #{cDepth}, #{cGroup});
     </insert>
 
     <update id="update" parameterType="CommentDto">
@@ -43,10 +46,19 @@
         where comment_id = #{comment.commentId}
     </update>
 
-    <select id="CountBigComments" resultType="int">
-        select
-            count(comment_id)
+    <select id="CountBigComments" resultType="Long">
+        select count(comment_id)
         from comment
-        where board_id = #{id} and c_depth = true and c_group = #{cGroup};
+        where board_id = #{id}
+          and c_depth = true
+          and c_group = #{cGroup};
+    </select>
+
+    <select id="findById" resultType="CommentDto">
+        select
+        <include refid="commentCommonColumns"/>
+        from comment c
+        join member m on m.member_id = c.member_id
+        where c.comment_id = #{id};
     </select>
 </mapper>

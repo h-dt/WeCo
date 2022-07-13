@@ -18,18 +18,22 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@JsonPropertyOrder({"commentId", "boardId", "content", "cDepth",
+@JsonPropertyOrder({"commentId", "boardId", "writer", "content", "cDepth",
         "cGroup", "bigCommentCnt", "bigComments"})
 public class CommentDto {
 //    private Long memeber_id;
 
-    @JsonProperty(value = "comment_id")
+    @JsonProperty(value = "comment_id", access = JsonProperty.Access.READ_ONLY)
     private Long commentId;
 
     @NotNull
     @Positive
-    @JsonProperty(value = "board_id")
+    @JsonProperty(value = "board_id", access = JsonProperty.Access.READ_ONLY)
     private Long boardId;
+
+    @Positive
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String writer;
 
     @NotBlank
     private String content;
@@ -41,7 +45,7 @@ public class CommentDto {
     @JsonProperty(value = "c_group")
     private Long cGroup;        // 대댓글의 경우 모댓글의 id 값
 
-    private int bigCommentCnt;
+    private Long bigCommentCnt;
 
     private List<BigComment> bigComments;
 }
