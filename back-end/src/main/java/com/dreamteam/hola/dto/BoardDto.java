@@ -24,6 +24,7 @@ public class BoardDto {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String writerProfile;
+
     private String title;           //제목
     private String content;
     private String recruitStatus;    //모집 상태
@@ -40,7 +41,7 @@ public class BoardDto {
     private Long viewCnt;          // 조회수
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private int commentCnt;
+    private Long commentCnt;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<String> skills;
