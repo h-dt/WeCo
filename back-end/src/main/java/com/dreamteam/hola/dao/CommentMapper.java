@@ -10,13 +10,15 @@ import java.util.List;
 public interface CommentMapper {
     List<CommentDto> findAllCommentByBoardId(Long id);
 
-    int CountByBoardId(Long id);
+    Long CountByBoardId(Long id);
 
-    int save(CommentDto commentDto);
+    int save(Long memberId, CommentDto commentDto);
 
     int update(CommentDto comment);
 
     List<BigComment> findAllBigCommentByBoardIdAndCGroup(Long boardId, Long cGroup);
 
-    int CountBigComments(Long id, Long cGroup);
+    Long CountBigComments(Long id, Long cGroup);
+
+    CommentDto findById(Long id);
 }
