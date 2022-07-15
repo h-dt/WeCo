@@ -7,6 +7,7 @@ import com.dreamteam.hola.domain.Member;
 import com.dreamteam.hola.domain.Role;
 import com.dreamteam.hola.dto.MemberDto;
 import com.dreamteam.hola.util.jwt.JwtTokenProvider;
+import com.dreamteam.hola.util.jwt.Token;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -47,10 +48,10 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public String signin(MemberDto memberDto) {
+    public Token signin(MemberDto memberDto) {
         PrincipalDetails findMember = (PrincipalDetails) principalDetailsService.loadUserByUsername(memberDto.getUsername());
         if (!passwordEncoder.matches(memberDto.getPassword(), findMember.getPassword())) {
-            return "fail";
+            return new Token("access token create fail", "refresh token create fail");
         }
         return jwtTokenProvider.createtoken(findMember.getUsername(), findMember.getRole());
     }
