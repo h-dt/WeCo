@@ -1,11 +1,13 @@
 import styled from 'styled-components'
 
-const BtnShape =styled.button`
-    width:120px;
+const BtnShape =styled.div`
+    width:100px;
     font-weight: bold;
-    margin-right: 20px;
+    margin: 0 auto;
     border: none;
     cursor: pointer;
+    display: flex;
+    align-items: center;
     background-color: transparent;
     font-size: 18px;
     height:50px;
@@ -18,37 +20,52 @@ const LoginShape = styled.div`
   background-color: ${(props)=>props.theme.bgColor};
 `
 
-export const SelectBtn = styled(BtnShape)`
+export const SelectBtn = styled.div`
+    font-weight: bold;
+    margin: 0 auto;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    font-size: 18px;
+    height:50px;
     color:${(props)=>props.theme.fontColor};
+    background-color: ${(props)=>props.color};
+    border-radius: 10px;
     :hover{
-        transform: scale(1.03);
-    }
-    div{
-        background-color: ${(props)=>props.theme.underLineColor};
-        width:100%;
-        margin-top: 5px;
-        height:5px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        transform: scale(1.05);
+        transform: translateY(-5px);
+        transition-duration: 1s;
     }
 `
 
-export const NavBtn = styled(BtnShape)`
-        color:${(props)=>props.theme.fontColor};
-        margin-bottom: 5px;
-      :hover{
-        transform: scale(1.03);
-        div{
-            background-color: ${(props)=>props.theme.underLineColor};
-            width:100%;
-            height:5px;
-            margin-top: 5px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+export const NavBtn = styled.div`
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 10px 0px 0px;
+    font-size:20px;
+    font-weight: bold;
+    color:${(props)=>props.theme.fontColor};
+    width: 150px;
+    height: 60px;
+    cursor: pointer;
+    transition: transform 250ms;
+    @media all and (min-width:480px) and (max-width:767px) {
+        font-size: 12px;
+        width:80px;
+        height:50px;
+    } 
+    @media all and (max-width:479px) {
+        font-size: 12px;
+        width:80px;
+        height:50px;
     }
-  }
+    :hover{
+        transform: translateY(-3px);
+    }
 `
 
 export const BannerBtn = styled.div`
@@ -71,6 +88,16 @@ export const BannerBtn = styled.div`
         transform: scale(1.05); 
         transition-duration: 0.5s;
         background-color: ${(props)=>props.theme.bannerHover};
+    }
+    @media all and (min-width: 480px) and (max-width: 767px) {
+       width:130px;
+       height:130px;
+       font-size: 16px;
+    }
+    @media all and (max-width: 479px) {
+       width:130px;
+       height:130px;
+       font-size: 16px;
     }
 `
 
@@ -99,27 +126,35 @@ export const ResetBtn =styled.div`
     border-radius: 20px;
     :hover{
         transform: scale(1.1);
+        transform: translateY(-5px);
+        transition-duration: 1s;
     }
     `
     
 export const ResultSelectBtn =styled.div`    
-    font-size: 28px;
     display: flex;
-    justify-content: center;
-    margin:10px 60px;
-    flex-direction: column;
+    align-items: center;
+    margin-right: 1.5rem;
     cursor: pointer;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+    padding: 10px 5px;
+    transition : transform 250ms;
+    border-radius: 10px;
+    background-color: ${(props)=>props.select};
     :hover{
-        transform: scale(1.1);
+        transform: translateY(-3px);
     }
-    div{
-            background-color: ${(props)=>props.theme.underLineColor};
-            width:100%;
-            height:5px;
-            margin-top: 5px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+    @media all and (min-width:480px) and (max-width:767px) {
+        font-size: 12px;
+        width:100px;
+        margin-right: 3px;
+    } 
+    @media all and (max-width:479px) {
+        font-size: 12px;
+        width:70px;
+        margin-right: 3px;
     }
 `
 
@@ -165,7 +200,7 @@ display: flex;
 justify-content: center;
 font-size: 18px;
 padding: 1px 6px;
-margin: 25px 0px 15px 0px;
+margin: 30px 0px 15px 0px;
 align-items: center;
 width:150px;
 height: 70px;

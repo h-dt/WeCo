@@ -37,6 +37,7 @@ function Sign() {
     register,
     handleSubmit,
     reset,
+    setError,
     formState: { errors },
   } = useForm({mode:"onChange"});
   const [sign, setSign] = useState("")
@@ -45,6 +46,9 @@ function Sign() {
     setSign(data)
     reset()
   }
+  const [password, setPassword] = useState();
+  const [confirm, setConfirm] = useState();
+  const notSame = password !== confirm
   return (
     <>
     <Navbar/>
@@ -67,7 +71,9 @@ function Sign() {
               required: "Password 를 반드시 입력해주세요",
               
               })}
+              name="password"
               type="password"
+              onChange={(event)=>setPassword(event.target.value)}
               placeholder="Type your Password"
               />
               <span>{errors.password?.message}</span>
@@ -75,11 +81,15 @@ function Sign() {
               <Inputs
               {...register("passwordConfirm", {
               required: "Password 를 한번 더 입력해주세요",
+              
               })}
+              name="passwordConfirm"
               type="password"
+              onChange={(event)=>setConfirm(event.target.value)}
               placeholder="Please enter your password again"
               />
               <span>{errors.passwordConfirm?.message}</span>
+              <span>{notSame ? "비밀번호가 서로 일치하지 않습니다" : ""}</span>
               <LoginSubmitBtn type="submit" value="로그인" style={{ fontWeight: "bolder" }}/>   
           </SignInputForm>
         </LoginModalForm>

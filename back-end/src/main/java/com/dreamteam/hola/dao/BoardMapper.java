@@ -8,23 +8,27 @@ import java.util.List;
 
 @Mapper
 public interface BoardMapper {
-    BoardDto findById(Long memberId, Long id);
+    BoardDto findById(Long id);
 
-    List<BoardDto> findAllByRecruitType(String recruitType);
+    BoardDto findByIdAndMemberId(Long id, Long memberId);
 
-    void updateBoardViewCnt(Long id);
+    List<BoardDto> findAll(String recruitType, String recruitStatus, List<String> skillTypes);
+
+    void updateViewCnt(Long id);
 
     void insertBoard(BoardDto boardDto);
-
-    List<BoardDto> findAllBySkillTypes(List<String> skillTypes);
 
     int updateRecruitStatus(Long id, String status);
 
     int update(Long id, BoardDto board);
+
 
     void calScore();
 
     List<RecommendedBoardDto> selectRecommendedBoard();
 
     void updateCommentCnt();
+
+    List<BoardDto> findAllByMemberId(Long memberId);
+
 }

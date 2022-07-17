@@ -10,8 +10,8 @@ export const darkTheme = {
   bannerHover: "grey",
   reset: "red",
   infoBgColor: "#33d9b2",
-  nav: " 0 0.125rem 0.25rem 0 rgb(80  80 80 / 80%)",
-  logo: "linear-gradient(-225deg,#fbc531 0%,#e84118 29%,#9c88ff 67%, #00a8ff 100%);",
+  nav: "rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;",
+  logo: "linear-gradient(-225deg,#F0F2F0 0%,#F0F2F0 29%,#000C40 67%, #000C40 100%);",
 };
 
 export const lightTheme = {
@@ -26,6 +26,6 @@ export const lightTheme = {
   bannerHover: "grey",
   reset: "orangered",
   infoBgColor: "aliceblue;",
-  nav: " 0 0.125rem 0.25rem 0 rgb(0 0 0 / 30%)",
+  nav: "rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;",
   logo: "linear-gradient(-225deg,#353b48 0%,#273c75 29%,#7f8fa6 67%,  #f5f6fa 100%);",
 };

@@ -16,4 +16,6 @@ public interface MemberMapper {
     Member findByEmail(String email);
 
     int signup(MemberDto memberDto);
+
+    MemberDto findById(Long id);
 }

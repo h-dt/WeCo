@@ -59,5 +59,12 @@
         insert into member (username, nickname, password, email, profile_image, role)
         values (#{username}, #{nickname}, #{password}, #{email}, #{profileImage}, #{role})
     </insert>
+
+    <select id="findById" resultType="MemberDto">
+        select
+        <include refid="memberColumns"/>
+        from member
+        where member_id = #{id};
+    </select>
 </mapper>
 
