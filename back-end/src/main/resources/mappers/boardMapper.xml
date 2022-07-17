@@ -104,12 +104,14 @@
 
     <update id="calScore">
         UPDATE board
-        SET score = ((DATE(reg_date)- DATE(CURRENT_TIMESTAMP)) * 0.001) + (view_cnt * 0.5) + (comment_cnt * 1.5);
+        SET score = ((DATE(reg_date)- DATE(CURRENT_TIMESTAMP)) * 0.001) + (view_cnt * 0.5) + (comment_cnt * 1.5)
+        WHERE recruit_status = 'Y';
     </update>
 
     <select id="selectRecommendedBoard" resultType="RecommendedBoardDto">
         select board_id,title
         from board
+        WHERE recruit_status = 'Y'
         order by score desc,reg_date desc
         limit 0,10;
     </select>
