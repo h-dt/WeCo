@@ -22,6 +22,7 @@ public interface BoardMapper {
 
     int update(Long id, BoardDto board);
 
+
     void calScore();
 
     List<RecommendedBoardDto> selectRecommendedBoard();
@@ -29,4 +30,5 @@ public interface BoardMapper {
     void updateCommentCnt();
 
     List<BoardDto> findAllByMemberId(Long memberId);
+
 }

@@ -27,10 +27,10 @@ public class BoardServiceImpl implements BoardService {
     public BoardDto getBoard(Long boardId) {
         // memberId 와 boardId로 해당 게시글 정보 조회
         BoardDto findBoard = boardMapper.findById(boardId);
-
+        
         // 조회수 증가
         boardMapper.updateViewCnt(boardId);
-
+        
         // 댓글과 대댓글 조회 및 Dto에 Set
         List<CommentDto> comments = commentMapper.findAllCommentByBoardId(boardId);
         findBoard.setCommentCnt(commentMapper.CountByBoardId(boardId));
@@ -92,10 +92,6 @@ public class BoardServiceImpl implements BoardService {
         return boardMapper.update(id, boardDto);
     }
 
-    @Override
-    public List<BoardDto> getMyBoards(Long memberId) {
-        return boardMapper.findAllByMemberId(memberId);
-    }
 
     // 추천게시물 _2022_07_11_by_정은비
     @Override
@@ -105,5 +101,10 @@ public class BoardServiceImpl implements BoardService {
         List<RecommendedBoardDto> recommendedBoard = boardMapper.selectRecommendedBoard();
 
         return recommendedBoard;
+    }
+
+    @Override
+    public List<BoardDto> getMyBoards(Long memberId) {
+        return boardMapper.findAllByMemberId(memberId);
     }
 }

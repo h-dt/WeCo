@@ -119,15 +119,6 @@
         where board_id = #{id}
     </update>
 
-    <select id="findAllByMemberId" resultType="BoardDto">
-        select
-        <include refid="boardCommonColumns"/>,
-        b.view_cnt
-        from board b
-        join member m on b.member_id = m.member_id
-        where b.member_id = #{memberId}
-    </select>
-
     <select id="selectAllBoard" resultType="boardDto">
         select board_id,title,view_cnt,reg_date
         from board;
@@ -154,4 +145,13 @@
             FROM comment
             where board.board_id = comment.board_id);
     </update>
+
+    <select id="findAllByMemberId" resultType="BoardDto">
+        select
+        <include refid="boardCommonColumns"/>,
+        b.view_cnt
+        from board b
+        join member m on b.member_id = m.member_id
+        where b.member_id = #{memberId}
+    </select>
 </mapper>
