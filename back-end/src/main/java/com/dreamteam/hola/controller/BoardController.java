@@ -26,6 +26,7 @@ public class BoardController {
         return new ResponseEntity<>(boardServiceimpl.getBoard(id), HttpStatus.OK);
     }
 
+
     // Board 전체 List 가져오기_2022_06_08_by_김우진
     @GetMapping("/boards")
     public ResponseEntity<?> getBoards(@RequestBody BoardReqDto boardReqDto) {
@@ -49,9 +50,17 @@ public class BoardController {
 
     //Board 게시물 등록하기_2022_06_22_by_정은비
     @PostMapping("/board/register")
-    public ResponseEntity<?> register(@RequestBody BoardDto boardDto) {
-        boardServiceimpl.register(boardDto);
+    public ResponseEntity<?> register(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody BoardDto boardDto) {
+        Long memberId = principalDetails.getMember().getMemberId();
+        log.info("register");
+        boardServiceimpl.register(memberId, boardDto);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // 추천 게시물 List 가져오기_2022_07_11_by_정은비
+    @GetMapping("/board/recommend")
+    public ResponseEntity<?> getRecommendedBoardList() {
+        return new ResponseEntity<>(boardServiceimpl.getRecommendedBoardList(), HttpStatus.OK);
     }
 
     // 내가 작성한 게시글 보기_2022_07_12_by_김우진

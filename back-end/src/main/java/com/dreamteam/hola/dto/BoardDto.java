@@ -18,6 +18,8 @@ public class BoardDto {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long  id;
+    
+    private Long memberId;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String writer;         //작성자 번호

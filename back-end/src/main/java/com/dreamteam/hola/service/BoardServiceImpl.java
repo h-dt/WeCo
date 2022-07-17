@@ -7,12 +7,11 @@ import com.dreamteam.hola.dao.SkillMapper;
 import com.dreamteam.hola.dto.BoardDto;
 import com.dreamteam.hola.dto.BoardReqDto;
 import com.dreamteam.hola.dto.CommentDto;
+import com.dreamteam.hola.dto.RecommendedBoardDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -44,6 +43,7 @@ public class BoardServiceImpl implements BoardService {
         // 게시글에 사용된 skill 조회 및 Dto에 set
         List<String> skills = skillMapper.findAllByBoardId(boardId);
         findBoard.setSkills(skills);
+
         return findBoard;
     }
 
@@ -65,7 +65,8 @@ public class BoardServiceImpl implements BoardService {
 
     //Board 게시물 등록하기_2022_06_22_by_정은비
     @Override
-    public int register(BoardDto boardDto) {
+    public int register(Long memberId, BoardDto boardDto) {
+        boardDto.setMemberId(memberId);
         boardMapper.insertBoard(boardDto);
         Long id = boardDto.getId();
 
@@ -91,6 +92,17 @@ public class BoardServiceImpl implements BoardService {
         return boardMapper.update(id, boardDto);
     }
 
+
+    // 추천게시물 _2022_07_11_by_정은비
+    @Override
+    public List<RecommendedBoardDto> getRecommendedBoardList() {
+        boardMapper.updateCommentCnt();
+        boardMapper.calScore();
+        List<RecommendedBoardDto> recommendedBoard = boardMapper.selectRecommendedBoard();
+
+        return recommendedBoard;
+    }
+        
     @Override
     public List<BoardDto> getMyBoards(Long memberId) {
         return boardMapper.findAllByMemberId(memberId);
