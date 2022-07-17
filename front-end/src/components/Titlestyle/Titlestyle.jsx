@@ -18,10 +18,12 @@ font-weight: 300;
 
 export const InputTitle= styled.p`
   margin:10px 0px;
+  padding: 0px 10px;
   color:${(props)=>props.theme.loginColor};
 `
 export const SeperateDivTitle= styled.div`
-  margin:auto;
+  margin: 0 auto;
+  text-align: center;
   margin-bottom: 20px;
   color:${(props)=>props.theme.loginColor};
 `
@@ -48,6 +50,7 @@ export const ProjectDayTitle =styled.div`
 `
 export const ProjectTitle =styled.div`
     font-size: 20px;
+    margin: 0px 10px;
     color: ${(props)=>props.theme.fontColor};
 `
 export const ProjectTagTitle =styled.div`

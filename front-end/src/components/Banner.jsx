@@ -10,9 +10,22 @@ import {BannerDiv} from './DivStyle/Divstyle'
 const StyledSlider = styled(Slider)`
     .slick-slider{
       width:60%;
+      @media all and (min-width: 480px) and (max-width: 767px) {
+        width:70%;
+    }
+    @media all and (max-width: 479px) {
+      width:70%;
+    }
     }
     .slick-list{
       margin:10px 20px;
+      padding-top: 50px;
+    @media all and (min-width: 480px) and (max-width: 767px) {
+        margin:0px;
+    }
+    @media all and (max-width: 479px) {
+      margin:0px;
+    }
     }
     .slick-track {
     display: flex;

@@ -18,10 +18,11 @@ article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 main, menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
-  margin: 0;
-  padding: 0;
+  margin: 0 auto;
+  padding: 0 auto;
   border: 0;
   font-size: 100%;
+  width:100%;
   font: inherit;
   vertical-align: baseline;
 }
@@ -36,9 +37,9 @@ footer, header, hgroup, main, menu, nav, section {
 }
 body {
   line-height: 1;
-  
+  margin:0 auto;
+  width:100%;
   background-color: ${(props)=>props.theme.bgColor};
-  
   font-family: 'Source Sans Pro', sans-serif;
 }
 menu, ol, ul {

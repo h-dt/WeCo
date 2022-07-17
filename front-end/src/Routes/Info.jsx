@@ -1,31 +1,42 @@
-import { useLocation } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import Navbar from "../components/Navbar";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { ProjectUnderLine } from "../components/DivStyle/Divstyle";
 import { useState } from "react";
+import { FaArrowLeft } from "react-icons/fa";
 
 const InfoDiv =styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
-    margin: 50px;
-    padding:50px;
-`
-const InfoTitleDiv =styled.div`
-    display: flex;
-    
+    padding-top: 150px;
+    margin : 0 auto;
+    @media all and (min-width: 480px) and (max-width: 767px) {
+        margin : 0 auto;
+        padding-top: 150px;
+    }
+    @media all and (max-width: 479px) {
+        margin : 0 auto;
+        padding-top : 150px;
+    }
 `
 
 const InfoSubTitleDivSeperate =styled.div`
     display: flex;
-    margin:20px;
+    margin:20px 0px;
+    width: 40%;
+    @media all and (min-width: 480px) and (max-width: 767px) {
+        flex-direction: column;
+    }
+    @media all and (max-width: 479px) {
+        flex-direction: column;
+    }
 `
 const InfoSubTitleDiv= styled.div`
     display:flex;
     flex-wrap: wrap;
-    justify-content: center;
-    grid:10px;
+    row-gap: 10px;
     color:${(props)=>props.theme.fontColor};
     font-size: 24px;
 `
@@ -35,31 +46,61 @@ const InfoTitle = styled.div`
     color:${(props)=>props.theme.fontColor};
     font-weight: bold;
     margin-bottom: 50px;
-    background-color: ${(props)=>props.theme.infoBgColor};
+    @media all and (min-width: 480px) and (max-width: 767px) {
+        font-size: 40px;
+        line-height: 1.4em;
+    }
+    @media all and (max-width: 479px) {
+        font-size: 40px;
+        line-height: 1.4em;
+    }
 `
 
 const InfoTitleWrite = styled.div`
-    font-size: 32px;
-    text-align: center;
-    margin: 0px 20px;
+    font-size: 24px;
     color:#9c9c9e;
+    @media all and (min-width: 480px) and (max-width: 767px) {
+        font-size: 16px;
+        
+    }
+    @media all and (max-width: 479px) {
+        font-size: 16px;
+        
+    }
 `
 
 const InfoSubListTitle = styled.div`
     color: grey;
-    margin: 10px;
+    width: 40%;
+    margin: 10px 0px;
+    @media all and (min-width: 480px) and (max-width: 767px) {
+        width: 60%;
+        font-size: 18px;
+    }
+    @media all and (max-width: 479px) {
+        width: 60%;
+        font-size: 18px;
+    }
 `
 
 const InfoSubListObject = styled.div`
     font-weight: bold;
-    margin:10px;
+    margin: 10px 0px;
+    width: 60%;
     color:${(props)=>props.theme.fontColor};
+    @media all and (min-width: 480px) and (max-width: 767px) {
+        line-height: 1.4em;
+    }
+    @media all and (max-width: 479px) {
+        line-height: 1.4em;
+        
+    }
 `
 
 const InfoExplanationDiv = styled.div`
     display: flex;
     justify-content: center;
-    width:80%;
+    width:100%;
     flex-direction: column;
     align-items: center;
 `
@@ -69,13 +110,28 @@ const InfoExplanationTitle =styled.div`
     margin-bottom: 20px;
     font-weight: bold;
     color:${(props)=>props.theme.fontColor};
-    background-color: ${(props)=>props.theme.infoBgColor};
+    @media all and (min-width: 480px) and (max-width: 767px) {
+        font-size: 30px;
+        
+    }
+    @media all and (max-width: 479px) {
+        font-size: 30px;
+        
+    }
 `
 
 const InfoExplanationSubtitle=styled.div`
     font-size: 20px;
     color:${(props)=>props.theme.fontColor};
     line-height: 60px;
+    @media all and (min-width: 480px) and (max-width: 767px) {
+            font-size: 14px;
+        
+    }
+    @media all and (max-width: 479px) {
+        font-size: 14px;
+        
+    }
 `
 
 const InfoCommentForm = styled.form`
@@ -94,6 +150,12 @@ const InfoCommentInputText = styled.input`
     height: 150px;
     font-size: 24px;
     margin : 20px 0px;
+    @media all and (min-width: 480px) and (max-width: 767px) {
+        width:350px;
+    }
+    @media all and (max-width: 479px) {
+        width:350px;
+    }
 `
 const InfoCommentInputSubmit =styled.input`
     display: flex;
@@ -128,6 +190,7 @@ const CommentListitem= styled.div`
     font-size: 24px;
 `
 
+
 export function Info(){
     const {
         register,
@@ -147,13 +210,9 @@ export function Info(){
         <>
             <Navbar/>
             <InfoDiv>
-                <InfoTitle>{`${listdata.type} : ${listdata.title}`}</InfoTitle>
-                <InfoTitleDiv>
-                    <InfoTitleWrite>{`작성자 : ${listdata.write} `}</InfoTitleWrite>
-                    <InfoTitleWrite>{`시작일 : ${listdata.year}`}</InfoTitleWrite>
-                </InfoTitleDiv>
+                <InfoTitle>{listdata.title}</InfoTitle>
+                <InfoTitleWrite>{` ${listdata.write} 〡 ${listdata.year}`}</InfoTitleWrite>
                 <ProjectUnderLine style={{margin:"60px 0px 40px 0px"}}/>
-                <InfoExplanationTitle>프로젝트 내용</InfoExplanationTitle>
                 <InfoSubTitleDiv>
                     <InfoSubTitleDivSeperate>
                         <InfoSubListTitle>모집 구문</InfoSubListTitle>
@@ -181,7 +240,7 @@ export function Info(){
                     </InfoSubTitleDivSeperate>
                     <InfoSubTitleDivSeperate>
                         <InfoSubListTitle>사용 언어</InfoSubListTitle>
-                        <InfoSubListObject>{listdata.skills.join(",")}</InfoSubListObject>
+                        <InfoSubListObject>{listdata.skills.join("  ")}</InfoSubListObject>
                     </InfoSubTitleDivSeperate>
                 </InfoSubTitleDiv>
                 <ProjectUnderLine style={{margin:"60px 0px 40px 0px"}}/>

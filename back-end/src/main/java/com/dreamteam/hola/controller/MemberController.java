@@ -1,14 +1,12 @@
 package com.dreamteam.hola.controller;
 
-import com.dreamteam.hola.config.auth.PrincipalDetailsService;
 import com.dreamteam.hola.dto.MemberDto;
 import com.dreamteam.hola.service.MemberService;
-import com.dreamteam.hola.util.jwt.JwtTokenProvider;
+import com.dreamteam.hola.util.jwt.Token;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,15 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Log4j2
 @RequiredArgsConstructor
 public class MemberController {
-    private final PasswordEncoder passwordEncoder;
-    private final JwtTokenProvider jwtTokenProvider;
-    private final PrincipalDetailsService principalDetailsService;
     private final MemberService memberServiceImpl;
 
     @PostMapping("/signin")
     public ResponseEntity<?> signin(@RequestBody MemberDto memberDto) {
-        String result = memberServiceImpl.signin(memberDto);
-        if(result.equals("fail"))
+        Token result = memberServiceImpl.signin(memberDto);
+        if(result.getAccessToken().equals("access token create fail"))
             return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
         else
             return new ResponseEntity<>(result, HttpStatus.ACCEPTED);

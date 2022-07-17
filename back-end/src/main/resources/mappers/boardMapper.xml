@@ -3,43 +3,69 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.dreamteam.hola.dao.BoardMapper">
-    <sql id="boardColumns">
-
+    <sql id="boardCommonColumns">
+        b.board_id id,
+        b.title,
+        m.nickname writer,
+        m.profile_image writerProfile,
+        b.recruit_type,
+        b.recruit_cnt,
+        b.duration,
+        b.progress_type,
+        b.start_date
     </sql>
 
     <select id="findById" resultType="BoardDto">
-        select b.title,
-               m.nickname writer,
-               b.content,
-               b.reg_date,
-               b.recruit_status,
-               b.recruit_type,
-               b.recruit_cnt,
-               b.duration,
-               b.progress_type,
-               b.contact_type,
-               b.contact,
-               b.start_date
+        select
+        <include refid="boardCommonColumns"/>,
+        b.content,
+        b.reg_date,
+        b.contact_type,
+        b.contact
         from board b
         join member m on m.member_id = b.member_id
-        where b.board_id = #{id} and m.member_id = #{memberId}
+        where b.board_id = #{id}
     </select>
 
-    <select id="findAllByRecruitType" resultType="BoardDto">
-        select board_id id,
-               title,
-               view_cnt,
-               recruit_status,
-               recruit_type,
-               recruit_cnt,
-               progress_type,
-               duration,
-               start_date
-        from board
-        where recruit_type = #{id}
+    <select id="findByIdAndMemberId" resultType="BoardDto">
+        select
+        <include refid="boardCommonColumns"/>,
+        b.content,
+        b.reg_date,
+        b.contact_type,
+        b.contact,
+        b.recruit_status
+        from board b
+        join member m on m.member_id = b.member_id
+        where b.board_id = #{id} and b.member_id = #{memberId}
     </select>
 
-    <update id="updateBoardViewCnt">
+    <select id="findAll" resultType="BoardDto">
+        select distinct
+        <include refid="boardCommonColumns"/>,
+        b.view_cnt,
+        b.recruit_status
+        from board b
+        join member m on m.member_id = b.member_id
+        join board_skill bs on b.board_id = bs.board_id
+        join skill s on bs.skill_id = s.skill_id
+        <where>
+            <if test="skillTypes != null">(
+                <foreach collection="skillTypes" item="skill" separator="or">
+                    skill_type = #{skill}
+                </foreach>
+                )
+            </if>
+            <if test="recruitType != null">
+                and recruit_type = #{recruitType}
+            </if>
+            <if test="recruitStatus != null">
+                and recruit_status = #{recruitStatus}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateViewCnt">
         update
             board
         set view_cnt = view_cnt + 1
@@ -56,26 +82,26 @@
         </selectKey>
     </insert>
 
-    <select id="findAllBySkillTypes" resultType="BoardDto">
-        select distinct b.board_id id,
-        title,
-        view_cnt,
-        recruit_status,
-        recruit_type,
-        recruit_cnt,
-        duration,
-        start_date,
-        progress_type
-        from board b
-        join board_skill bs on b.board_id = bs.board_id
-        join skill s on bs.skill_id = s.skill_id
-        <if test="skillTypes != null">
-            where
-            <foreach collection="skillTypes" item="skill" separator="or">
-                skill_type = #{skill}
-            </foreach>
-        </if>
-    </select>
+    <!--    <select id="findAllBySkillTypes" resultType="BoardDto">-->
+    <!--        select distinct b.board_id id,-->
+    <!--        title,-->
+    <!--        view_cnt,-->
+    <!--        recruit_status,-->
+    <!--        recruit_type,-->
+    <!--        recruit_cnt,-->
+    <!--        duration,-->
+    <!--        start_date,-->
+    <!--        progress_type-->
+    <!--        from board b-->
+    <!--        join board_skill bs on b.board_id = bs.board_id-->
+    <!--        join skill s on bs.skill_id = s.skill_id-->
+    <!--        <if test="skillTypes != null">-->
+    <!--            where-->
+    <!--            <foreach collection="skillTypes" item="skill" separator="or">-->
+    <!--                skill_type = #{skill}-->
+    <!--            </foreach>-->
+    <!--        </if>-->
+    <!--    </select>-->
 
     <update id="updateRecruitStatus">
         update board
@@ -84,18 +110,23 @@
     </update>
 
     <update id="update" parameterType="BoardDto">
-        update board
-        set title        = #{board.title},
-            content      = #{board.content},
-            recruit_type = #{board.recruitType},
-            recruit_cnt  = #{board.recruitCnt},
-            duration     = #{board.duration},
-            start_date   = #{board.startDate},
-            progress_type = #{board.progress_type},
-            contact_type = #{board.contactType},
-            contact      = #{board.contact}
+        update board b
+        set
+        <include refid="boardCommonColumns"/>,
+        b.content = #{board.content},
+        b.contact_type = #{board.contactType},
+        b.contact = #{board.contact}
         where board_id = #{id}
     </update>
+
+    <select id="findAllByMemberId" resultType="BoardDto">
+        select
+        <include refid="boardCommonColumns"/>,
+        b.view_cnt
+        from board b
+        join member m on b.member_id = m.member_id
+        where b.member_id = #{memberId}
+    </select>
 
     <select id="selectAllBoard" resultType="boardDto">
         select board_id,title,view_cnt,reg_date

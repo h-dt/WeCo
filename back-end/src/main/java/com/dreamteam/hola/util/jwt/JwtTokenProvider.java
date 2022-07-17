@@ -27,7 +27,9 @@ public class JwtTokenProvider {
     private String secretKey;
 
     // 1시간 동안 유효 (Value 방식으로 변경할 수도 있음
-    private long tokenValidMilliSecond = 1000L * 60 * 60;
+    private long tokenPeriod = 1000L * 60 * 60;
+
+    private long refreshPeriod = 1000L * 60 * 60 * 24 * 30 * 3;
 
     private final UserDetailsService userDetailsService;
 
@@ -37,17 +39,24 @@ public class JwtTokenProvider {
     }
 
     // JWT token 생성
-    public String createtoken(String username, Role role) {
-        // token에 들어갈 정보들을 가공
+    public Token createtoken(String username, Role role) {
+// token에 들어갈 정보들을 가공
         Claims claims = Jwts.claims().setSubject(username);
         claims.put("role", role);
         Date now = new Date();
-        return Jwts.builder()
-                .setClaims(claims)  // 데이터
-                .setIssuedAt(now)   // 발행 일자
-                .setExpiration(new Date(now.getTime() + tokenValidMilliSecond)) // 만기 일자
-                .signWith(SignatureAlgorithm.HS256, secretKey)  // 암호화 알고리즘 및 secret 값 세팅
-                .compact();
+        return new Token(
+                Jwts.builder()
+                        .setClaims(claims) // 데이터
+                        .setIssuedAt(now) // 발행 일자
+                        .setExpiration(new Date(now.getTime() + tokenPeriod)) // 만기 일자
+                        .signWith(SignatureAlgorithm.HS256, secretKey) // 암호화 알고리즘 및 secret 값 세팅
+                        .compact(),
+                Jwts.builder()
+                        .setClaims(claims) // 데이터
+                        .setIssuedAt(now) // 발행 일자
+                        .setExpiration(new Date(now.getTime() + refreshPeriod)) // 만기 일자
+                        .signWith(SignatureAlgorithm.HS256, secretKey) // 암호화 알고리즘 및 secret 값 세팅
+                        .compact());
     }
 
     // Jwt token으로 인증 정보를 조회
@@ -58,7 +67,7 @@ public class JwtTokenProvider {
 
     // Jwt token으로 인증 정보 조회 시 회원 정보 추출
     public String getUsername(String token) {
-        // token 내부의 claims에 저장된 정보 복호화
+// token 내부의 claims에 저장된 정보 복호화
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 

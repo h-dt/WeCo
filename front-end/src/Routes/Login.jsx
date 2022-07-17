@@ -75,7 +75,6 @@ function Login() {
                   <KaKaoBtn/>
                 </LoginBtnDiv>
               </SeperateDiv>
-             
         </LoginModalForm>
         </LoginForm>
     </>
