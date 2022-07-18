@@ -9,38 +9,71 @@ import com.dreamteam.hola.dto.MemberDto;
 import com.dreamteam.hola.util.jwt.JwtTokenProvider;
 import com.dreamteam.hola.util.jwt.Token;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class MemberServiceImpl implements MemberService {
 
-    private final MemberMapper memberMapper;
-//    private final BCryptPasswordEncoder encoder;
+    @Value("${file.upload.location}")
+    private String fileDir;
 
+    private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final PrincipalDetailsService principalDetailsService;
 
 
+
+
     @Override
     @Transactional
     public void joinMember(Member member) {
-//        member.setPassword(encoder.encode(member.getPassword()));
-//        member.setRole(Role.ROLE_USER);
-//        memberMapper.joinMember(member);
+
     }
 
     @Override
     @Transactional
-    public boolean signup(MemberDto memberDto) {
+    public boolean signup(MemberDto memberDto,MultipartFile multipartFile) throws IOException {
+        log.info("Call Service SignUp");
+
         memberDto.setRole(Role.ROLE_USER);
         memberDto.setPassword(passwordEncoder.encode(memberDto.getPassword()));
-        try {
+
+        log.info("multipart ={}",multipartFile);
+        String uuid = UUID.randomUUID().toString();
+        String originalFilename = multipartFile.getOriginalFilename();
+        String imageFileName = uuid + "_" + originalFilename.substring(originalFilename.lastIndexOf("."));
+
+        Path imageFilePath =  Paths.get(fileDir + "/"+imageFileName);
+
+        File file = new File("");
+        if(!new File(fileDir).exists()){
+            new File(fileDir).mkdirs();
+        }
+
+        if(!multipartFile.isEmpty()) {
+            memberDto.setProfileImage(imageFilePath.toString());
+            multipartFile.transferTo(new File(imageFilePath.toString()));
+        }
+
+        try{
             return memberMapper.signup(memberDto) == 1;
-        } catch (Exception e) {
+
+        }catch (Exception e){
             e.printStackTrace();
             return false;
         }

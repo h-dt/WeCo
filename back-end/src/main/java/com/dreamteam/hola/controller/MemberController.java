@@ -7,9 +7,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @Log4j2
@@ -27,8 +28,9 @@ public class MemberController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody MemberDto memberDto) {
-        if(memberServiceImpl.signup(memberDto))
+    public ResponseEntity<?> signup(@RequestPart("key") MemberDto memberDto, @RequestPart(value = "file",required = false)MultipartFile multipartFile) throws IOException {
+
+        if(memberServiceImpl.signup(memberDto,multipartFile))
             return new ResponseEntity<>("success", HttpStatus.CREATED);
         else
             return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
