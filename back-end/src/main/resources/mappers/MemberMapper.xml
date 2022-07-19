@@ -18,7 +18,7 @@
         social_type
     </sql>
 
-    <insert id="joinMember" parameterType="com.dreamteam.hola.domain.Member">
+    <insert id="signup" parameterType="MemberDto">
         INSERT INTO member(
         <include refid="memberColumns"/>
         )VALUES(
@@ -28,7 +28,7 @@
             #{password},
             #{email},
             #{profileImage},
-            'ROLE_USER',
+            #{role},
             now(),
             null,
             'N',
@@ -37,7 +37,7 @@
         );
     </insert>
 
-    <select id="findByUsername" parameterType="String" resultType="com.dreamteam.hola.domain.Member">
+    <select id="findByUsername" parameterType="String" resultType="MemberDto">
         SELECT
         <include refid="memberColumns"/>
         FROM
@@ -46,25 +46,40 @@
         username=#{username}
     </select>
 
-    <select id="findByEmail" parameterType="String" resultType="com.dreamteam.hola.domain.Member">
+    <select id="findByEmail" parameterType="String" resultType="MemberDto">
         SELECT
-        <include refid="memberColumns"/>
+            username,nickname,password,email,profile_image,reg_date
         FROM
             member
         WHERE
             email=#{email}
+            and
+            withdrawal_yn='N'
     </select>
 
-    <insert id="signup" parameterType="MemberDto">
-        insert into member (username, nickname, password, email, profile_image, role)
-        values (#{username}, #{nickname}, #{password}, #{email}, #{profileImage}, #{role})
-    </insert>
+<!--    <insert id="signup" parameterType="MemberDto">-->
+<!--        insert into member (username, nickname, password, email, profile_image, role)-->
+<!--        values (#{username}, #{nickname}, #{password}, #{email}, #{profileImage}, #{role})-->
+<!--    </insert>-->
 
     <select id="findById" resultType="MemberDto">
         select
         <include refid="memberColumns"/>
         from member
-        where member_id = #{id};
+        where member_id = #{id}
+            and
+            withdrawal_yn = 'N'
+
     </select>
+
+    <update id="update" parameterType="MemberDto">
+        update member
+        set
+        nickname=#{nickname},
+        password=#{password},
+        profile_image=#{profileImage}
+        where member_id = #{memberId}
+    </update>
+
 </mapper>
 

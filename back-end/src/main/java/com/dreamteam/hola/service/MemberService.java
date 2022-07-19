@@ -34,4 +34,9 @@ public interface MemberService {
     boolean signup(MemberDto memberDto, MultipartFile multipartFile) throws IOException;
 
     Token signin(MemberDto memberDto);
+
+
+    MemberDto getProfile(Long id);
+    void update(Long id,MemberDto memberDto,MultipartFile multipartFile) throws IOException;
+
 }

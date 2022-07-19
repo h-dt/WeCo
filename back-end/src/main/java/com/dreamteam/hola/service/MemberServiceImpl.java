@@ -88,4 +88,33 @@ public class MemberServiceImpl implements MemberService {
         }
         return jwtTokenProvider.createtoken(findMember.getUsername(), findMember.getRole());
     }
+
+    @Override
+    public MemberDto getProfile(Long id) {
+        MemberDto member = memberMapper.findById(id);
+        return member;
+    }
+
+    @Override
+    public void update(Long id,MemberDto memberDto, MultipartFile multipartFile) throws IOException {
+
+        memberDto.setMemberId(id);
+        memberDto.setPassword(passwordEncoder.encode(memberDto.getPassword()));
+
+        String uuid = UUID.randomUUID().toString();
+        String originalFilename = multipartFile.getOriginalFilename();
+        String imageFileName = uuid + "_" + originalFilename.substring(originalFilename.lastIndexOf("."));
+
+        Path imageFilePath =  Paths.get(fileDir + "/"+imageFileName);
+
+        if(!multipartFile.isEmpty()) {
+            memberDto.setProfileImage(imageFilePath.toString());
+            multipartFile.transferTo(new File(imageFilePath.toString()));
+        }
+
+
+        memberMapper.update(memberDto);
+    }
+
+
 }
