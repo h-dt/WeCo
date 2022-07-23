@@ -1,13 +1,7 @@
 package com.dreamteam.hola.service;
 
-import com.dreamteam.hola.dao.BoardMapper;
-import com.dreamteam.hola.dao.BoardSkillMapper;
-import com.dreamteam.hola.dao.CommentMapper;
-import com.dreamteam.hola.dao.SkillMapper;
-import com.dreamteam.hola.dto.BoardDto;
-import com.dreamteam.hola.dto.BoardReqDto;
-import com.dreamteam.hola.dto.CommentDto;
-import com.dreamteam.hola.dto.RecommendedBoardDto;
+import com.dreamteam.hola.dao.*;
+import com.dreamteam.hola.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +12,15 @@ import java.util.*;
 public class BoardServiceImpl implements BoardService {
 
     private final BoardMapper boardMapper;
+    private final MemberMapper memberMapper;
     private final BoardSkillMapper boardSkillMapper;
     private final CommentMapper commentMapper;
     private final SkillMapper skillMapper;
+    private final HeartMapper heartMapper;
 
     // Board 1개 가져오기_2022_06_06_by_김우진
     @Override
-    public BoardDto getBoard(Long boardId) {
+    public BoardDto getBoard(Long boardId,Long memberId) {
         // memberId 와 boardId로 해당 게시글 정보 조회
         BoardDto findBoard = boardMapper.findById(boardId);
         
@@ -39,6 +35,16 @@ public class BoardServiceImpl implements BoardService {
             commentDto.setBigComments(commentMapper.findAllBigCommentByBoardIdAndCGroup(boardId, commentDto.getCommentId()));
         }
         findBoard.setComments(comments);
+
+        //좋아요 기능
+
+        Heart findHeart = heartMapper.findByBidMid(boardId, memberId);
+
+        if(findHeart != null){
+            heartMapper.deleteHeart(findHeart);
+        }else {
+            heartMapper.addHeart(findHeart);
+        }
 
         // 게시글에 사용된 skill 조회 및 Dto에 set
         List<String> skills = skillMapper.findAllByBoardId(boardId);
@@ -107,4 +113,16 @@ public class BoardServiceImpl implements BoardService {
     public List<BoardDto> getMyBoards(Long memberId) {
         return boardMapper.findAllByMemberId(memberId);
     }
+
+    @Override
+    public void addHeart(Heart heart) {
+     heartMapper.addHeart(heart);
+    }
+
+    @Override
+    public void deleteHeart(Heart heart) {
+        heartMapper.deleteHeart(heart);
+    }
+
+
 }

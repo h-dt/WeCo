@@ -19,7 +19,7 @@ public class CommentController {
     // Comment 생성하기_2022_06_17_by_김우진
     @PostMapping("/comment")
     public ResponseEntity<?> save(@AuthenticationPrincipal PrincipalDetails principalDetails, @Valid @RequestBody CommentDto commentDto) {
-        Long memberId = principalDetails.getMember().getMemberId();
+        Long memberId = principalDetails.getMemberDto().getMemberId();
         commentServiceImpl.save(memberId, commentDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -29,7 +29,7 @@ public class CommentController {
     public ResponseEntity<?> update(@AuthenticationPrincipal PrincipalDetails principalDetails,
                                     @PathVariable Long id,
                                     @Valid @RequestBody CommentDto commentDto) {
-        Long memberId = principalDetails.getMember().getMemberId();
+        Long memberId = principalDetails.getMemberDto().getMemberId();
         commentServiceImpl.update(memberId, id, commentDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }

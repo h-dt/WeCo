@@ -29,7 +29,7 @@ public class MemberApiController {
     public @ResponseBody String loginTest(Authentication authentication, @AuthenticationPrincipal PrincipalDetails userDetails){
         System.out.println("/test/login ============");
         PrincipalDetails principalDetails = (PrincipalDetails)authentication.getPrincipal();
-        System.out.println("authentication = " + principalDetails.getMember());
+        System.out.println("authentication = " + principalDetails.getMemberDto());
 
 //        System.out.println("userDatils : "+principalDetails.getMember());
 
@@ -43,7 +43,7 @@ public class MemberApiController {
         System.out.println("/test/login ============");
         OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
         System.out.println("authencation = " + oauth2User.getAttributes());
-        log.info("AuthenticationPrincipal.getMember : "+ principalDetails.getMember());
+        log.info("AuthenticationPrincipal.getMember : "+ principalDetails.getMemberDto());
 
         return "OAuth세션 정보 확인하기";
     }
@@ -54,7 +54,7 @@ public class MemberApiController {
     }
     @GetMapping("/user")
     public  @ResponseBody String member(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-        log.info("authentication = " + principalDetails.getMember());
+        log.info("authentication = " + principalDetails.getMemberDto());
         return "user";
     }
     @GetMapping("/admin")
