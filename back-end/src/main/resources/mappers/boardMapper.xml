@@ -21,7 +21,8 @@
         b.content,
         b.reg_date,
         b.contact_type,
-        b.contact
+        b.contact,
+        (select count(heart_id) from heart where board_id=#{id}) as heart_cnt
         from board b
         join member m on m.member_id = b.member_id
         where b.board_id = #{id}
@@ -134,7 +135,7 @@
         select board_id,title
         from board
         WHERE recruit_status = 'Y'
-        order by score desc,reg_date desc
+        order by score desc,reg_date descx
         limit 0,10;
     </select>
 

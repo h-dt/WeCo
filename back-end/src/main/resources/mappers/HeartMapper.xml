@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dreamteam.hola.dao.HeartMapper">
+
+
+    <insert id="addHeart">
+        insert into heart
+            (board_id,member_id)
+        values
+            (#{boardId},#{memberId})
+    </insert>
+
+    <delete id="deleteHeart">
+        delete from
+                   heart
+        where board_id = #{boardId} and member_id=#{memberId}
+
+    </delete>
+
+    <select id="findByBidMid">
+        select * from heart where board_id = #{boardId} and member_id=#{memberId}
+    </select>
+
+
+
+</mapper>

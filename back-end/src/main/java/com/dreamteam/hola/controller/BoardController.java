@@ -18,12 +18,15 @@ import org.springframework.web.bind.annotation.*;
 public class BoardController {
 
     private final BoardServiceImpl boardServiceimpl;
-    
+
     // Board 1개 가져오기_2022_06_06_by_김우진
     @GetMapping("/board/{id}")
-    public ResponseEntity<?> getBoard(@PathVariable Long id) {
+    public ResponseEntity<?> getBoard(@PathVariable Long id,@AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+
+        Long memberId = principalDetails.getMemberDto().getMemberId();
         log.info(id + "번의 게시글 조회 API");
-        return new ResponseEntity<>(boardServiceimpl.getBoard(id), HttpStatus.OK);
+        return new ResponseEntity<>(boardServiceimpl.getBoard(id,memberId), HttpStatus.OK);
     }
 
 
@@ -38,7 +41,7 @@ public class BoardController {
     @PatchMapping("/board/{id}")
     public ResponseEntity<?> updateRecruitStatus(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long id) {
         log.info("모집 마감 상태 변경 API");
-        Long memberId = principalDetails.getMember().getMemberId();
+        Long memberId = principalDetails.getMemberDto().getMemberId();
         return new ResponseEntity<>(boardServiceimpl.updateRecruitStatus(memberId, id), HttpStatus.OK);
     }
 
@@ -51,7 +54,7 @@ public class BoardController {
     //Board 게시물 등록하기_2022_06_22_by_정은비
     @PostMapping("/board/register")
     public ResponseEntity<?> register(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody BoardDto boardDto) {
-        Long memberId = principalDetails.getMember().getMemberId();
+        Long memberId = principalDetails.getMemberDto().getMemberId();
         log.info("register");
         boardServiceimpl.register(memberId, boardDto);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -67,7 +70,7 @@ public class BoardController {
     @GetMapping("/my-boards")
     public ResponseEntity<?> getMyBoards(@AuthenticationPrincipal PrincipalDetails principalDetails){
         log.info("내가 작성한 게시글 조회 API");
-        Long memberId = principalDetails.getMember().getMemberId();
+        Long memberId = principalDetails.getMemberDto().getMemberId();
         return new ResponseEntity<>(boardServiceimpl.getMyBoards(memberId), HttpStatus.OK);
     }
 }

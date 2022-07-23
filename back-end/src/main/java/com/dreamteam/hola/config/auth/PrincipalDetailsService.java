@@ -2,6 +2,7 @@ package com.dreamteam.hola.config.auth;
 
 import com.dreamteam.hola.dao.MemberMapper;
 import com.dreamteam.hola.domain.Member;
+import com.dreamteam.hola.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,9 +21,9 @@ public class PrincipalDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Member member = memberMapper.findByUsername(username);
-        if (member != null) {
-            return new PrincipalDetails(member);
+        MemberDto memberDto = memberMapper.findByUsername(username);
+        if (memberDto != null) {
+            return new PrincipalDetails(memberDto);
         }
 
         return null;

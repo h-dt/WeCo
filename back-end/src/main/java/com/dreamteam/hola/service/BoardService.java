@@ -1,6 +1,7 @@
 package com.dreamteam.hola.service;
 
 import com.dreamteam.hola.dto.BoardDto;
+import com.dreamteam.hola.dto.Heart;
 import com.dreamteam.hola.dto.RecommendedBoardDto;
 import com.dreamteam.hola.dto.BoardReqDto;
 
@@ -8,7 +9,7 @@ import java.util.List;
 
 public interface BoardService {
 
-    BoardDto getBoard(Long boardId);
+    BoardDto getBoard(Long boardId,Long memberId);
 
     int register(Long memberId, BoardDto dto);
   
@@ -23,4 +24,10 @@ public interface BoardService {
     List<RecommendedBoardDto> getRecommendedBoardList();
 
     List<BoardDto> getMyBoards(Long memberId);
+
+    void addHeart (Heart heart);
+
+    void deleteHeart(Heart heart);
+
+
 }
