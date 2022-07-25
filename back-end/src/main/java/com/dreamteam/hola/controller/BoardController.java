@@ -3,6 +3,7 @@ package com.dreamteam.hola.controller;
 import com.dreamteam.hola.config.auth.PrincipalDetails;
 import com.dreamteam.hola.dto.BoardDto;
 import com.dreamteam.hola.dto.BoardReqDto;
+import com.dreamteam.hola.dto.searchBoardDto;
 import com.dreamteam.hola.service.BoardServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +38,7 @@ public class BoardController {
     @PatchMapping("/board/{id}")
     public ResponseEntity<?> updateRecruitStatus(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long id) {
         log.info("모집 마감 상태 변경 API");
-        Long memberId = principalDetails.getMember().getMemberId();
+        Long memberId = principalDetails.getMemberDto().getMemberId();
         return new ResponseEntity<>(boardServiceimpl.updateRecruitStatus(memberId, id), HttpStatus.OK);
     }
 
@@ -50,8 +51,8 @@ public class BoardController {
     //Board 게시물 등록하기_2022_06_22_by_정은비
     @PostMapping("/board/register")
     public ResponseEntity<?> register(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody BoardDto boardDto) {
-        Long memberId = principalDetails.getMember().getMemberId();
-        log.info("register");
+        Long memberId = principalDetails.getMemberDto().getMemberId();
+        log.info("게시물 등록 API");
         boardServiceimpl.register(memberId, boardDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -66,7 +67,14 @@ public class BoardController {
     @GetMapping("/my-boards")
     public ResponseEntity<?> getMyBoards(@AuthenticationPrincipal PrincipalDetails principalDetails){
         log.info("내가 작성한 게시글 조회 API");
-        Long memberId = principalDetails.getMember().getMemberId();
+        Long memberId = principalDetails.getMemberDto().getMemberId();
         return new ResponseEntity<>(boardServiceimpl.getMyBoards(memberId), HttpStatus.OK);
+    }
+
+    // 검색_2022_07_21_by_정은비
+    @GetMapping("/search")
+    public ResponseEntity<?> searchBoards(@RequestBody searchBoardDto searchBoardDto){
+        log.info("board 검색 API");
+        return new ResponseEntity<>(boardServiceimpl.searchBoards(searchBoardDto), HttpStatus.OK);
     }
 }

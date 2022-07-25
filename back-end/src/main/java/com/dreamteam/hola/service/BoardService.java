@@ -3,6 +3,7 @@ package com.dreamteam.hola.service;
 import com.dreamteam.hola.dto.BoardDto;
 import com.dreamteam.hola.dto.RecommendedBoardDto;
 import com.dreamteam.hola.dto.BoardReqDto;
+import com.dreamteam.hola.dto.searchBoardDto;
 
 import java.util.List;
 
@@ -23,4 +24,7 @@ public interface BoardService {
     List<RecommendedBoardDto> getRecommendedBoardList();
 
     List<BoardDto> getMyBoards(Long memberId);
+
+    // 게시물 검색 _2022_07_11_by_정은비
+    List<BoardDto> searchBoards(searchBoardDto searchBoardDto);
 }

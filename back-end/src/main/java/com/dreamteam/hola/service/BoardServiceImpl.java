@@ -5,6 +5,7 @@ import com.dreamteam.hola.dao.BoardSkillMapper;
 import com.dreamteam.hola.dao.CommentMapper;
 import com.dreamteam.hola.dao.SkillMapper;
 import com.dreamteam.hola.dto.BoardDto;
+import com.dreamteam.hola.dto.searchBoardDto;
 import com.dreamteam.hola.dto.BoardReqDto;
 import com.dreamteam.hola.dto.CommentDto;
 import com.dreamteam.hola.dto.RecommendedBoardDto;
@@ -107,4 +108,19 @@ public class BoardServiceImpl implements BoardService {
     public List<BoardDto> getMyBoards(Long memberId) {
         return boardMapper.findAllByMemberId(memberId);
     }
+
+    // 게시물 검색 _2022_07_11_by_정은비
+    @Override
+    public List<BoardDto> searchBoards(searchBoardDto searchBoardDto) {
+        List<BoardDto> searchBoards = boardMapper.search(searchBoardDto);
+        for (BoardDto searchBoard : searchBoards) {
+            // 각 게시글에 사용된 기술 스택 set
+            List<String> skills = skillMapper.findAllByBoardId(searchBoard.getId());
+            searchBoard.setSkills(skills);
+            // 총 댓글 수 Dto에 set
+            searchBoard.setCommentCnt(commentMapper.CountByBoardId(searchBoard.getId()));
+        }
+        return searchBoards;
+    }
+
 }

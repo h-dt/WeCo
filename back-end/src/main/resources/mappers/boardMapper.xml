@@ -73,9 +73,11 @@
     </update>
 
     <insert id="insertBoard" parameterType="BoardDto">
-        insert into board (member_id, title, content, recruit_type, recruit_cnt, progress_type, duration, contact_type, contact,
+        insert into board (member_id, title, content, recruit_type, recruit_cnt, progress_type, duration, contact_type,
+        contact,
         start_date)
-        values (#{memberId}, #{title}, #{content}, #{recruitType}, #{recruitCnt},#{progressType}, #{duration}, #{contactType},
+        values (#{memberId}, #{title}, #{content}, #{recruitType}, #{recruitCnt},#{progressType}, #{duration},
+        #{contactType},
         #{contact}, #{startDate})
         <selectKey keyProperty="id" resultType="long" order="AFTER">
             SELECT LAST_INSERT_ID()
@@ -120,21 +122,21 @@
     </update>
 
     <select id="selectAllBoard" resultType="boardDto">
-        select board_id,title,view_cnt,reg_date
+        select board_id, title, view_cnt, reg_date
         from board;
     </select>
 
     <update id="calScore">
         UPDATE board
-        SET score = ((DATE(reg_date)- DATE(CURRENT_TIMESTAMP)) * 0.001) + (view_cnt * 0.5) + (comment_cnt * 1.5)
+        SET score = ((DATE(reg_date) - DATE(CURRENT_TIMESTAMP)) * 0.001) + (view_cnt * 0.5) + (comment_cnt * 1.5)
         WHERE recruit_status = 'Y';
     </update>
 
     <select id="selectRecommendedBoard" resultType="RecommendedBoardDto">
-        select board_id,title
+        select board_id, title
         from board
         WHERE recruit_status = 'Y'
-        order by score desc,reg_date desc
+        order by score desc, reg_date desc
         limit 0,10;
     </select>
 
@@ -153,5 +155,30 @@
         from board b
         join member m on b.member_id = m.member_id
         where b.member_id = #{memberId}
+    </select>
+
+    <select id="search" resultType="BoardDto">
+        select distinct
+        <include refid="boardCommonColumns"/>,
+        b.content,
+        b.view_cnt,
+        b.recruit_status
+        from board b
+        LEFT JOIN member m on m.member_id = b.member_id
+        LEFT JOIN board_skill bs on b.board_id = bs.board_id
+        LEFT JOIN comment c on b.board_id = c.board_id
+        where true
+        <choose>
+            <when test='option=="T"'>
+                AND title LIKE concat('%', #{keyword}, '%')
+            </when>
+            <when test='option=="W"'>
+                AND nickname LIKE concat('%', #{keyword}, '%')
+            </when>
+            <otherwise>
+                AND (b.content LIKE concat('%', #{keyword}, '%')
+                OR title LIKE concat('%', #{keyword}, '%'))
+            </otherwise>
+        </choose>
     </select>
 </mapper>
