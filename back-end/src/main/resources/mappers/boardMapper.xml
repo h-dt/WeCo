@@ -22,7 +22,6 @@
         b.reg_date,
         b.contact_type,
         b.contact,
-        (select count(heart_id) from heart where board_id=#{id}) as heart_cnt
         from board b
         join member m on m.member_id = b.member_id
         where b.board_id = #{id}

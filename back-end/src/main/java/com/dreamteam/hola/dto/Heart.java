@@ -7,9 +7,11 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Heart {
 
     private Long heartId;
     private Long boardId;
     private Long memberId;
+
 }

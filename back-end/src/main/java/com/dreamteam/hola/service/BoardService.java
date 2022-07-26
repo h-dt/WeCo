@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface BoardService {
 
-    BoardDto getBoard(Long boardId,Long memberId);
+    BoardDto getBoard(Long boardId);
 
     int register(Long memberId, BoardDto dto);
   
@@ -25,9 +25,8 @@ public interface BoardService {
 
     List<BoardDto> getMyBoards(Long memberId);
 
-    void addHeart (Heart heart);
 
-    void deleteHeart(Heart heart);
+
 
 
 }
