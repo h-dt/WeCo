@@ -1,7 +1,11 @@
 package com.dreamteam.hola.controller;
 
 import com.dreamteam.hola.config.auth.PrincipalDetails;
+import com.dreamteam.hola.dto.BoardDto;
 import com.dreamteam.hola.dto.MemberDto;
+import com.dreamteam.hola.service.BoardService;
+import com.dreamteam.hola.service.BoardServiceImpl;
+import com.dreamteam.hola.service.HeartServiceImpl;
 import com.dreamteam.hola.service.MemberService;
 import com.dreamteam.hola.util.jwt.Token;
 import lombok.RequiredArgsConstructor;
@@ -13,12 +17,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @Log4j2
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberServiceImpl;
+    private final HeartServiceImpl heartServiceImpl;
 
     @PostMapping("/signin")
     public ResponseEntity<?> signin(@RequestBody MemberDto memberDto) {
@@ -51,5 +57,12 @@ public class MemberController {
                                          ) throws IOException {
         memberServiceImpl.update(id,memberDto,multipartFile);
         return  new ResponseEntity<>("success",HttpStatus.OK);
+    }
+    @GetMapping("/myheart")
+    public ResponseEntity<?> showMyHeart (@AuthenticationPrincipal PrincipalDetails principalDetails){
+        log.info("id={}",principalDetails.getMemberDto().getMemberId());
+        Long memberId = principalDetails.getMemberDto().getMemberId();
+        return new ResponseEntity<>(heartServiceImpl.HeartList(memberId),HttpStatus.OK);
+
     }
 }

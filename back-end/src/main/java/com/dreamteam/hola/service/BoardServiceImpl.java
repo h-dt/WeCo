@@ -20,7 +20,7 @@ public class BoardServiceImpl implements BoardService {
 
     // Board 1개 가져오기_2022_06_06_by_김우진
     @Override
-    public BoardDto getBoard(Long boardId,Long memberId) {
+    public BoardDto getBoard(Long boardId) {
         // memberId 와 boardId로 해당 게시글 정보 조회
         BoardDto findBoard = boardMapper.findById(boardId);
         
@@ -36,15 +36,7 @@ public class BoardServiceImpl implements BoardService {
         }
         findBoard.setComments(comments);
 
-        //좋아요 기능
 
-        Heart findHeart = heartMapper.findByBidMid(boardId, memberId);
-
-        if(findHeart != null){
-            heartMapper.deleteHeart(findHeart);
-        }else {
-            heartMapper.addHeart(findHeart);
-        }
 
         // 게시글에 사용된 skill 조회 및 Dto에 set
         List<String> skills = skillMapper.findAllByBoardId(boardId);
@@ -114,15 +106,7 @@ public class BoardServiceImpl implements BoardService {
         return boardMapper.findAllByMemberId(memberId);
     }
 
-    @Override
-    public void addHeart(Heart heart) {
-     heartMapper.addHeart(heart);
-    }
 
-    @Override
-    public void deleteHeart(Heart heart) {
-        heartMapper.deleteHeart(heart);
-    }
 
 
 }

@@ -1,8 +1,11 @@
 package com.dreamteam.hola.dao;
 
+import com.dreamteam.hola.dto.BoardDto;
 import com.dreamteam.hola.dto.Heart;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Mapper
@@ -10,9 +13,12 @@ public interface HeartMapper {
 
 
 
-    void addHeart(Heart dto);
+    Heart findHeart(Heart heart);
 
-    void deleteHeart(Heart dto);
+    int addHeart(Heart dto);
 
-    Heart findByBidMid(Long boardId,Long memberId);
+    void deleteHeart(Long boardId,Long memberId);
+
+    List<BoardDto> heartList(Long memberId);
+
 }

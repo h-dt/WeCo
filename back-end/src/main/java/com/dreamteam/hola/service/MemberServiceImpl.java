@@ -5,6 +5,7 @@ import com.dreamteam.hola.config.auth.PrincipalDetailsService;
 import com.dreamteam.hola.dao.MemberMapper;
 import com.dreamteam.hola.domain.Member;
 import com.dreamteam.hola.domain.Role;
+import com.dreamteam.hola.dto.BoardDto;
 import com.dreamteam.hola.dto.MemberDto;
 import com.dreamteam.hola.util.jwt.JwtTokenProvider;
 import com.dreamteam.hola.util.jwt.Token;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
