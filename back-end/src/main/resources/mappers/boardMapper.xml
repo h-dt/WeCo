@@ -181,4 +181,10 @@
             </otherwise>
         </choose>
     </select>
+
+    <update id="deleteBoard" parameterType="int">
+        UPDATE board
+        SET delete_status = 'Y'
+        WHERE board_id = #{boardId}
+    </update>
 </mapper>

@@ -123,4 +123,11 @@ public class BoardServiceImpl implements BoardService {
         return searchBoards;
     }
 
+    //개시물 삭제_2022_07_27_by_정은비
+    @Override
+    public int delete(Long boardId) {
+        boardMapper.deleteBoard(boardId);
+        return 1;
+    }
+
 }

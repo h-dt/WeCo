@@ -77,4 +77,12 @@ public class BoardController {
         log.info("board 검색 API");
         return new ResponseEntity<>(boardServiceimpl.searchBoards(searchBoardDto), HttpStatus.OK);
     }
+
+    //게시물 삭제_2022_07_27_by정은비
+    @GetMapping("/board/delete/{id}")
+    public ResponseEntity<?> deleteBoard(@PathVariable Long id){
+        log.info("board 삭제 API");
+        return new ResponseEntity<>( HttpStatus.OK);
+    }
+
 }

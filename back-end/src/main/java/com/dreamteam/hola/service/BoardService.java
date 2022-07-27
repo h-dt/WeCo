@@ -27,4 +27,7 @@ public interface BoardService {
 
     // 게시물 검색 _2022_07_11_by_정은비
     List<BoardDto> searchBoards(searchBoardDto searchBoardDto);
+
+    //개시물 삭제_2022_07_27_by_정은비
+    int delete(Long boardId);
 }

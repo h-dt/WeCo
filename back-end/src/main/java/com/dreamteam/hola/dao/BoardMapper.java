@@ -33,7 +33,6 @@ public interface BoardMapper {
 
     List<BoardDto> search(searchBoardDto searchBoardDto);
 
-
-
+    void deleteBoard(Long boardId);
 
 }
