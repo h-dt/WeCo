@@ -82,7 +82,8 @@ public class BoardController {
     @GetMapping("/board/delete/{id}")
     public ResponseEntity<?> deleteBoard(@PathVariable Long id){
         log.info("board 삭제 API");
-        return new ResponseEntity<>( HttpStatus.OK);
+        boardServiceimpl.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

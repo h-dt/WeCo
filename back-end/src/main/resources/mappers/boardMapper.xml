@@ -136,6 +136,7 @@
         select board_id, title
         from board
         WHERE recruit_status = 'Y'
+          AND delete_status = 'N'
         order by score desc, reg_date desc
         limit 0,10;
     </select>
@@ -182,7 +183,7 @@
         </choose>
     </select>
 
-    <update id="deleteBoard" parameterType="int">
+    <update id="deleteBoard">
         UPDATE board
         SET delete_status = 'Y'
         WHERE board_id = #{boardId}
