@@ -41,12 +41,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/signin", "/signup", "/").permitAll()
+                .antMatchers("/images/**").permitAll()
                 .anyRequest().hasRole("USER")
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .oauth2Login() // oauth2 Login 설정 시작
                 .successHandler(successHandler) // 로그인 성공 시, handler 설정
-                .userInfoEndpoint().userService(oAuth2UserService); // oauth2 성공 후 설정 시작 + oAuth2UserService 에서 서버에서 가져온 사용자 정보를 처리
+                .userInfoEndpoint().userService(oAuth2UserService); // oauth2 로그인 성공 후 설정 시작 + oAuth2UserService 에서 서버에서 가져온 사용자 정보를 처리
 
 
         http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class); // jwt token 필터를 id/password 인증 필터 전에 넣기

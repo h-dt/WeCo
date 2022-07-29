@@ -5,7 +5,6 @@
 
     <sql id="memberColumns">
         member_id,
-        username,
         nickname,
         password,
         email,
@@ -18,46 +17,27 @@
         social_type
     </sql>
 
-    <insert id="joinMember" parameterType="com.dreamteam.hola.domain.Member">
-        INSERT INTO member(
-        <include refid="memberColumns"/>
-        )VALUES(
-            #{memberId},
-            #{username},
-            #{nickname},
-            #{password},
-            #{email},
-            #{profileImage},
-            'ROLE_USER',
-            now(),
-            null,
-            'N',
-            null,
-            IFNULL(#{socialType},null)
-        );
-    </insert>
-
-    <select id="findByUsername" parameterType="String" resultType="com.dreamteam.hola.domain.Member">
+    <select id="findByNickname" parameterType="String" resultType="Member">
         SELECT
         <include refid="memberColumns"/>
         FROM
         member
         WHERE
-        username=#{username}
+        nickname = #{nickname}
     </select>
 
-    <select id="findByEmail" parameterType="String" resultType="com.dreamteam.hola.domain.Member">
+    <select id="findByEmail" parameterType="String" resultType="Member">
         SELECT
         <include refid="memberColumns"/>
         FROM
-            member
+        member
         WHERE
-            email=#{email}
+        email=#{email}
     </select>
 
     <insert id="signup" parameterType="MemberDto">
-        insert into member (username, nickname, password, email, profile_image, role)
-        values (#{username}, #{nickname}, #{password}, #{email}, #{profileImage}, #{role})
+        insert into member (nickname, password, email, profile_image, role)
+        values (#{nickname}, #{password}, #{email}, #{profileImage}, #{role})
     </insert>
 
     <select id="findById" resultType="MemberDto">
@@ -66,5 +46,14 @@
         from member
         where member_id = #{id};
     </select>
+
+    <update id="update">
+        update
+            member
+        set nickname    = #{nickname},
+            email       = #{email},
+            social_type = #{socialType}
+        where member_id = #{memberId}
+    </update>
 </mapper>
 

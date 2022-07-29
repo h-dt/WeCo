@@ -3,7 +3,6 @@ package com.dreamteam.hola.service;
 import com.dreamteam.hola.config.auth.PrincipalDetails;
 import com.dreamteam.hola.config.auth.PrincipalDetailsService;
 import com.dreamteam.hola.dao.MemberMapper;
-import com.dreamteam.hola.domain.Member;
 import com.dreamteam.hola.domain.Role;
 import com.dreamteam.hola.dto.MemberDto;
 import com.dreamteam.hola.util.jwt.JwtTokenProvider;
@@ -24,15 +23,6 @@ public class MemberServiceImpl implements MemberService {
     private final JwtTokenProvider jwtTokenProvider;
     private final PrincipalDetailsService principalDetailsService;
 
-
-    @Override
-    @Transactional
-    public void joinMember(Member member) {
-//        member.setPassword(encoder.encode(member.getPassword()));
-//        member.setRole(Role.ROLE_USER);
-//        memberMapper.joinMember(member);
-    }
-
     @Override
     @Transactional
     public boolean signup(MemberDto memberDto) {
@@ -49,7 +39,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public Token signin(MemberDto memberDto) {
-        PrincipalDetails findMember = (PrincipalDetails) principalDetailsService.loadUserByUsername(memberDto.getUsername());
+        PrincipalDetails findMember = (PrincipalDetails) principalDetailsService.loadUserByUsername(memberDto.getNickname());
         if (!passwordEncoder.matches(memberDto.getPassword(), findMember.getPassword())) {
             return new Token("access token create fail", "refresh token create fail");
         }

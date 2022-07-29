@@ -1,5 +1,9 @@
 package com.dreamteam.hola.util.oauth2;
 
+import com.dreamteam.hola.dao.MemberMapper;
+import com.dreamteam.hola.domain.Member;
+import com.dreamteam.hola.dto.MemberDto;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -10,11 +14,16 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.Collections;
 
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
+    private final MemberMapper memberMapper;
+    private final HttpSession httpSession;
+
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         // DefaultOAuth2UserService 객체를 성공 정보를 바탕으로 만듬
@@ -32,12 +41,24 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         log.info("registrationId = {}", registrationId);
         log.info("userNameAttributeName = {}", userNameAttributeName);
 
+
         // SuccessHandler가 사용할 수 있도록 서비스 등록 (Attributes에서 자세한 사용자 정보를 담고 있다)
         OAuth2Attribute oAuth2Attribute = OAuth2Attribute.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
-        // 사용자 정보 Map으로 변경
-        var memberAttribute = oAuth2Attribute.convertToMap();
+        Member member = oAuth2Attribute.convertToMember(registrationId);
+        saveOrUpdate(member);
 
-        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")), memberAttribute, "email");
+        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")), oAuth2Attribute.getAttributes(), oAuth2Attribute.getAttributeKey());
+    }
+
+    private void saveOrUpdate(Member member) {
+        Member findMember = memberMapper.findByNickname(member.getNickname());
+        MemberDto memberDto = member.toDto();
+        if(findMember == null){
+            memberMapper.signup(memberDto);
+        }else{
+            memberDto.setMemberId(findMember.getMemberId());
+            memberMapper.update(memberDto);
+        }
     }
 }

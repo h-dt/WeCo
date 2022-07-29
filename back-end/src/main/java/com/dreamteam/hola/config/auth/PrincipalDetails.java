@@ -44,7 +44,7 @@ public class PrincipalDetails implements UserDetails,OAuth2User{
 
     @Override
     public String getUsername() {
-        return member.getUsername();
+        return member.getNickname();
     }
 
     public Role getRole() {

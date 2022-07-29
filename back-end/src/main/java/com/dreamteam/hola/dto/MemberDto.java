@@ -17,7 +17,6 @@ import java.time.LocalDate;
 @Data
 public class MemberDto {
     private Long memberId;
-    private String username;
     private String nickname;
     private String password;
 //    @Pattern(regexp = "^(?:\\w+\\.?)*\\w+@(?:\\w+\\.)+\\w+$", message = "이메일 형식이 올바르지 않습니다.")
