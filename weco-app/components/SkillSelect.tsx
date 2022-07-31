@@ -111,6 +111,7 @@ const dataSkill = [
 ];
 
 export function SkillSelect() {
+  const newArray: string[] = [];
   const [currentTab, setCurrentTab] = useState(0);
   const [returnitem, setReturnItem] = useState<string[]>([]);
   const newList = dataSkill[currentTab].value;
@@ -124,6 +125,14 @@ export function SkillSelect() {
     if (deduplication) {
       setReturnItem([...returnitem]);
     }
+  };
+  const onDelete = (x: string) => {
+    const deleteItem = returnitem.indexOf(x);
+    const cutone = returnitem.slice(0, deleteItem);
+    const cuttwo = returnitem.slice(deleteItem + 1, returnitem.length);
+    newArray.push(...cutone);
+    newArray.push(...cuttwo);
+    setReturnItem(newArray);
   };
   return (
     <section className="max-w-screen-xl w-full py-0 px-4 my-28 mx-auto">
@@ -158,6 +167,19 @@ export function SkillSelect() {
           );
         })}
       </ul>
+      <div>
+        <ul className="flex flex-wrap items-center gap-4 list-none m-0 p-0">
+          {returnitem.map((x) => (
+            <li
+              key={Math.random()}
+              onClick={() => onDelete(x)}
+              className="flex gap-2 bg-gray-300 px-3 py-2 h-10 rounded-lg font-medium text-xl text-gray-800 justify-center items-center hover:cursor-pointer hover:ease-in hover:duration-100"
+            >
+              {x}
+            </li>
+          ))}
+        </ul>
+      </div>
     </section>
   );
 }
