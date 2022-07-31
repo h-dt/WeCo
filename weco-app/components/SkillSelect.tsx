@@ -123,7 +123,7 @@ export function SkillSelect() {
     setReturnItem([...returnitem, data]);
     const deduplication = returnitem.includes(data);
     if (deduplication) {
-      setReturnItem([...returnitem]);
+      setReturnItem(returnitem.filter((x) => x !== data));
     }
   };
   const onDelete = (x: string) => {
@@ -147,7 +147,7 @@ export function SkillSelect() {
               onClick={() => selectMenuHandler(index)}
               className={`flex font-bold text-2xl cursor-pointer relative text-zinc-400  ${
                 currentTab === index
-                  ? "text-black after:content-[''] after:absolute after:h-1.5 after:w-full after:-bottom-6 after:bg-yellow-500"
+                  ? "text-black after:content-[''] after:absolute after:h-1.5 after:w-[calc(100%+26px)] after:-left-4 after:-bottom-6 after:bg-yellow-500"
                   : ""
               }`}
             >
@@ -162,7 +162,9 @@ export function SkillSelect() {
             <li
               key={index}
               onClick={() => onClick(ele.item)}
-              className="flex gap-2.5 items-center border-2 border-slate-200 rounded-full px-5 py-3 ease-in duration-100 cursor-pointer"
+              className={`flex gap-2.5 items-center border-2 border-slate-200 rounded-full px-5 py-2 hover:ease-in hover:scale-105 hover:duration-100 cursor-pointer ${
+                returnitem.includes(ele.item) ? "opacity-30" : ""
+              }`}
             >
               <Image src={ele.img} width="36" height="36" />
               <span>{ele.item}</span>
@@ -175,14 +177,17 @@ export function SkillSelect() {
           <li
             key={Math.random()}
             onClick={() => onDelete(x)}
-            className="flex gap-2 bg-gray-200 px-3 py-2 h-10 rounded-lg font-medium text-xl text-gray-800 justify-center items-center hover:cursor-pointer hover:ease-in hover:duration-100"
+            className="flex gap-2 bg-gray-200 px-3 py-2 h-10 rounded-lg font-medium text-xl text-gray-800 justify-center items-center hover:cursor-pointer hover:ease-in hover:scale-105 hover:duration-100"
           >
             <div>{x}</div>
             <Image src="/img/delete.svg" width="16" height="16" />
           </li>
         ))}
         {returnitem.length ? (
-          <span className="text-xl cursor-pointer" onClick={onReset}>
+          <span
+            className="text-xl cursor-pointer hover:ease-in hover:scale-105 hover:duration-100"
+            onClick={onReset}
+          >
             필터초기화
           </span>
         ) : null}
