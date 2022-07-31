@@ -6,7 +6,7 @@ import RecruitMain from './recruit';
 import RecruitCard from './recruit/RecruitCard';
 import RecruitHeader from './recruit/RecruitHeader';
 
-import type { NextPage } from 'next';
+import { MainHeader } from '../components/MainHeader';
 import { SkillSelect } from '../components/SkillSelect';
 
 const Home: NextPage = () => {
@@ -15,6 +15,9 @@ const Home: NextPage = () => {
       {/* <h1 className="text-3xl font-bold underline">Hello world!</h1> */}
       <RecruitMain />
       <h1 className="text-3xl font-bold underline">Hello world!</h1>
+
+      <MainHeader />
+
       <SkillSelect />
     </>
   );
