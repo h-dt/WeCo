@@ -134,6 +134,9 @@ export function SkillSelect() {
     newArray.push(...cuttwo);
     setReturnItem(newArray);
   };
+  const onReset = () => {
+    setReturnItem([]);
+  };
   return (
     <section className="max-w-screen-xl w-full py-0 px-4 my-28 mx-auto">
       <ul className="flex gap-14 border-b-2 border-slate-200 pb-5 pl-4 mb-8 ">
@@ -167,19 +170,23 @@ export function SkillSelect() {
           );
         })}
       </ul>
-      <div>
-        <ul className="flex flex-wrap items-center gap-4 list-none m-0 p-0">
-          {returnitem.map((x) => (
-            <li
-              key={Math.random()}
-              onClick={() => onDelete(x)}
-              className="flex gap-2 bg-gray-300 px-3 py-2 h-10 rounded-lg font-medium text-xl text-gray-800 justify-center items-center hover:cursor-pointer hover:ease-in hover:duration-100"
-            >
-              {x}
-            </li>
-          ))}
-        </ul>
-      </div>
+      <ul className="flex flex-wrap items-center gap-6 list-none m-0 p-0">
+        {returnitem.map((x) => (
+          <li
+            key={Math.random()}
+            onClick={() => onDelete(x)}
+            className="flex gap-2 bg-gray-200 px-3 py-2 h-10 rounded-lg font-medium text-xl text-gray-800 justify-center items-center hover:cursor-pointer hover:ease-in hover:duration-100"
+          >
+            <div>{x}</div>
+            <Image src="/img/delete.svg" width="16" height="16" />
+          </li>
+        ))}
+        {returnitem.length ? (
+          <span className="text-xl cursor-pointer" onClick={onReset}>
+            필터초기화
+          </span>
+        ) : null}
+      </ul>
     </section>
   );
 }
