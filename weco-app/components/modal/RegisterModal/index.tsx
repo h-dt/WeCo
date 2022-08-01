@@ -40,7 +40,7 @@ const RegisterModal = ({ onClose, ...args }: Props) => {
       style={ModalStyles}
       onRequestClose={onClose}
       ariaHideApp={false}
-      className="sm:flex-1 sm:!w-full sm:h-full sm:rounded-none"
+      className="sm:!flex-1 sm:!w-full sm:!h-full sm:!rounded-none"
       {...args}
     >
       {/* header */}
