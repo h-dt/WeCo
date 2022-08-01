@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Modal from 'react-modal';
 
 import { AiFillCloseCircle as Close } from 'react-icons/ai';
@@ -68,4 +68,4 @@ const RegisterModal = ({ onClose, ...args }: Props) => {
     </Modal>
   );
 };
-export default RegisterModal;
+export default React.memo(RegisterModal);
