@@ -3,6 +3,7 @@ package com.dreamteam.hola.controller;
 import com.dreamteam.hola.config.auth.PrincipalDetails;
 import com.dreamteam.hola.dto.BoardDto;
 import com.dreamteam.hola.dto.MemberDto;
+import com.dreamteam.hola.exception.ErrorResponse;
 import com.dreamteam.hola.service.BoardService;
 import com.dreamteam.hola.service.BoardServiceImpl;
 import com.dreamteam.hola.service.HeartServiceImpl;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @Log4j2
@@ -64,5 +66,17 @@ public class MemberController {
         Long memberId = principalDetails.getMemberDto().getMemberId();
         return new ResponseEntity<>(heartServiceImpl.HeartList(memberId),HttpStatus.OK);
 
+    }
+
+    @ExceptionHandler(NullPointerException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ErrorResponse handleException1(){
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST,"존재하지 않는 회원이거나 null 값 입니다.");
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    protected ErrorResponse handleException2(){
+        return ErrorResponse.of(HttpStatus.NOT_FOUND,"좋아요 목록에서 존재하지 않는 회원이거나 존재하지 않는 글을 요청합니다.");
     }
 }

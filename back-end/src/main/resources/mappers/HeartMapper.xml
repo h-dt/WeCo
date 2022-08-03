@@ -30,7 +30,6 @@
         join skill s on s.skill_id = bs.skill_id
         where h.member_id = #{memberId}
     </select>
-<!--    group by b.board_id, b.title, b.content, m.profile_image, s.skill_type-->
 
 
 

@@ -21,10 +21,10 @@
         b.content,
         b.reg_date,
         b.contact_type,
-        b.contact,
+        b.contact
         from board b
         join member m on m.member_id = b.member_id
-        where b.board_id = #{id}
+        where b.board_id  = #{id}
     </select>
 
     <select id="findByIdAndMemberId" resultType="BoardDto">
@@ -72,7 +72,7 @@
         where board_id = #{id}
     </update>
 
-    <insert id="insertBoard" parameterType="BoardDto">
+    <insert id="insertBoard" parameterType="BoardDto" >
         insert into board (member_id, title, content, recruit_type, recruit_cnt, progress_type, duration, contact_type, contact,
         start_date)
         values (#{memberId}, #{title}, #{content}, #{recruitType}, #{recruitCnt},#{progressType}, #{duration}, #{contactType},
@@ -116,7 +116,7 @@
         b.content = #{board.content},
         b.contact_type = #{board.contactType},
         b.contact = #{board.contact}
-        where board_id = #{id}
+        where b.board_id = #{id}
     </update>
 
     <select id="selectAllBoard" resultType="boardDto">
@@ -134,7 +134,7 @@
         select board_id,title
         from board
         WHERE recruit_status = 'Y'
-        order by score desc,reg_date descx
+        order by score desc,reg_date desc
         limit 0,10;
     </select>
 
