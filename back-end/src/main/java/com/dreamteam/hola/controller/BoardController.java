@@ -3,7 +3,9 @@ package com.dreamteam.hola.controller;
 import com.dreamteam.hola.config.auth.PrincipalDetails;
 import com.dreamteam.hola.dto.BoardDto;
 import com.dreamteam.hola.dto.BoardReqDto;
+import com.dreamteam.hola.dto.Heart;
 import com.dreamteam.hola.service.BoardServiceImpl;
+import com.dreamteam.hola.service.HeartServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -18,11 +20,15 @@ import org.springframework.web.bind.annotation.*;
 public class BoardController {
 
     private final BoardServiceImpl boardServiceimpl;
-    
+    private final HeartServiceImpl heartServiceImpl;
+
     // Board 1개 가져오기_2022_06_06_by_김우진
     @GetMapping("/board/{id}")
     public ResponseEntity<?> getBoard(@PathVariable Long id) {
+
+
         log.info(id + "번의 게시글 조회 API");
+
         return new ResponseEntity<>(boardServiceimpl.getBoard(id), HttpStatus.OK);
     }
 
@@ -38,7 +44,7 @@ public class BoardController {
     @PatchMapping("/board/{id}")
     public ResponseEntity<?> updateRecruitStatus(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long id) {
         log.info("모집 마감 상태 변경 API");
-        Long memberId = principalDetails.getMember().getMemberId();
+        Long memberId = principalDetails.getMemberDto().getMemberId();
         return new ResponseEntity<>(boardServiceimpl.updateRecruitStatus(memberId, id), HttpStatus.OK);
     }
 
@@ -51,7 +57,7 @@ public class BoardController {
     //Board 게시물 등록하기_2022_06_22_by_정은비
     @PostMapping("/board/register")
     public ResponseEntity<?> register(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody BoardDto boardDto) {
-        Long memberId = principalDetails.getMember().getMemberId();
+        Long memberId = principalDetails.getMemberDto().getMemberId();
         log.info("register");
         boardServiceimpl.register(memberId, boardDto);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -67,7 +73,25 @@ public class BoardController {
     @GetMapping("/my-boards")
     public ResponseEntity<?> getMyBoards(@AuthenticationPrincipal PrincipalDetails principalDetails){
         log.info("내가 작성한 게시글 조회 API");
-        Long memberId = principalDetails.getMember().getMemberId();
+        Long memberId = principalDetails.getMemberDto().getMemberId();
         return new ResponseEntity<>(boardServiceimpl.getMyBoards(memberId), HttpStatus.OK);
     }
+
+
+    @PostMapping("/heart/{boardId}")
+    public ResponseEntity<?> addHeart(@AuthenticationPrincipal PrincipalDetails principalDetails,@PathVariable Long boardId){
+        Long memberId = principalDetails.getMemberDto().getMemberId();
+        log.info("heart ={},{}",boardId,memberId);
+        return new ResponseEntity<>(heartServiceImpl.save(memberId,boardId), HttpStatus.OK);
+    }
+    @DeleteMapping("/heart/{boardId}")
+    public ResponseEntity<?> deleteHeart(@AuthenticationPrincipal PrincipalDetails principalDetails,@PathVariable Long boardId){
+        Long memberId = principalDetails.getMemberDto().getMemberId();
+        heartServiceImpl.delete(boardId,memberId);
+
+        return new ResponseEntity<>("좋아요 삭제",HttpStatus.OK);
+    }
+
+
+
 }

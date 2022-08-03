@@ -1,12 +1,15 @@
 package com.dreamteam.hola.dto;
 
 import com.dreamteam.hola.domain.Role;
+import com.dreamteam.hola.domain.SocialType;
+import com.dreamteam.hola.util.fileUpload.UploadFile;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -27,7 +30,9 @@ public class MemberDto {
     private Role role;
     private LocalDate regDate;
     private LocalDate modDate;
-    private char withdrawalYn;
+    private String withdrawalYn;
     private LocalDate withdrawalDate;
     private String socialType;//카카오,깃허브,구글
+
+
 }

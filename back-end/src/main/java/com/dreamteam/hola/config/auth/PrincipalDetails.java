@@ -1,6 +1,7 @@
 package com.dreamteam.hola.config.auth;
 
 import com.dreamteam.hola.domain.Member;
+import com.dreamteam.hola.dto.MemberDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.dreamteam.hola.domain.Role;
 import lombok.Data;
@@ -23,32 +24,32 @@ public class PrincipalDetails implements UserDetails,OAuth2User{
 //Member Object의 타입은 UserDetails 타입의 객체여야 합니다.
 //Security Session -> Authentication -> UserDetails 타입
 
-    private Member member;//콤포지션
+    private MemberDto memberDto;//콤포지션
     private Map<String,Object> attributes;
 
     //일반 로그인
-    public PrincipalDetails(Member member){
-        this.member = member;
+    public PrincipalDetails(MemberDto memberDto){
+        this.memberDto = memberDto;
     }
 
-    public PrincipalDetails(Member member,Map<String,Object>attributes){
-        this.member = member;
+    public PrincipalDetails(MemberDto memberDto, Map<String,Object>attributes){
+        this.memberDto = memberDto;
         this.attributes = attributes;
     }
 
 
     @Override
     public String getPassword() {
-        return member.getPassword();
+        return memberDto.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return member.getUsername();
+        return memberDto.getUsername();
     }
 
     public Role getRole() {
-        return member.getRole();
+        return memberDto.getRole();
     }
 
     //계정이 만료 되었는가?(true : 만료x)
@@ -88,7 +89,7 @@ public class PrincipalDetails implements UserDetails,OAuth2User{
         collectors.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
-                return member.getRole().toString();
+                return memberDto.getRole().toString();
             }
         });
         return collectors;
