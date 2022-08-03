@@ -1,6 +1,7 @@
 package com.dreamteam.hola.service;
 
 import com.dreamteam.hola.dto.BoardDto;
+import com.dreamteam.hola.dto.Heart;
 import com.dreamteam.hola.dto.RecommendedBoardDto;
 import com.dreamteam.hola.dto.BoardReqDto;
 
@@ -23,4 +24,9 @@ public interface BoardService {
     List<RecommendedBoardDto> getRecommendedBoardList();
 
     List<BoardDto> getMyBoards(Long memberId);
+
+
+
+
+
 }
