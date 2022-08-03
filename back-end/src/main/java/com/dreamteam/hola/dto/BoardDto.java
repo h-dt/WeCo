@@ -51,5 +51,5 @@ public class BoardDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<CommentDto> comments;
 
-    private Long heartYn;//즐겨찾기
+
 }
