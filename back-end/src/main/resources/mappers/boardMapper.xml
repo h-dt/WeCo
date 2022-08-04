@@ -21,7 +21,7 @@
         b.content,
         b.reg_date,
         b.contact_type,
-        b.contact,
+        b.contact
         from board b
         join member m on m.member_id = b.member_id
         where b.board_id = #{id}
@@ -138,7 +138,7 @@
         select board_id,title
         from board
         WHERE recruit_status = 'Y'
-        order by score desc,reg_date descx
+        order by score desc,reg_date desc
         limit 0,10;
     </select>
 
