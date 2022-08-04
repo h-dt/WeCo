@@ -6,16 +6,19 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 @Mapper
-@Repository
+
 public interface MemberMapper {
 
-    void joinMember(Member member);
 
-    Member findByUsername(String username);
+    MemberDto findByUsername(String username);
 
-    Member findByEmail(String email);
+    MemberDto findByEmail(String email);
 
     int signup(MemberDto memberDto);
 
     MemberDto findById(Long id);
+
+    int update(MemberDto memberDto);
+
+
 }

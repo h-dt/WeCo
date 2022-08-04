@@ -12,6 +12,7 @@ public interface BoardMapper {
 
     BoardDto findByIdAndMemberId(Long id, Long memberId);
 
+
     List<BoardDto> findAll(String recruitType, String recruitStatus, List<String> skillTypes);
 
     void updateViewCnt(Long id);
