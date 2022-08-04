@@ -14,6 +14,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,12 +39,9 @@ public class MemberController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestPart("key") MemberDto memberDto, @RequestPart(value = "file",required = false)MultipartFile multipartFile) throws IOException {
+    public ResponseEntity<?> signup(@Validated @RequestPart("key") MemberDto memberDto, @RequestPart(value = "file",required = false)MultipartFile multipartFile) throws IOException {
 
-        if(memberServiceImpl.signup(memberDto,multipartFile))
-            return new ResponseEntity<>("success", HttpStatus.CREATED);
-        else
-            return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(memberServiceImpl.signup(memberDto,multipartFile),HttpStatus.OK);
     }
     @GetMapping("/{id}")
     public ResponseEntity<?> getProfile(@PathVariable("id")Long id){
