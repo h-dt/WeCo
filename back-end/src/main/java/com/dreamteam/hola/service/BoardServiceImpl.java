@@ -3,12 +3,15 @@ package com.dreamteam.hola.service;
 import com.dreamteam.hola.dao.*;
 import com.dreamteam.hola.dto.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class BoardServiceImpl implements BoardService {
 
     private final BoardMapper boardMapper;
@@ -63,12 +66,15 @@ public class BoardServiceImpl implements BoardService {
 
     //Board 게시물 등록하기_2022_06_22_by_정은비
     @Override
+
     public int register(Long memberId, BoardDto boardDto) {
         boardDto.setMemberId(memberId);
         boardMapper.insertBoard(boardDto);
         Long id = boardDto.getId();
 
         List<String> skills = boardDto.getSkills();
+        log.info("여기는 찎히는데");
+        log.info("skillList ={}",skills.stream().toString());
         Map<String, Long> map = new HashMap<>();
         for (String skillType : skills) {
             map.put("id", id);
