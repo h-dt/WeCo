@@ -43,8 +43,9 @@ public class MemberController {
 
         return new ResponseEntity<>(memberServiceImpl.signup(memberDto,multipartFile),HttpStatus.OK);
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getProfile(@PathVariable("id")Long id){
+    @GetMapping("/profile")
+    public ResponseEntity<?> getProfile(@AuthenticationPrincipal PrincipalDetails principalDetails){
+        Long id = principalDetails.getMemberDto().getMemberId();
         log.info(" 회원가져오기 id={}",id);
         MemberDto result = memberServiceImpl.getProfile(id);
         return new ResponseEntity<>(result,HttpStatus.OK);
@@ -52,7 +53,7 @@ public class MemberController {
 
     @PutMapping("/member/{id}")
     public ResponseEntity<?> updateMember(@PathVariable("id")Long id,
-                                          @RequestPart("key")MemberDto memberDto,
+                                          @Validated @RequestPart("key")MemberDto memberDto,
                                           @RequestPart(value = "file",required = false)MultipartFile multipartFile
                                          ) throws IOException {
         memberServiceImpl.update(id,memberDto,multipartFile);
@@ -66,15 +67,5 @@ public class MemberController {
 
     }
 
-    @ExceptionHandler(NullPointerException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    protected ErrorResponse handleException1(){
-        return ErrorResponse.of(HttpStatus.BAD_REQUEST,"존재하지 않는 회원이거나 null 값 입니다.");
-    }
 
-    @ExceptionHandler(NoSuchElementException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    protected ErrorResponse handleException2(){
-        return ErrorResponse.of(HttpStatus.NOT_FOUND,"좋아요 목록에서 존재하지 않는 회원이거나 존재하지 않는 글을 요청합니다.");
-    }
 }
