@@ -26,14 +26,14 @@ public class MemberControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ErrorResponse memberHandlerException2(MethodArgumentNotValidException ex){
 
-        LinkedHashMap<String, String> errors = new LinkedHashMap<>();
+        LinkedHashMap<String, String> errorList = new LinkedHashMap<>();
 
         ex.getBindingResult().getAllErrors().forEach((error)->{
             String fieldName = ((FieldError)error).getField();
             String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName,errorMessage);
+            errorList.put(fieldName,errorMessage);
         });
-        return ErrorResponse.of(HttpStatus.BAD_REQUEST,errors.toString());
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST,errorList.toString());
 
     }
 
