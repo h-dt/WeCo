@@ -1,14 +1,7 @@
 import Image from 'next/image';
-import { Dispatch, SetStateAction } from 'react';
+import { useState } from 'react';
 import { dataSkill } from '../SkillDataList';
-
-type Props = {
-  item: number;
-  returnItem: string[];
-  returnSetItem: Dispatch<SetStateAction<string[]>>;
-};
-
-export function SkillSelectList({ item, returnItem, returnSetItem }: Props) {
+export function SkillSelectList({ item, returnItem, returnSetItem }: any) {
   const newList = dataSkill[item].value;
   const onClick = (data: string) => {
     returnSetItem([...returnItem, data]);

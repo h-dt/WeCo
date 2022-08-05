@@ -1,12 +1,6 @@
 import Image from 'next/image';
-import { Dispatch, SetStateAction } from 'react';
 
-type props = {
-  returnItem: string[];
-  returnSetItem: Dispatch<SetStateAction<string[]>>;
-};
-
-export function SelectResultList({ returnItem, returnSetItem }: props) {
+export function SelectResultList({ returnItem, returnSetItem }: any) {
   const newArray: string[] = [];
   const onDelete = (x: string) => {
     const deleteItem = returnItem.indexOf(x);
