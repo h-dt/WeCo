@@ -2,7 +2,7 @@ import { Swiper, SwiperProps, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { SliderForm } from './SliderForm/SliderForm';
+import { SliderForm } from './SlideForm/SliderForm';
 
 const settings: SwiperProps = {
   spaceBetween: 30,
