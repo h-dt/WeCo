@@ -4,7 +4,7 @@ import { SkillCategory } from './SkillSelect/SkillCategory';
 import { SkillSelectList } from './SkillSelect/SkillSelectList';
 
 export function SkillSelect() {
-  const [currentTab, setCurrentTab] = useState(0);
+  const [currentTab, setCurrentTab] = useState<number>(0);
   const [returnitem, setReturnItem] = useState<string[]>([]);
   return (
     <section className="max-w-7xl w-full py-0 px-4 my-28 mx-auto">
