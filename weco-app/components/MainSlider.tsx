@@ -1,25 +1,23 @@
-import { Swiper, SwiperProps, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination, Navigation } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import Image from 'next/image';
 
-const settings: SwiperProps = {
-  spaceBetween: 30,
-  centeredSlides: true,
-  autoplay: {
-    delay: 2500,
-    disableOnInteraction: false,
-  },
-  pagination: {
-    clickable: true,
-  },
-  modules: [Autoplay, Pagination],
-};
-
 export function MainSlider() {
   return (
-    <Swiper {...settings}>
+    <Swiper
+      spaceBetween={30}
+      centeredSlides={true}
+      autoplay={{
+        delay: 2500,
+        disableOnInteraction: false,
+      }}
+      pagination={{
+        clickable: true,
+      }}
+      modules={[Autoplay, Pagination]}
+    >
       <SwiperSlide>
         <div>
           <a className="w-full relative">
