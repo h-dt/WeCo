@@ -1,6 +1,12 @@
+import { Dispatch, SetStateAction } from 'react';
 import { dataSkill } from '../SkillDataList';
 
-export function SkillCategory({ item, setItem }: number | any) {
+type Props = {
+  item: number;
+  setItem: Dispatch<SetStateAction<number>>;
+};
+
+export function SkillCategory({ item, setItem }: Props) {
   const selectMenuHandler = (index: number) => {
     setItem(index);
   };

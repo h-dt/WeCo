@@ -5,11 +5,13 @@ import RecruitMain from './recruit';
 import RecruitCard from './recruit/RecruitCard';
 import RecruitHeader from './recruit/RecruitHeader';
 
-import { MainHeader } from '../components/MainHeader';
-import { SkillSelect } from '../components/SkillSelect';
 import type { NextPage } from 'next';
 
 import { MainSlider } from '../components/MainSlider';
+
+import { MainHeader } from '../components/Header';
+
+import { SkillSelect } from '../components/Skill';
 
 const Home: NextPage = () => {
   return (
