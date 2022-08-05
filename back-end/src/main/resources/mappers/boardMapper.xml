@@ -111,12 +111,16 @@
 
     <update id="update" parameterType="BoardDto">
         update board b
-        set
-        <include refid="boardCommonColumns"/>,
-        b.content = #{board.content},
-        b.contact_type = #{board.contactType},
-        b.contact = #{board.contact}
-        where board_id = #{id}
+        set b.title         = #{board.title},
+            b.content       = #{board.content},
+            b.recruit_type  = #{board.recruitType},
+            b.recruit_cnt   = #{board.recruitCnt},
+            b.progress_type = #{board.progressType},
+            b.duration      = #{board.duration},
+            b.start_date    = #{board.startDate},
+            b.contact_type  = #{board.contactType},
+            b.contact       = #{board.contact}
+            where board_id = #{id}
     </update>
 
     <select id="selectAllBoard" resultType="boardDto">

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dreamteam.hola.dao.HeartMapper">
+
+
+    <insert id="addHeart">
+        insert into heart
+            (board_id,member_id)
+        values
+            (#{boardId},#{memberId})
+    </insert>
+
+    <delete id="deleteHeart">
+        delete from
+                   heart
+        where board_id = #{boardId} and member_id=#{memberId}
+
+    </delete>
+
+    <select id="findHeart" parameterType="Heart" resultType="Heart">
+        select * from heart where board_id = #{boardId} and member_id=#{memberId}
+    </select>
+
+    <select id="heartList" parameterType="Long" resultType="BoardDto">
+        select DISTINCT b.board_id id,b.title,b.content,m.profile_image writerProfile,s.skill_type skills
+        from heart h
+        join member m on m.member_id = h.member_id
+        join board b on b.board_id = h.board_id
+        join board_skill bs on bs.board_id = b.board_id
+        join skill s on s.skill_id = bs.skill_id
+        where h.member_id = #{memberId}
+    </select>
+
+
+
+</mapper>
