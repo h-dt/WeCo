@@ -1,3 +1,4 @@
+@ -1,11 +1,31 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -5,9 +6,7 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
     screens: {
-      xm: { max: '554px' },
       sm: { max: '767px' },
       // => @media (min-width: 640px and max-width: 767px) { ... }
 
@@ -29,5 +28,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require('@tailwindcss/line-clamp')],
+  plugins: [],
 };
