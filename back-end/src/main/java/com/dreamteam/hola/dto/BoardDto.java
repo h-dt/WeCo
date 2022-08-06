@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -47,8 +48,9 @@ public class BoardDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long commentCnt;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private List<String> skills;
+//    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @Builder.Default
+    private List<String> skills = new ArrayList<>();
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<CommentDto> comments;

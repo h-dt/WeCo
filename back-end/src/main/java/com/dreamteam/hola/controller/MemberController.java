@@ -9,6 +9,10 @@ import com.dreamteam.hola.service.BoardServiceImpl;
 import com.dreamteam.hola.service.HeartServiceImpl;
 import com.dreamteam.hola.service.MemberService;
 import com.dreamteam.hola.util.jwt.Token;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -25,12 +29,15 @@ import java.util.NoSuchElementException;
 @RestController
 @Log4j2
 @RequiredArgsConstructor
+@Api
 public class MemberController {
     private final MemberService memberServiceImpl;
     private final HeartServiceImpl heartServiceImpl;
 
+    @ApiOperation(value = "로그인",notes = "사용자 로그인")
     @PostMapping("/signin")
-    public ResponseEntity<?> signin(@RequestBody MemberDto memberDto) {
+    public ResponseEntity<?> signin(
+            @RequestBody MemberDto memberDto) {
         Token result = memberServiceImpl.signin(memberDto);
         if(result.getAccessToken().equals("access token create fail"))
             return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
@@ -38,6 +45,7 @@ public class MemberController {
             return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
     }
 
+    @ApiOperation(value = "회원가입",notes = "신규 사용자를 생성합니다.")
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@Validated @RequestPart("key") MemberDto memberDto, @RequestPart(value = "file",required = false)MultipartFile multipartFile) throws IOException {
 
