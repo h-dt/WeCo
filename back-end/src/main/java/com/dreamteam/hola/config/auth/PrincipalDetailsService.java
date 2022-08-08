@@ -2,6 +2,7 @@ package com.dreamteam.hola.config.auth;
 
 import com.dreamteam.hola.dao.MemberMapper;
 import com.dreamteam.hola.domain.Member;
+import com.dreamteam.hola.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

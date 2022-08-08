@@ -14,6 +14,7 @@ import java.util.UUID;
 @Builder
 public class Member{
     private Long memberId;
+    private String username;
     private String nickname;
     private String password;
     private String email;
@@ -27,10 +28,10 @@ public class Member{
 
 
     public MemberDto toDto(){
-        if(password == null || password.isEmpty()){
+        if (password == null || password.isEmpty()) {
             password = UUID.randomUUID().toString();
         }
-        if(role == null){
+        if (role == null) {
             role = Role.ROLE_USER;
         }
         return MemberDto.builder()
@@ -42,5 +43,4 @@ public class Member{
                 .socialType(socialType)
                 .build();
     }
-
 }

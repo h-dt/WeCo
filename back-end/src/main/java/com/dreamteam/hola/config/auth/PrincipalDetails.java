@@ -1,6 +1,7 @@
 package com.dreamteam.hola.config.auth;
 
 import com.dreamteam.hola.domain.Member;
+import com.dreamteam.hola.dto.MemberDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.dreamteam.hola.domain.Role;
 import lombok.Data;
@@ -31,7 +32,7 @@ public class PrincipalDetails implements UserDetails,OAuth2User{
         this.member = member;
     }
 
-    public PrincipalDetails(Member member,Map<String,Object>attributes){
+    public PrincipalDetails(Member member, Map<String,Object>attributes){
         this.member = member;
         this.attributes = attributes;
     }

@@ -5,6 +5,7 @@
 
     <sql id="memberColumns">
         member_id,
+        username,
         nickname,
         password,
         email,
@@ -17,43 +18,71 @@
         social_type
     </sql>
 
+    <insert id="signup" parameterType="MemberDto">
+        INSERT INTO member(
+        <include refid="memberColumns"/>
+        )VALUES(
+            #{memberId},
+            #{username},
+            #{nickname},
+            #{password},
+            #{email},
+            #{profileImage},
+            #{role},
+            now(),
+            null,
+            'N',
+            null,
+            IFNULL(#{socialType},null)
+        );
+    </insert>
+
+    <select id="findByNickname" parameterType="String" resultType="Member">
     <select id="findByNickname" parameterType="String" resultType="Member">
         SELECT
         <include refid="memberColumns"/>
         FROM
         member
         WHERE
-        nickname = #{nickname}
+        nickname=#{nickname}
     </select>
 
-    <select id="findByEmail" parameterType="String" resultType="Member">
+    <select id="findByEmail" parameterType="String" resultType="MemberDto">
         SELECT
-        <include refid="memberColumns"/>
+            username,nickname,password,email,profile_image,reg_date
         FROM
-        member
+            member
         WHERE
-        email=#{email}
+            email=#{email}
+            and
+            withdrawal_yn='N'
     </select>
 
-    <insert id="signup" parameterType="MemberDto">
-        insert into member (nickname, password, email, profile_image, role)
-        values (#{nickname}, #{password}, #{email}, #{profileImage}, #{role})
-    </insert>
+<!--    <insert id="signup" parameterType="MemberDto">-->
+<!--        insert into member (username, nickname, password, email, profile_image, role)-->
+<!--        values (#{username}, #{nickname}, #{password}, #{email}, #{profileImage}, #{role})-->
+<!--    </insert>-->
 
     <select id="findById" resultType="MemberDto">
         select
         <include refid="memberColumns"/>
         from member
-        where member_id = #{id};
+        where member_id = #{id}
+            and
+            withdrawal_yn = 'N'
+
     </select>
 
-    <update id="update">
-        update
-            member
-        set nickname    = #{nickname},
-            email       = #{email},
-            social_type = #{socialType}
+    <update id="update" parameterType="MemberDto">
+        update member
+        set
+        nickname=#{nickname},
+        password=#{password},
+        profile_image=#{profileImage}
         where member_id = #{memberId}
     </update>
+
+
+
 </mapper>
 

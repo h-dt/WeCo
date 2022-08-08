@@ -1,26 +1,25 @@
 package com.dreamteam.hola.service;
 
-import com.dreamteam.hola.dao.BoardMapper;
-import com.dreamteam.hola.dao.BoardSkillMapper;
-import com.dreamteam.hola.dao.CommentMapper;
-import com.dreamteam.hola.dao.SkillMapper;
-import com.dreamteam.hola.dto.BoardDto;
-import com.dreamteam.hola.dto.BoardReqDto;
-import com.dreamteam.hola.dto.CommentDto;
-import com.dreamteam.hola.dto.RecommendedBoardDto;
+import com.dreamteam.hola.dao.*;
+import com.dreamteam.hola.dto.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class BoardServiceImpl implements BoardService {
 
     private final BoardMapper boardMapper;
+    private final MemberMapper memberMapper;
     private final BoardSkillMapper boardSkillMapper;
     private final CommentMapper commentMapper;
     private final SkillMapper skillMapper;
+    private final HeartMapper heartMapper;
 
     // Board 1개 가져오기_2022_06_06_by_김우진
     @Override
@@ -39,6 +38,8 @@ public class BoardServiceImpl implements BoardService {
             commentDto.setBigComments(commentMapper.findAllBigCommentByBoardIdAndCGroup(boardId, commentDto.getCommentId()));
         }
         findBoard.setComments(comments);
+
+
 
         // 게시글에 사용된 skill 조회 및 Dto에 set
         List<String> skills = skillMapper.findAllByBoardId(boardId);
@@ -65,18 +66,29 @@ public class BoardServiceImpl implements BoardService {
 
     //Board 게시물 등록하기_2022_06_22_by_정은비
     @Override
+    @Transactional
     public int register(Long memberId, BoardDto boardDto) {
         boardDto.setMemberId(memberId);
         boardMapper.insertBoard(boardDto);
         Long id = boardDto.getId();
+        log.info(boardDto.getSkills().toString());
 
-        List<String> skills = boardDto.getSkills();
-        Map<String, Long> map = new HashMap<>();
-        for (String skillType : skills) {
-            map.put("id", id);
-            map.put("skill", skillMapper.findBySkillType(skillType));
-            boardSkillMapper.insert(map);
-        }
+        List<String> skillList = boardDto.getSkills();//[]
+        log.info(skillList.toString());
+
+
+        skillList.forEach(skills->{
+            SkillDto skillDto = skillMapper.findBySkillType(skills);
+            boardSkillMapper.save(id,skillDto.getSkillId());
+
+        });
+
+//        Map<String, Long> map = new HashMap<>();
+//        for (String skillType : skills) {
+//            map.put("id", id);
+//            map.put("skill", skillMapper.findBySkillType(skillType));
+//            boardSkillMapper.insert(map);
+//        }
         return 1;
     }
 
@@ -107,4 +119,8 @@ public class BoardServiceImpl implements BoardService {
     public List<BoardDto> getMyBoards(Long memberId) {
         return boardMapper.findAllByMemberId(memberId);
     }
+
+
+
+
 }
