@@ -40,14 +40,6 @@ public class MemberServiceImpl implements MemberService {
     private final PrincipalDetailsService principalDetailsService;
 
 
-
-
-    @Override
-    @Transactional
-    public void joinMember(Member member) {
-
-    }
-
     @Override
     @Transactional
     public boolean signup(MemberDto memberDto,MultipartFile multipartFile) throws IOException {

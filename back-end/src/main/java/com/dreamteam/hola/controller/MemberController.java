@@ -59,7 +59,7 @@ public class MemberController {
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
-    @PutMapping("/member/{id}")
+    @PutMapping("/heart/{id}")
     public ResponseEntity<?> updateMember(@PathVariable("id")Long id,
                                           @Validated @RequestPart("key")MemberDto memberDto,
                                           @RequestPart(value = "file",required = false)MultipartFile multipartFile
@@ -67,7 +67,7 @@ public class MemberController {
         memberServiceImpl.update(id,memberDto,multipartFile);
         return  new ResponseEntity<>("success",HttpStatus.OK);
     }
-    @GetMapping("/myheart")
+    @GetMapping("/heart")
     public ResponseEntity<?> showMyHeart (@AuthenticationPrincipal PrincipalDetails principalDetails){
         log.info("id={}",principalDetails.getMemberDto().getMemberId());
         Long memberId = principalDetails.getMemberDto().getMemberId();

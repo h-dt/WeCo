@@ -18,13 +18,18 @@ public class HeartServiceImpl {
     private final HeartMapper heartMapper;
     private final SkillMapper skillMapper;
 
-    public int save(Long boardId,Long memberId){
+    public boolean save(Long boardId,Long memberId){
         Heart heart = Heart.builder()
                 .boardId(boardId)
                 .memberId(memberId)
                 .build();
 
-         return heartMapper.addHeart(heart);
+
+        if(isNotAlreadyList(heart) != null){
+            heartMapper.addHeart(heart);
+            return true;
+        }
+         return false;
 
     }
 
@@ -43,5 +48,10 @@ public class HeartServiceImpl {
         }
 
         return  distinctedList;
+    }
+
+    private Heart isNotAlreadyList(Heart heart){
+        return heartMapper.findHeart(heart);
+
     }
 }

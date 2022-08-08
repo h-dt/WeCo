@@ -85,9 +85,12 @@ public class BoardController {
 
     @PostMapping("/heart/{boardId}")
     public ResponseEntity<?> addHeart(@AuthenticationPrincipal PrincipalDetails principalDetails,@PathVariable Long boardId){
-        Long memberId = principalDetails.getMemberDto().getMemberId();
-        log.info("heart ={},{}",boardId,memberId);
-        return new ResponseEntity<>(heartServiceImpl.save(memberId,boardId), HttpStatus.OK);
+
+        boolean result = false;
+        if(principalDetails != null){
+            result = heartServiceImpl.save(boardId,principalDetails.getMemberDto().getMemberId());
+        }
+        return result ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @DeleteMapping("/heart/{boardId}")
     public ResponseEntity<?> deleteHeart(@AuthenticationPrincipal PrincipalDetails principalDetails,@PathVariable Long boardId){
