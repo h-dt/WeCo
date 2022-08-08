@@ -24,32 +24,32 @@ public class PrincipalDetails implements UserDetails,OAuth2User{
 //Member Object의 타입은 UserDetails 타입의 객체여야 합니다.
 //Security Session -> Authentication -> UserDetails 타입
 
-    private MemberDto memberDto;//콤포지션
+    private Member member;//콤포지션
     private Map<String,Object> attributes;
 
     //일반 로그인
-    public PrincipalDetails(MemberDto memberDto){
-        this.memberDto = memberDto;
+    public PrincipalDetails(Member member){
+        this.member = member;
     }
 
-    public PrincipalDetails(MemberDto memberDto, Map<String,Object>attributes){
-        this.memberDto = memberDto;
+    public PrincipalDetails(Member member, Map<String,Object>attributes){
+        this.member = member;
         this.attributes = attributes;
     }
 
 
     @Override
     public String getPassword() {
-        return memberDto.getPassword();
+        return member.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return memberDto.getUsername();
+        return member.getUsername();
     }
 
     public Role getRole() {
-        return memberDto.getRole();
+        return member.getRole();
     }
 
     //계정이 만료 되었는가?(true : 만료x)
@@ -89,7 +89,7 @@ public class PrincipalDetails implements UserDetails,OAuth2User{
         collectors.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
-                return memberDto.getRole().toString();
+                return member.getRole().toString();
             }
         });
         return collectors;
