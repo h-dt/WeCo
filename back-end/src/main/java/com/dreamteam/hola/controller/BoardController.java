@@ -60,9 +60,11 @@ public class BoardController {
     //Board 게시물 등록하기_2022_06_22_by_정은비
     @PostMapping("/board/register")
     public ResponseEntity<?> register(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody BoardDto boardDto) {
+        log.info(boardDto.getSkills().toString());
         Long memberId = principalDetails.getMemberDto().getMemberId();
         log.info("register");
         boardServiceimpl.register(memberId, boardDto);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -8,5 +8,10 @@
         values (#{id},#{skill})
     </insert>
 
+
+    <insert id="save" parameterType="BoardSkillDto">
+        insert into board_skill (board_id,skill_id)
+        values  (#{boardId},#{skillId})
+    </insert>
 </mapper>
 

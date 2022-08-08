@@ -66,21 +66,29 @@ public class BoardServiceImpl implements BoardService {
 
     //Board 게시물 등록하기_2022_06_22_by_정은비
     @Override
-
+    @Transactional
     public int register(Long memberId, BoardDto boardDto) {
         boardDto.setMemberId(memberId);
         boardMapper.insertBoard(boardDto);
         Long id = boardDto.getId();
+        log.info(boardDto.getSkills().toString());
 
-        List<String> skills = boardDto.getSkills();
-        log.info("여기는 찎히는데");
-        log.info("skillList ={}",skills.stream().toString());
-        Map<String, Long> map = new HashMap<>();
-        for (String skillType : skills) {
-            map.put("id", id);
-            map.put("skill", skillMapper.findBySkillType(skillType));
-            boardSkillMapper.insert(map);
-        }
+        List<String> skillList = boardDto.getSkills();//[]
+        log.info(skillList.toString());
+
+
+        skillList.forEach(skills->{
+            SkillDto skillDto = skillMapper.findBySkillType(skills);
+            boardSkillMapper.save(id,skillDto.getSkillId());
+
+        });
+
+//        Map<String, Long> map = new HashMap<>();
+//        for (String skillType : skills) {
+//            map.put("id", id);
+//            map.put("skill", skillMapper.findBySkillType(skillType));
+//            boardSkillMapper.insert(map);
+//        }
         return 1;
     }
 
