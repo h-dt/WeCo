@@ -27,10 +27,13 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
 
-// 토큰 검증을 통과한 유효한 토큰일 경우 권한을 부여함
+        // 토큰 검증을 통과한 유효한 토큰일 경우 권한을 부여함
         if(token != null && jwtTokenProvider.validateToken(token)) {
             Authentication auth = jwtTokenProvider.getAuthentication(token);
-// Security가 관리할 수 있도록 넣어줌
+            if(auth == null){
+                logger.error("{}님은 존재하지 않는 사용자 입니다.", jwtTokenProvider.getUsername(token), new NullPointerException());
+            }
+            // Security가 관리할 수 있도록 넣어줌
             SecurityContextHolder.getContext().setAuthentication(auth);
             logger.debug("Security Context에 '{}' 인증 정보를 저장했습니다, uri: {}", auth.getName(), ((HttpServletRequest) request).getRequestURI());
         } else {

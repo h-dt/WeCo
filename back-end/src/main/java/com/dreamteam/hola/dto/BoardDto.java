@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 @Data
+@Builder
 public class BoardDto {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -45,11 +48,12 @@ public class BoardDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long commentCnt;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private List<String> skills;
+//    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @Builder.Default
+    private List<String> skills = new ArrayList<>();
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<CommentDto> comments;
 
-    private Long heartYn;//즐겨찾기
+
 }

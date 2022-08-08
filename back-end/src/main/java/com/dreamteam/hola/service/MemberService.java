@@ -37,7 +37,6 @@ public interface MemberService {
 
     Token signin(MemberDto memberDto);
 
-
     MemberDto getProfile(Long id);
     void update(Long id,MemberDto memberDto,MultipartFile multipartFile) throws IOException;
 

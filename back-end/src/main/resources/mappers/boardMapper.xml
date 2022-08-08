@@ -21,7 +21,7 @@
         b.content,
         b.reg_date,
         b.contact_type,
-        b.contact,
+        b.contact
         from board b
         join member m on m.member_id = b.member_id
         where b.board_id = #{id}
@@ -111,12 +111,16 @@
 
     <update id="update" parameterType="BoardDto">
         update board b
-        set
-        <include refid="boardCommonColumns"/>,
-        b.content = #{board.content},
-        b.contact_type = #{board.contactType},
-        b.contact = #{board.contact}
-        where board_id = #{id}
+        set b.title         = #{board.title},
+            b.content       = #{board.content},
+            b.recruit_type  = #{board.recruitType},
+            b.recruit_cnt   = #{board.recruitCnt},
+            b.progress_type = #{board.progressType},
+            b.duration      = #{board.duration},
+            b.start_date    = #{board.startDate},
+            b.contact_type  = #{board.contactType},
+            b.contact       = #{board.contact}
+            where board_id = #{id}
     </update>
 
     <select id="selectAllBoard" resultType="boardDto">
@@ -134,7 +138,7 @@
         select board_id,title
         from board
         WHERE recruit_status = 'Y'
-        order by score desc,reg_date descx
+        order by score desc,reg_date desc
         limit 0,10;
     </select>
 

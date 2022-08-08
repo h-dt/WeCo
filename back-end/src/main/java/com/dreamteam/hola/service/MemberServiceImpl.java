@@ -12,6 +12,7 @@ import com.dreamteam.hola.util.jwt.Token;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,13 +73,8 @@ public class MemberServiceImpl implements MemberService {
             multipartFile.transferTo(new File(imageFilePath.toString()));
         }
 
-        try{
             return memberMapper.signup(memberDto) == 1;
 
-        }catch (Exception e){
-            e.printStackTrace();
-            return false;
-        }
     }
 
     @Override

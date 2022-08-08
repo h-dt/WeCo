@@ -31,9 +31,11 @@ public class HeartServiceImpl {
     public void delete(Long boardId,Long memberId){
         heartMapper.deleteHeart(boardId,memberId);
     }
+
     public List<BoardDto> HeartList(Long memberId){
 
         List<BoardDto> heartList = heartMapper.heartList(memberId);
+
         List<BoardDto> distinctedList = DeduplicationUtils.deduplication(heartList, BoardDto::getId);
         for (BoardDto boardDto : distinctedList) {
             List<String> skills = skillMapper.findAllByBoardId(boardDto.getId());
