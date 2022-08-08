@@ -19,11 +19,11 @@ public class PrincipalDetailsService implements UserDetailsService {
 
     //시큐리티 session(Authentication(내부 UserDetails))
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String nickname) throws UsernameNotFoundException {
 
-        MemberDto memberDto = memberMapper.findByUsername(username);
-        if (memberDto != null) {
-            return new PrincipalDetails(memberDto);
+        Member member = memberMapper.findByNickname(nickname);
+        if (member != null) {
+            return new PrincipalDetails(member);
         }
 
         return null;

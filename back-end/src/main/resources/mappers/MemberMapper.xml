@@ -37,13 +37,13 @@
         );
     </insert>
 
-    <select id="findByUsername" parameterType="String" resultType="MemberDto">
+    <select id="findByNickname" parameterType="String" resultType="Member">
         SELECT
         <include refid="memberColumns"/>
         FROM
         member
         WHERE
-        username=#{username}
+        nickname=#{nickname}
     </select>
 
     <select id="findByEmail" parameterType="String" resultType="MemberDto">
