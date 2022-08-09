@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 
-
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -51,12 +50,12 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     }
 
     private void saveOrUpdate(Member member){
-        Member findMember = memberMapper.findByNickname(member.getNickname());
+        MemberDto findMemberDto = memberMapper.findByNickname(member.getNickname());
         MemberDto memberDto = member.toDto();
-        if(findMember == null){
+        if(findMemberDto == null){
             memberMapper.signup(memberDto);
         }else {
-            memberDto.setMemberId(findMember.getMemberId());
+            memberDto.setMemberId(findMemberDto.getMemberId());
             memberMapper.update(memberDto);
         }
     }

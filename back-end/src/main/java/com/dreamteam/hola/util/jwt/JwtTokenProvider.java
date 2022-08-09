@@ -39,9 +39,9 @@ public class JwtTokenProvider {
     }
 
     // JWT token 생성
-    public Token createtoken(String username, Role role) {
+    public Token createtoken(String nickname, Role role) {
 // token에 들어갈 정보들을 가공
-        Claims claims = Jwts.claims().setSubject(username);
+        Claims claims = Jwts.claims().setSubject(nickname);
         claims.put("role", role);
         Date now = new Date();
         return new Token(
