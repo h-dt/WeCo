@@ -5,7 +5,6 @@
 
     <sql id="memberColumns">
         member_id,
-        username,
         nickname,
         password,
         email,
@@ -23,7 +22,6 @@
         <include refid="memberColumns"/>
         )VALUES(
             #{memberId},
-            #{username},
             #{nickname},
             #{password},
             #{email},
@@ -37,7 +35,7 @@
         );
     </insert>
 
-    <select id="findByNickname" parameterType="String" resultType="Member">
+    <select id="findByNickname" parameterType="String" resultType="MemberDto">
         SELECT
         <include refid="memberColumns"/>
         FROM
@@ -48,7 +46,7 @@
 
     <select id="findByEmail" parameterType="String" resultType="MemberDto">
         SELECT
-            username,nickname,password,email,profile_image,reg_date
+            nickname,password,email,profile_image,reg_date
         FROM
             member
         WHERE

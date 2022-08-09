@@ -4,10 +4,6 @@ import com.dreamteam.hola.domain.Member;
 import com.dreamteam.hola.dto.BoardDto;
 import com.dreamteam.hola.dto.MemberDto;
 import com.dreamteam.hola.util.jwt.Token;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.List;
 
 public interface MemberService {
 

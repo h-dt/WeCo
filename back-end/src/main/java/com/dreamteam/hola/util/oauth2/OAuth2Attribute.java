@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @ToString
@@ -37,6 +36,7 @@ public class OAuth2Attribute {
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
                 .picture((String) attributes.get("picture"))
+//                .role(attributes.get(""))
                 .attributes(attributes)
                 .attributeKey(attributeKey)
                 .build();
@@ -50,11 +50,11 @@ public class OAuth2Attribute {
                 .name((String) kakaoProfile.get("nickname"))
                 .email((String) kakaoAccount.get("email"))
                 .picture((String) kakaoProfile.get("profile_image_url"))
+//                .role((String) attributes.get(""))
                 .attributes(kakaoAccount)
                 .attributeKey(attributeKey)
                 .build();
     }
-
     Member convertToMember(String provider) {
         return Member.builder()
                 .email(email)

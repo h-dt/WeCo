@@ -15,6 +15,7 @@
         <typeAlias type="com.dreamteam.hola.domain.BigComment" alias="BigComment"/>
         <typeAlias type="com.dreamteam.hola.dto.RecommendedBoardDto" alias="RecommendedBoardDto" />
         <typeAlias type="com.dreamteam.hola.dto.Heart" alias="Heart"/>
+        <typeAlias type="com.dreamteam.hola.domain.Member" alias="Member"/>
     </typeAliases>
 </configuration>
 
