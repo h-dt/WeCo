@@ -51,6 +51,7 @@ public class MemberController {
 
         return new ResponseEntity<>(memberServiceImpl.signup(memberDto,multipartFile),HttpStatus.OK);
     }
+
     @GetMapping("/profile")
     public ResponseEntity<?> getProfile(@AuthenticationPrincipal PrincipalDetails principalDetails){
         Long id = principalDetails.getMemberDto().getMemberId();

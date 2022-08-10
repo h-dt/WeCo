@@ -48,7 +48,7 @@ public class BoardDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long commentCnt;
 
-//    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+
     @Builder.Default
     private List<String> skills = new ArrayList<>();
 

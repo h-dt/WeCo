@@ -31,6 +31,7 @@ public class OAuth2Attribute {
         }
     }
 
+
     private static OAuth2Attribute ofGoogle(String attributeKey, Map<String, Object> attributes) {
         return OAuth2Attribute.builder()
                 .name((String) attributes.get("name"))

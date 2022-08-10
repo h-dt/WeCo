@@ -56,8 +56,8 @@
     </select>
 
 <!--    <insert id="signup" parameterType="MemberDto">-->
-<!--        insert into member (username, nickname, password, email, profile_image, role)-->
-<!--        values (#{username}, #{nickname}, #{password}, #{email}, #{profileImage}, #{role})-->
+<!--        insert into member (, nickname, password, email, profile_image, role)-->
+<!--        values (#{}, #{nickname}, #{password}, #{email}, #{profileImage}, #{role})-->
 <!--    </insert>-->
 
     <select id="findById" resultType="MemberDto">

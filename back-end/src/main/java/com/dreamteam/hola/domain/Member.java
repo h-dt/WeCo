@@ -14,7 +14,6 @@ import java.util.UUID;
 @Builder
 public class Member{
     private Long memberId;
-    private String username;
     private String nickname;
     private String password;
     private String email;

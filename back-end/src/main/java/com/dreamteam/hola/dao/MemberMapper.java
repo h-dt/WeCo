@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface MemberMapper {
 
 
-    Member findByNickname(String nickname);
+    MemberDto findByNickname(String nickname);
 
     MemberDto findByEmail(String email);
 

@@ -1,11 +1,11 @@
-insert into member (username, nickname, password, email, profile_image, role)
-values ("testmember", "testmemberNickname", "$2a$12$oGJCagk/3f2KaMLluo0PiOjKsi7A.gWdMmK/LqSLFqpUfqXGV/B1a", "testEmail@naver.com", "testProfileimage", "ROLE_USER");
+insert into member ( nickname, password, email, profile_image, role)
+values ( "testmemberNickname", "$2a$12$oGJCagk/3f2KaMLluo0PiOjKsi7A.gWdMmK/LqSLFqpUfqXGV/B1a", "testEmail@naver.com", "testProfileimage", "ROLE_USER");
 
-insert into member (username, nickname, password, email, profile_image, role)
-values ("testmember2", "testmemberNickname2", "$2a$12$oGJCagk/3f2KaMLluo0PiOjKsi7A.gWdMmK/LqSLFqpUfqXGV/B1a", "testEmail23@naver.com", "testProfileimage2", "ROLE_USER");
+insert into member ( nickname, password, email, profile_image, role)
+values ( "testmemberNickname2", "$2a$12$oGJCagk/3f2KaMLluo0PiOjKsi7A.gWdMmK/LqSLFqpUfqXGV/B1a", "testEmail23@naver.com", "testProfileimage2", "ROLE_USER");
 
-insert into member (username, nickname, password, email, profile_image, role)
-values ("testmember3", "testmemberNickname3", "$2a$12$oGJCagk/3f2KaMLluo0PiOjKsi7A.gWdMmK/LqSLFqpUfqXGV/B1a", "testEmail33333@naver.com", "testProfileimage3", "ROLE_USER");
+insert into member ( nickname, password, email, profile_image, role)
+values ("testmemberNickname3", "$2a$12$oGJCagk/3f2KaMLluo0PiOjKsi7A.gWdMmK/LqSLFqpUfqXGV/B1a", "testEmail33333@naver.com", "testProfileimage3", "ROLE_USER");
 
 
 insert into board (member_id, title, content, reg_date, recruit_type, recruit_cnt, progress_type, duration, contact_type, contact, start_date)
@@ -82,8 +82,10 @@ insert into comment (board_id, member_id, content, c_depth, c_group) values (3, 
 insert into comment (board_id, member_id, content, c_depth, c_group) values (3, 2, "board3의 5번 댓글의 대댓글3", true, 12);
 insert into comment (board_id, member_id, content, c_depth, c_group) values (3, 2, "board3의 5번 댓글의 대댓글4", true, 12);
 
-
-insert into heart ( board_id,member_id) values ( 1,2);
 insert into heart ( board_id,member_id) values ( 1,1);
 insert into heart ( board_id,member_id) values ( 1,3);
 insert into heart ( board_id,member_id) values ( 2,1);
+insert into heart (board_id,member_id) values (1,3);
+insert into heart (board_id,member_id) values (1,2);
+
+
