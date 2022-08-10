@@ -4,6 +4,7 @@ import com.dreamteam.hola.config.auth.PrincipalDetails;
 import com.dreamteam.hola.domain.Role;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,19 +18,19 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class JwtTokenProvider {
 
     private final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
-    @Value("spring.jwt.secret")
+    @Value("${spring.jwt.secret}")
     private String secretKey;
 
     // 1시간 동안 유효 (Value 방식으로 변경할 수도 있음
-    private long tokenPeriod = 1000L * 60 * 60;
-
-    private long refreshPeriod = 1000L * 60 * 60 * 24 * 30 * 3;
+    private static final long tokenPeriod = 1000L * 60 * 60;
+    private static final long refreshPeriod = 1000L * 60 * 60 * 24 * 30 * 3;
 
     private final UserDetailsService userDetailsService;
 
@@ -78,18 +79,18 @@ public class JwtTokenProvider {
 
     // Jwt token의 유효성 및 만료일자 확인
     public boolean validateToken(String token) {
-        try {
+//        try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return !claims.getBody().getExpiration().before(new Date());
-        } catch (MalformedJwtException e) {
-            logger.info("잘못된 JWT 서명입니다.");
-        } catch (ExpiredJwtException e) {
-            logger.info("만료된 JWT 토큰입니다.");
-        } catch (UnsupportedJwtException e) {
-            logger.info("지원되지 않는 JWT 토큰입니다.");
-        } catch (IllegalArgumentException e) {
-            logger.info("JWT 토큰이 잘못되었습니다.");
-        }
-        return false;
+//        } catch (MalformedJwtException e) {
+//            logger.info("잘못된 JWT 서명입니다.");
+//        } catch (ExpiredJwtException e) {
+//            logger.info("만료된 JWT 토큰입니다.");
+//        } catch (UnsupportedJwtException e) {
+//            logger.info("지원되지 않는 JWT 토큰입니다.");
+//        } catch (IllegalArgumentException e) {
+//            logger.info("JWT 토큰이 잘못되었습니다.");
+//        }
+//        return false;
     }
 }

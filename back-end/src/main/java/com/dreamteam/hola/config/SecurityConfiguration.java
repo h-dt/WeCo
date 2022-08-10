@@ -1,5 +1,7 @@
 package com.dreamteam.hola.config;
 
+import com.dreamteam.hola.util.jwt.JwtAccessDeniedHandler;
+import com.dreamteam.hola.util.jwt.JwtAuthenticationEntryPoint;
 import com.dreamteam.hola.util.jwt.JwtAuthenticationFilter;
 import com.dreamteam.hola.util.jwt.JwtTokenProvider;
 import com.dreamteam.hola.util.oauth2.CustomOAuth2UserService;
@@ -15,14 +17,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.util.Arrays;
-
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final JwtTokenProvider jwtTokenProvider;
     private final CustomOAuth2UserService oAuth2UserService;
     private final OAuth2SuccessHandler successHandler;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -45,6 +47,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/signin", "/signup", "/","/swagger-resources/**","/swagger-ui.html/**", "/v2/api-docs", "/webjars/**").permitAll()
                 .antMatchers("/images/**, /js/**").permitAll()
                 .anyRequest().hasRole("USER")
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .accessDeniedHandler(jwtAccessDeniedHandler)
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .oauth2Login() // oauth2 Login 설정 시작
