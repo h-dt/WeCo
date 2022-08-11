@@ -13,5 +13,9 @@
         insert into board_skill (board_id,skill_id)
         values  (#{boardId},#{skillId})
     </insert>
+
+    <delete id="deleteAllByBoardId" parameterType="Long">
+        delete from board_skill where board_skill.board_id = #{id}
+    </delete>
 </mapper>
 

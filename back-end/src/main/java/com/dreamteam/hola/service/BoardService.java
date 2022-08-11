@@ -1,29 +1,27 @@
 package com.dreamteam.hola.service;
 
-import com.dreamteam.hola.dto.BoardDto;
-import com.dreamteam.hola.dto.Heart;
 import com.dreamteam.hola.dto.RecommendedBoardDto;
-import com.dreamteam.hola.dto.BoardReqDto;
+import com.dreamteam.hola.dto.board.*;
 
 import java.util.List;
 
 public interface BoardService {
 
-    BoardDto getBoard(Long boardId);
+    BoardDetailDto getBoard(Long boardId);
 
-    int register(Long memberId, BoardDto dto);
+    int save(Long memberId, BoardReqDto boardReqDto);
   
-    List<BoardDto> getBoards(BoardReqDto boardReqDto);
+    List<BoardListDto> getBoards(BoardFilterDto boardReqDto);
 
 //    List<BoardDto> getBoardListBySkillType(List<String> skills);
 
     int updateRecruitStatus(Long memberId, Long id);
 
-    int update(Long id, BoardDto BoardDto);
+    int update(Long id, BoardReqDto BoardReqDto);
     
     List<RecommendedBoardDto> getRecommendedBoardList();
 
-    List<BoardDto> getMyBoards(Long memberId);
+    List<BoardListDto> getMyBoards(Long memberId);
 
 
 

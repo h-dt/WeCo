@@ -21,7 +21,7 @@
         select * from heart where board_id = #{boardId} and member_id=#{memberId}
     </select>
 
-    <select id="heartList" parameterType="Long" resultType="BoardDto">
+    <select id="heartList" parameterType="Long" resultType="BoardListDto">
         select DISTINCT b.board_id id,b.title,b.content,m.profile_image writerProfile,s.skill_type skills
         from heart h
         join member m on m.member_id = h.member_id

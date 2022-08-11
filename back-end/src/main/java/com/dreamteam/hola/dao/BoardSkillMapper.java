@@ -9,4 +9,6 @@ public interface BoardSkillMapper {
     void insert(Map<String, Long> map);
 
     void save(Long boardId,Long skillId);
+
+    void deleteAllByBoardId(Long boardId);
 }

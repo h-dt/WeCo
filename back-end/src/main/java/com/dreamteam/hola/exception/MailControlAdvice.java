@@ -1,19 +1,21 @@
 package com.dreamteam.hola.exception;
 
-import com.dreamteam.hola.controller.BoardController;
+import com.dreamteam.hola.controller.MailController;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice(assignableTypes = BoardController.class)
-public class BoardControlAdvice {
+import javax.mail.AuthenticationFailedException;
 
-    @ExceptionHandler(NullPointerException.class)
+@RestControllerAdvice(assignableTypes = MailController.class)
+public class MailControlAdvice {
+
+    @ExceptionHandler(AuthenticationFailedException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    protected ErrorResponse handlerException1(){
-        return ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR,"존재하지 않는 글입니다.");
+    protected ErrorResponse mailErrorException() {
+        return ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR, "메일 발송 도중 error가 발생하였습니다.");
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

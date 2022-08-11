@@ -1,13 +1,16 @@
 package com.dreamteam.hola.service;
 
 import com.dreamteam.hola.dao.*;
-import com.dreamteam.hola.dto.*;
+import com.dreamteam.hola.dto.CommentDto;
+import com.dreamteam.hola.dto.RecommendedBoardDto;
+import com.dreamteam.hola.dto.SkillDto;
+import com.dreamteam.hola.dto.board.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -23,9 +26,9 @@ public class BoardServiceImpl implements BoardService {
 
     // Board 1개 가져오기_2022_06_06_by_김우진
     @Override
-    public BoardDto getBoard(Long boardId) {
+    public BoardDetailDto getBoard(Long boardId) {
         // memberId 와 boardId로 해당 게시글 정보 조회
-        BoardDto findBoard = boardMapper.findById(boardId);
+        BoardDetailDto findBoard = boardMapper.findById(boardId);
         
         // 조회수 증가
         boardMapper.updateViewCnt(boardId);
@@ -39,8 +42,6 @@ public class BoardServiceImpl implements BoardService {
         }
         findBoard.setComments(comments);
 
-
-
         // 게시글에 사용된 skill 조회 및 Dto에 set
         List<String> skills = skillMapper.findAllByBoardId(boardId);
         findBoard.setSkills(skills);
@@ -50,11 +51,11 @@ public class BoardServiceImpl implements BoardService {
 
     // Board 전체 List 가져오기_2022_06_08_by_김우진
     @Override
-    public List<BoardDto> getBoards(BoardReqDto boardReqDto) {
+    public List<BoardListDto> getBoards(BoardFilterDto boardReqDto) {
         // 모집 타입 + 기술 스택(옵션, 비어있을 수 있음)에 해당되는 게시글 모두 조회
         System.out.println("boardReqDto = " + boardReqDto.toString());
-        List<BoardDto> findAll = boardMapper.findAll(boardReqDto.getRecruitType(), boardReqDto.getRecruitStatus(), boardReqDto.getSkills());
-        for (BoardDto findBoard : findAll) {
+        List<BoardListDto> findAll = boardMapper.findAll(boardReqDto.getRecruitType(), boardReqDto.getRecruitStatus(), boardReqDto.getSkills());
+        for (BoardListDto findBoard : findAll) {
             // 각 게시글에 사용된 기술 스택 set
             List<String> skills = skillMapper.findAllByBoardId(findBoard.getId());
             findBoard.setSkills(skills);
@@ -67,41 +68,43 @@ public class BoardServiceImpl implements BoardService {
     //Board 게시물 등록하기_2022_06_22_by_정은비
     @Override
     @Transactional
-    public int register(Long memberId, BoardDto boardDto) {
-        boardDto.setMemberId(memberId);
-        boardMapper.insertBoard(boardDto);
-        Long id = boardDto.getId();
-        log.info(boardDto.getSkills().toString());
+    public int save(Long memberId, BoardReqDto boardDto) {
+            boardDto.setMemberId(memberId);
+            boardMapper.save(boardDto);
 
-        List<String> skillList = boardDto.getSkills();//[]
-        log.info(skillList.toString());
+            Long id = boardDto.getId();
+            log.info(boardDto.getSkills().toString());
 
+            List<String> skillList = boardDto.getSkills();//[]
+            log.info(skillList.toString());
 
-        skillList.forEach(skills->{
-            SkillDto skillDto = skillMapper.findBySkillType(skills);
-            boardSkillMapper.save(id,skillDto.getSkillId());
+            skillList.forEach(skills->{
+                SkillDto skillDto = skillMapper.findBySkillType(skills);
+                boardSkillMapper.save(id,skillDto.getSkillId());
+            });
 
-        });
-
-//        Map<String, Long> map = new HashMap<>();
-//        for (String skillType : skills) {
-//            map.put("id", id);
-//            map.put("skill", skillMapper.findBySkillType(skillType));
-//            boardSkillMapper.insert(map);
-//        }
-        return 1;
+            return 1;
     }
 
     // 모집 마감 토글_2022_06_19_by_김우진
     @Override
     public int updateRecruitStatus(Long memberId, Long id) {
-        BoardDto findBoard = boardMapper.findByIdAndMemberId(id, memberId);
-        return findBoard.getRecruitStatus().equals("N") ? boardMapper.updateRecruitStatus(id, "Y") : boardMapper.updateRecruitStatus(id, "N");
+//        try{
+            BoardDetailDto findBoard = boardMapper.findByIdAndMemberId(id, memberId);
+            return findBoard.getRecruitStatus().equals("N") ? boardMapper.updateRecruitStatus(id, "Y") : boardMapper.updateRecruitStatus(id, "N");
+//        } catch()
     }
 
     @Override
-    public int update(Long id, BoardDto boardDto) {
-        return boardMapper.update(id, boardDto);
+    @Transactional
+    public int update(Long id, BoardReqDto boardDto) {
+        boardMapper.update(id, boardDto);
+        boardSkillMapper.deleteAllByBoardId(id);
+        boardDto.getSkills().forEach(skills -> {
+            SkillDto skillDto = skillMapper.findBySkillType(skills);
+            boardSkillMapper.save(id,skillDto.getSkillId());
+        });
+        return 1;
     }
 
 
@@ -116,7 +119,7 @@ public class BoardServiceImpl implements BoardService {
     }
         
     @Override
-    public List<BoardDto> getMyBoards(Long memberId) {
+    public List<BoardListDto> getMyBoards(Long memberId) {
         return boardMapper.findAllByMemberId(memberId);
     }
 
