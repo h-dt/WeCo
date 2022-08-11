@@ -1,7 +1,7 @@
 package com.dreamteam.hola.config.auth;
 
 import com.dreamteam.hola.domain.Role;
-import com.dreamteam.hola.dto.MemberDto;
+import com.dreamteam.hola.dto.member.MemberDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -44,7 +44,7 @@ public class PrincipalDetails implements UserDetails,OAuth2User{
 
     @Override
     public String getUsername() {
-        return memberDto.getNickname();
+        return memberDto.getEmail();
     }
 
     public Role getRole() {
