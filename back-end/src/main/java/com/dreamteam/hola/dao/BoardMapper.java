@@ -1,27 +1,29 @@
 package com.dreamteam.hola.dao;
 
-import com.dreamteam.hola.dto.BoardDto;
 import com.dreamteam.hola.dto.RecommendedBoardDto;
-import org.apache.ibatis.annotations.*;
+import com.dreamteam.hola.dto.board.BoardDetailDto;
+import com.dreamteam.hola.dto.board.BoardListDto;
+import com.dreamteam.hola.dto.board.BoardReqDto;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 @Mapper
 public interface BoardMapper {
-    BoardDto findById(Long id);
+    BoardDetailDto findById(Long id);
 
-    BoardDto findByIdAndMemberId(Long id, Long memberId);
+    BoardDetailDto findByIdAndMemberId(Long id, Long memberId);
 
 
-    List<BoardDto> findAll(String recruitType, String recruitStatus, List<String> skillTypes);
+    List<BoardListDto> findAll(String recruitType, String recruitStatus, List<String> skillTypes);
 
     void updateViewCnt(Long id);
 
-    void insertBoard(BoardDto boardDto);
+    int save(BoardReqDto boardDto);
 
     int updateRecruitStatus(Long id, String status);
 
-    int update(Long id, BoardDto board);
+    int update(Long id, BoardReqDto boardDto);
 
 
     void calScore();
@@ -30,6 +32,6 @@ public interface BoardMapper {
 
     void updateCommentCnt();
 
-    List<BoardDto> findAllByMemberId(Long memberId);
+    List<BoardListDto> findAllByMemberId(Long memberId);
 
 }

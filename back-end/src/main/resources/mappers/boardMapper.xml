@@ -15,19 +15,20 @@
         b.start_date
     </sql>
 
-    <select id="findById" resultType="BoardDto">
+    <select id="findById" resultType="BoardDetailDto">
         select
         <include refid="boardCommonColumns"/>,
         b.content,
         b.reg_date,
         b.contact_type,
-        b.contact
+        b.contact,
+        b.recruit_status
         from board b
         join member m on m.member_id = b.member_id
         where b.board_id = #{id}
     </select>
 
-    <select id="findByIdAndMemberId" resultType="BoardDto">
+    <select id="findByIdAndMemberId" resultType="BoardDetailDto">
         select
         <include refid="boardCommonColumns"/>,
         b.content,
@@ -40,7 +41,7 @@
         where b.board_id = #{id} and b.member_id = #{memberId}
     </select>
 
-    <select id="findAll" resultType="BoardDto">
+    <select id="findAll" resultType="BoardListDto">
         select distinct
         <include refid="boardCommonColumns"/>,
         b.view_cnt,
@@ -72,7 +73,7 @@
         where board_id = #{id}
     </update>
 
-    <insert id="insertBoard" parameterType="BoardDto">
+    <insert id="save" parameterType="BoardReqDto">
         insert into board (member_id, title, content, recruit_type, recruit_cnt, progress_type, duration, contact_type, contact,
         start_date)
         values (#{memberId}, #{title}, #{content}, #{recruitType}, #{recruitCnt},#{progressType}, #{duration}, #{contactType},
@@ -82,51 +83,25 @@
         </selectKey>
     </insert>
 
-    <!--    <select id="findAllBySkillTypes" resultType="BoardDto">-->
-    <!--        select distinct b.board_id id,-->
-    <!--        title,-->
-    <!--        view_cnt,-->
-    <!--        recruit_status,-->
-    <!--        recruit_type,-->
-    <!--        recruit_cnt,-->
-    <!--        duration,-->
-    <!--        start_date,-->
-    <!--        progress_type-->
-    <!--        from board b-->
-    <!--        join board_skill bs on b.board_id = bs.board_id-->
-    <!--        join skill s on bs.skill_id = s.skill_id-->
-    <!--        <if test="skillTypes != null">-->
-    <!--            where-->
-    <!--            <foreach collection="skillTypes" item="skill" separator="or">-->
-    <!--                skill_type = #{skill}-->
-    <!--            </foreach>-->
-    <!--        </if>-->
-    <!--    </select>-->
-
     <update id="updateRecruitStatus">
         update board
         set recruit_status=#{status}
         where board_id = #{id}
     </update>
 
-    <update id="update" parameterType="BoardDto">
+    <update id="update" parameterType="BoardReqDto">
         update board b
-        set b.title         = #{board.title},
-            b.content       = #{board.content},
-            b.recruit_type  = #{board.recruitType},
-            b.recruit_cnt   = #{board.recruitCnt},
-            b.progress_type = #{board.progressType},
-            b.duration      = #{board.duration},
-            b.start_date    = #{board.startDate},
-            b.contact_type  = #{board.contactType},
-            b.contact       = #{board.contact}
+        set b.title         = #{boardDto.title},
+            b.content       = #{boardDto.content},
+            b.recruit_type  = #{boardDto.recruitType},
+            b.recruit_cnt   = #{boardDto.recruitCnt},
+            b.progress_type = #{boardDto.progressType},
+            b.duration      = #{boardDto.duration},
+            b.start_date    = #{boardDto.startDate},
+            b.contact_type  = #{boardDto.contactType},
+            b.contact       = #{boardDto.contact}
             where board_id = #{id}
     </update>
-
-    <select id="selectAllBoard" resultType="boardDto">
-        select board_id,title,view_cnt,reg_date
-        from board;
-    </select>
 
     <update id="calScore">
         UPDATE board
@@ -150,7 +125,7 @@
             where board.board_id = comment.board_id);
     </update>
 
-    <select id="findAllByMemberId" resultType="BoardDto">
+    <select id="findAllByMemberId" resultType="BoardListDto">
         select
         <include refid="boardCommonColumns"/>,
         b.view_cnt

@@ -9,12 +9,16 @@
     </settings>
 
     <typeAliases>
-        <typeAlias type="com.dreamteam.hola.dto.BoardDto" alias="BoardDto"/>
+        <typeAlias type="com.dreamteam.hola.dto.board.BoardReqDto" alias="BoardReqDto"/>
+        <typeAlias type="com.dreamteam.hola.dto.board.BoardDetailDto" alias="BoardDetailDto"/>
+        <typeAlias type="com.dreamteam.hola.dto.board.BoardListDto" alias="BoardListDto"/>
         <typeAlias type="com.dreamteam.hola.dto.CommentDto" alias="CommentDto"/>
         <typeAlias type="com.dreamteam.hola.dto.MemberDto" alias="MemberDto"/>
-        <typeAlias type="com.dreamteam.hola.domain.BigComment" alias="BigComment"/>
+        <typeAlias type="com.dreamteam.hola.dto.BoardSkillDto" alias="BoardSkillDto"/>
+        <typeAlias type="com.dreamteam.hola.dto.SkillDto" alias="SkillDto"/>
         <typeAlias type="com.dreamteam.hola.dto.RecommendedBoardDto" alias="RecommendedBoardDto" />
         <typeAlias type="com.dreamteam.hola.dto.Heart" alias="Heart"/>
+        <typeAlias type="com.dreamteam.hola.domain.BigComment" alias="BigComment"/>
         <typeAlias type="com.dreamteam.hola.domain.Member" alias="Member"/>
     </typeAliases>
 </configuration>
