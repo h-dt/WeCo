@@ -1,7 +1,7 @@
 package com.dreamteam.hola.dao;
 
-import com.dreamteam.hola.domain.Member;
-import com.dreamteam.hola.dto.MemberDto;
+import com.dreamteam.hola.dto.member.MemberDto;
+import com.dreamteam.hola.dto.member.MemberReqDto;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

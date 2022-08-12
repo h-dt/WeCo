@@ -3,7 +3,7 @@ package com.dreamteam.hola.service;
 import com.dreamteam.hola.dao.CommentMapper;
 import com.dreamteam.hola.dao.MemberMapper;
 import com.dreamteam.hola.dto.CommentDto;
-import com.dreamteam.hola.dto.MemberDto;
+import com.dreamteam.hola.dto.member.MemberDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

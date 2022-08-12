@@ -26,7 +26,7 @@
             #{password},
             #{email},
             #{profileImage},
-            #{role},
+            'ROLE_USER',
             now(),
             null,
             'N',
@@ -62,7 +62,17 @@
 
     <select id="findById" resultType="MemberDto">
         select
-        <include refid="memberColumns"/>
+            member_id,
+            nickname,
+            password,
+            email,
+            profile_image,
+            role,
+            reg_date,
+            mod_date,
+            withdrawal_yn,
+            withdrawal_date,
+            social_type
         from member
         where member_id = #{id}
             and

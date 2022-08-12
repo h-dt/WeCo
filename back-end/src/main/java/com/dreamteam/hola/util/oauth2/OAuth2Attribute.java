@@ -2,6 +2,7 @@ package com.dreamteam.hola.util.oauth2;
 
 import com.dreamteam.hola.domain.Member;
 import com.dreamteam.hola.domain.Role;
+import com.dreamteam.hola.dto.member.MemberDto;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -56,8 +57,8 @@ public class OAuth2Attribute {
                 .attributeKey(attributeKey)
                 .build();
     }
-    Member convertToMember(String provider) {
-        return Member.builder()
+    MemberDto convertToMember(String provider) {
+        return MemberDto.builder()
                 .email(email)
                 .nickname(email.split("@")[0])
                 .profileImage(picture)

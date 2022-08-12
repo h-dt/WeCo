@@ -1,6 +1,6 @@
 package com.dreamteam.hola.domain;
 
-import com.dreamteam.hola.dto.MemberDto;
+import com.dreamteam.hola.dto.member.MemberDto;
 import lombok.*;
 
 import java.time.LocalDate;
