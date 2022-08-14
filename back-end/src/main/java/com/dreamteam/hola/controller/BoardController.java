@@ -123,26 +123,51 @@ public class BoardController {
 
 
     // 추천 게시물 List 가져오기_2022_07_11_by_정은비
+
+    @ApiOperation(value = "추천 게시글 API",notes = "댓글수,조회수,등록날짜에 따른 점수로 10개의 게시글 추천게시글 목록")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "추천 게시글 List", response = RecommendedBoardDto.class, responseContainer = "List")
+    })
     @GetMapping("/board/recommend")
     public ResponseEntity<?> getRecommendedBoardList() {
         return new ResponseEntity<>(boardServiceimpl.getRecommendedBoardList(), HttpStatus.OK);
     }
 
-    @PostMapping("/heart/{boardId}")
-    public ResponseEntity<?> addHeart(@AuthenticationPrincipal PrincipalDetails principalDetails,@PathVariable Long boardId){
+
+    @ApiOperation(value ="해당 Board의 heart를 추가 (사용자당 하나의 heart만 가능)",notes = "좋아요 활성화")
+    @ApiImplicitParam(name = "id", value = "포스트 대상 PK",dataType = "Long")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "true"),
+            @ApiResponse(code = 400, message = "false")
+    })
+    @PostMapping("/heart/{id}")
+    public ResponseEntity<?> addHeart(@ApiIgnore @AuthenticationPrincipal PrincipalDetails principalDetails,@PathVariable("id") Long boardId){
+        boolean result = false;
+        if(principalDetails != null){
+             result=heartServiceImpl.save(boardId,principalDetails.getMemberDto().getMemberId());
+        }
+        return result ? new ResponseEntity<>(result,HttpStatus.OK) : new ResponseEntity<>(result,HttpStatus.BAD_REQUEST);
+    }
+
+
+    @ApiOperation(value = "해당 Board의 Heart 삭제",notes = "좋아요 비활성화")
+    @ApiImplicitParam(name = "id", value = "포스트 대상 PK",dataType = "Long")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "true"),
+            @ApiResponse(code = 400, message = "false")
+    })
+    @DeleteMapping("/heart/{id}")
+    public ResponseEntity<?> deleteHeart(@ApiIgnore @AuthenticationPrincipal PrincipalDetails principalDetails,@PathVariable("id") Long boardId){
 
         boolean result = false;
         if(principalDetails != null){
-            result = heartServiceImpl.save(boardId,principalDetails.getMemberDto().getMemberId());
+            log.info("1 : {}",result);
+            result = heartServiceImpl.delete(boardId,principalDetails.getMemberDto().getMemberId());
+            log.info("2 : {}",String.valueOf(result));
         }
-        return result ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
-    @DeleteMapping("/heart/{boardId}")
-    public ResponseEntity<?> deleteHeart(@AuthenticationPrincipal PrincipalDetails principalDetails,@PathVariable Long boardId){
-        Long memberId = principalDetails.getMemberDto().getMemberId();
-        heartServiceImpl.delete(boardId,memberId);
+        log.info("3 : {}",String.valueOf(result));
 
-        return new ResponseEntity<>("좋아요 삭제",HttpStatus.OK);
+        return result ? new ResponseEntity<>(result,HttpStatus.OK) : new ResponseEntity<>(result,HttpStatus.BAD_REQUEST);
 
     }
 }
