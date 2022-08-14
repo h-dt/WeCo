@@ -1,9 +1,7 @@
 package com.dreamteam.hola.util.oauth2;
 
 import com.dreamteam.hola.dao.MemberMapper;
-import com.dreamteam.hola.domain.Member;
 import com.dreamteam.hola.dto.member.MemberDto;
-import com.dreamteam.hola.dto.member.MemberReqDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
