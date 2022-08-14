@@ -6,12 +6,14 @@ import com.dreamteam.hola.dto.Heart;
 import com.dreamteam.hola.dto.board.BoardListDto;
 import com.dreamteam.hola.util.DeduplicationUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class HeartServiceImpl {
 
     private final HeartMapper heartMapper;
@@ -23,8 +25,8 @@ public class HeartServiceImpl {
                 .memberId(memberId)
                 .build();
 
-
-        if(isNotAlreadyList(heart) != null){
+        log.info("좋아요 존재해? ={}",isNotAlreadyList(heart));
+        if(isNotAlreadyList(heart) == null){
             heartMapper.addHeart(heart);
             return true;
         }
@@ -32,8 +34,17 @@ public class HeartServiceImpl {
 
     }
 
-    public void delete(Long boardId,Long memberId){
-        heartMapper.deleteHeart(boardId,memberId);
+    public boolean delete(Long boardId,Long memberId){
+        Heart heart = Heart.builder()
+                .boardId(boardId)
+                .memberId(memberId)
+                .build();
+
+        if(isNotAlreadyList(heart) != null){
+            heartMapper.deleteHeart(heart);
+            return true;
+        }
+        return false;
     }
 
     public List<BoardListDto> HeartList(Long memberId){
