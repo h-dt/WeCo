@@ -2,7 +2,6 @@ package com.dreamteam.hola.service;
 
 import com.dreamteam.hola.dto.member.MemberDto;
 import com.dreamteam.hola.dto.member.MemberLoginDto;
-import com.dreamteam.hola.dto.member.MemberReqDto;
 import com.dreamteam.hola.util.jwt.Token;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,6 +15,8 @@ public interface MemberService {
 
     MemberDto getProfile(Long id);
     void update(Long id,MemberDto memberDto,MultipartFile multipartFile) throws IOException;
+
+    boolean delete(Long id);
 
 
 

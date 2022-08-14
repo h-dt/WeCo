@@ -6,7 +6,6 @@ import com.dreamteam.hola.dao.MemberMapper;
 import com.dreamteam.hola.domain.Role;
 import com.dreamteam.hola.dto.member.MemberDto;
 import com.dreamteam.hola.dto.member.MemberLoginDto;
-import com.dreamteam.hola.dto.member.MemberReqDto;
 import com.dreamteam.hola.util.jwt.JwtTokenProvider;
 import com.dreamteam.hola.util.jwt.Token;
 import lombok.RequiredArgsConstructor;
@@ -70,6 +69,10 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public Token signin(MemberLoginDto memberDto) {
         PrincipalDetails findMember = (PrincipalDetails) principalDetailsService.loadUserByUsername(memberDto.getEmail());
+        log.info("FIND-MEMBER={}",findMember);
+        log.info("FIND-MEMBER={}",findMember.getRole());
+        log.info("FIND-MEMBER={}",findMember.getMemberDto());
+
         if (!passwordEncoder.matches(memberDto.getPassword(), findMember.getPassword())) {
             return new Token("access token create fail", "refresh token create fail");
         }
@@ -103,5 +106,9 @@ public class MemberServiceImpl implements MemberService {
         memberMapper.update(memberDto);
     }
 
-
+    @Override
+    public boolean delete(Long id) {
+        memberMapper.delete(id);
+        return true;
+    }
 }
