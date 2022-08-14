@@ -40,9 +40,9 @@ public class JwtTokenProvider {
     }
 
     // JWT token 생성
-    public Token createtoken(String nickname, Role role) {
+    public Token createtoken(String email, Role role) {
 // token에 들어갈 정보들을 가공
-        Claims claims = Jwts.claims().setSubject(nickname);
+        Claims claims = Jwts.claims().setSubject(email);
         claims.put("role", role);
         Date now = new Date();
         return new Token(
@@ -69,6 +69,7 @@ public class JwtTokenProvider {
     // Jwt token으로 인증 정보 조회 시 회원 정보 추출
     public String getUsername(String token) {
 // token 내부의 claims에 저장된 정보 복호화
+        log.info("서브젝트={}",Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject());
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
@@ -81,6 +82,7 @@ public class JwtTokenProvider {
     public boolean validateToken(String token) {
 //        try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            log.info("바디 ={}",claims.getBody().toString());
             return !claims.getBody().getExpiration().before(new Date());
 //        } catch (MalformedJwtException e) {
 //            logger.info("잘못된 JWT 서명입니다.");
