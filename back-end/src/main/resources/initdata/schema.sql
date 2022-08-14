@@ -10,7 +10,6 @@ drop table if exists member;
 CREATE TABLE member
 (
     member_id       int primary key AUTO_INCREMENT comment '사용자 식별 번호',
-    username        VARCHAR(100)                    NOT NULL UNIQUE comment '아이디',
     nickname        VARCHAR(50)                     NOT NULL UNIQUE comment '닉네임',
     password        VARCHAR(100)                    NOT NULL comment '비밀번호',
     email           VARCHAR(50)                     NOT NULL UNIQUE comment '이메일',
@@ -22,6 +21,27 @@ CREATE TABLE member
     withdrawal_date TIMESTAMP comment '탈퇴날짜',
     social_type     VARCHAR(20)
 ) comment '멤버 정보';
+
+# create table board
+# (
+#     board_id       int(10) AUTO_INCREMENT PRIMARY KEY,
+#     member_id      int(10)      NOT NULL,
+#     title          VARCHAR(100) NOT NULL,
+#     content        TEXT         NOT NULL,
+#     view_cnt       BIGINT                DEFAULT 0,
+#     recruit_status CHAR(1)      NOT NULL DEFAULT 'Y',
+#     reg_date       TIMESTAMP             DEFAULT NOW(),
+#     mod_date       TIMESTAMP,
+#     recruit_type   VARCHAR(10)  NOT NULL,
+#     recruit_cnt    VARCHAR(10)  NOT NULL,
+#     progress_type  VARCHAR(10)  NOT NULL,
+#     duration       VARCHAR(10)  NOT NULL,
+#     contact_type   VARCHAR(20)  NOT NULL,
+#     contact        VARCHAR(100) NOT NULL,
+#     start_date     TIMESTAMP    NOT NULL,
+#     foreign key (member_id) references member (member_id)
+# );
+
 
 create table board
 (
@@ -40,8 +60,12 @@ create table board
     contact_type   VARCHAR(20)  NOT NULL,
     contact        VARCHAR(100) NOT NULL,
     start_date     TIMESTAMP    NOT NULL,
+    score          DOUBLE               DEFAULT 0,
+    comment_cnt    BIGINT               DEFAULT 0,
+    delete_status  CHAR(1)      NOT NULL DEFAULT 'N',
     foreign key (member_id) references member (member_id)
 );
+
 
 create table skill
 (
@@ -73,12 +97,15 @@ create table comment
 );
 
 create table heart(
-    board_id int not null ,
-    member_id int not null,
-    constraint heart_pk primary key (board_id,member_id),
+    heart_id int(10) AUTO_INCREMENT primary key,
+    board_id int(10) not null ,
+    member_id int(10) not null,
+
     foreign key (board_id) references board(board_id) on delete cascade,
     foreign key (member_id) references member(member_id) on delete cascade
 );
+
+
 
 
 

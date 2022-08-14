@@ -3,16 +3,14 @@ package com.dreamteam.hola.service;
 import com.dreamteam.hola.config.auth.PrincipalDetails;
 import com.dreamteam.hola.config.auth.PrincipalDetailsService;
 import com.dreamteam.hola.dao.MemberMapper;
-import com.dreamteam.hola.domain.Member;
 import com.dreamteam.hola.domain.Role;
-import com.dreamteam.hola.dto.BoardDto;
-import com.dreamteam.hola.dto.MemberDto;
+import com.dreamteam.hola.dto.member.MemberDto;
+import com.dreamteam.hola.dto.member.MemberLoginDto;
 import com.dreamteam.hola.util.jwt.JwtTokenProvider;
 import com.dreamteam.hola.util.jwt.Token;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,10 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -40,17 +36,9 @@ public class MemberServiceImpl implements MemberService {
     private final PrincipalDetailsService principalDetailsService;
 
 
-
-
     @Override
     @Transactional
-    public void joinMember(Member member) {
-
-    }
-
-    @Override
-    @Transactional
-    public boolean signup(MemberDto memberDto,MultipartFile multipartFile) throws IOException {
+    public boolean signup(MemberDto memberDto, MultipartFile multipartFile) throws IOException {
         log.info("Call Service SignUp");
 
         memberDto.setRole(Role.ROLE_USER);
@@ -79,8 +67,12 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public Token signin(MemberDto memberDto) {
-        PrincipalDetails findMember = (PrincipalDetails) principalDetailsService.loadUserByUsername(memberDto.getUsername());
+    public Token signin(MemberLoginDto memberDto) {
+        PrincipalDetails findMember = (PrincipalDetails) principalDetailsService.loadUserByUsername(memberDto.getEmail());
+        log.info("FIND-MEMBER={}",findMember);
+        log.info("FIND-MEMBER={}",findMember.getRole());
+        log.info("FIND-MEMBER={}",findMember.getMemberDto());
+
         if (!passwordEncoder.matches(memberDto.getPassword(), findMember.getPassword())) {
             return new Token("access token create fail", "refresh token create fail");
         }
@@ -114,5 +106,9 @@ public class MemberServiceImpl implements MemberService {
         memberMapper.update(memberDto);
     }
 
-
+    @Override
+    public boolean delete(Long id) {
+        memberMapper.delete(id);
+        return true;
+    }
 }

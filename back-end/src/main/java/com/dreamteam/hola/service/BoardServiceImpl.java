@@ -2,7 +2,7 @@ package com.dreamteam.hola.service;
 
 import com.dreamteam.hola.dao.*;
 import com.dreamteam.hola.dto.CommentDto;
-import com.dreamteam.hola.dto.RecommendedBoardDto;
+import com.dreamteam.hola.dto.board.RecommendedBoardDto;
 import com.dreamteam.hola.dto.SkillDto;
 import com.dreamteam.hola.dto.board.*;
 import lombok.RequiredArgsConstructor;

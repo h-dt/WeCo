@@ -6,29 +6,45 @@ import com.dreamteam.hola.dto.Heart;
 import com.dreamteam.hola.dto.board.BoardListDto;
 import com.dreamteam.hola.util.DeduplicationUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class HeartServiceImpl {
 
     private final HeartMapper heartMapper;
     private final SkillMapper skillMapper;
 
-    public int save(Long boardId,Long memberId){
+    public boolean save(Long boardId,Long memberId){
         Heart heart = Heart.builder()
                 .boardId(boardId)
                 .memberId(memberId)
                 .build();
 
-         return heartMapper.addHeart(heart);
+        log.info("좋아요 존재해? ={}",isNotAlreadyList(heart));
+        if(isNotAlreadyList(heart) == null){
+            heartMapper.addHeart(heart);
+            return true;
+        }
+         return false;
 
     }
 
-    public void delete(Long boardId,Long memberId){
-        heartMapper.deleteHeart(boardId,memberId);
+    public boolean delete(Long boardId,Long memberId){
+        Heart heart = Heart.builder()
+                .boardId(boardId)
+                .memberId(memberId)
+                .build();
+
+        if(isNotAlreadyList(heart) != null){
+            heartMapper.deleteHeart(heart);
+            return true;
+        }
+        return false;
     }
 
     public List<BoardListDto> HeartList(Long memberId){
@@ -42,5 +58,10 @@ public class HeartServiceImpl {
         }
 
         return  distinctedList;
+    }
+
+    private Heart isNotAlreadyList(Heart heart){
+        return heartMapper.findHeart(heart);
+
     }
 }

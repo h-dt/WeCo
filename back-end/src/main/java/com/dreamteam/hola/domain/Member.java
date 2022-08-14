@@ -1,6 +1,6 @@
 package com.dreamteam.hola.domain;
 
-import com.dreamteam.hola.dto.MemberDto;
+import com.dreamteam.hola.dto.member.MemberDto;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -14,7 +14,6 @@ import java.util.UUID;
 @Builder
 public class Member{
     private Long memberId;
-    private String username;
     private String nickname;
     private String password;
     private String email;

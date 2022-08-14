@@ -1,14 +1,13 @@
 package com.dreamteam.hola.dao;
 
-import com.dreamteam.hola.domain.Member;
-import com.dreamteam.hola.dto.MemberDto;
+import com.dreamteam.hola.dto.member.MemberDto;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface MemberMapper {
 
 
-    Member findByNickname(String nickname);
+    MemberDto findByNickname(String nickname);
 
     MemberDto findByEmail(String email);
 
@@ -17,6 +16,8 @@ public interface MemberMapper {
     MemberDto findById(Long id);
 
     int update(MemberDto memberDto);
+
+    int delete(Long id);
 
 
 }

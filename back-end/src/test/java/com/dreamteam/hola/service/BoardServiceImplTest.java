@@ -6,8 +6,10 @@ import com.dreamteam.hola.dto.BoardDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DateFormat;
@@ -19,7 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@RunWith(SpringRunner.class)
 @Transactional
 class BoardServiceImplTest {
 
@@ -33,6 +36,8 @@ class BoardServiceImplTest {
     private SkillMapper skillMapper;
     @Test
     void register() {
+
+        //given
         List<String> skillList = new ArrayList<>();
         skillList.add("JPA");
         skillList.add("Vue");
@@ -50,12 +55,11 @@ class BoardServiceImplTest {
                 .skills(skillList)
                 .startDate(date)
                 .build();
-
+        //when
         boardService.register(1L,board);
-        Assertions.assertThat(board.getMemberId()).isEqualTo(1L);
 
-
-
+        //then
+        Assertions.assertThat("testTitle").isEqualTo(board.getTitle());
     }
 
     @Test
