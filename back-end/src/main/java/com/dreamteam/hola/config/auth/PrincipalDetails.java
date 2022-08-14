@@ -5,6 +5,7 @@ import com.dreamteam.hola.dto.member.MemberDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -15,6 +16,7 @@ import java.util.Map;
 
 @Data
 @NoArgsConstructor
+@Log4j2
 public class PrincipalDetails implements UserDetails,OAuth2User{
 //시큐리티가 /login 주소 요청이 오면 낚아채서 로그인을 진행합니다.
 //로그인 진행이 완료가 되면 시큐리티 내장 Session을 만들어줍니다.(Security ContextHolder)<- 여기에 세션정보를 저장
@@ -88,7 +90,9 @@ public class PrincipalDetails implements UserDetails,OAuth2User{
         collectors.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
+                log.info(memberDto.getRole());
                 return memberDto.getRole().toString();
+
             }
         });
         return collectors;
