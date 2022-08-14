@@ -1,7 +1,6 @@
 package com.dreamteam.hola.dao;
 
 import com.dreamteam.hola.dto.member.MemberDto;
-import com.dreamteam.hola.dto.member.MemberReqDto;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
@@ -17,6 +16,8 @@ public interface MemberMapper {
     MemberDto findById(Long id);
 
     int update(MemberDto memberDto);
+
+    int delete(Long id);
 
 
 }
