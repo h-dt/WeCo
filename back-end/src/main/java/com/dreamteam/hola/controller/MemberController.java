@@ -3,7 +3,6 @@ package com.dreamteam.hola.controller;
 import com.dreamteam.hola.config.auth.PrincipalDetails;
 import com.dreamteam.hola.dto.member.MemberDto;
 import com.dreamteam.hola.dto.member.MemberLoginDto;
-import com.dreamteam.hola.dto.member.MemberReqDto;
 import com.dreamteam.hola.service.HeartServiceImpl;
 import com.dreamteam.hola.service.MemberService;
 import com.dreamteam.hola.util.jwt.Token;
@@ -68,6 +67,13 @@ public class MemberController {
         Long memberId = principalDetails.getMemberDto().getMemberId();
         return new ResponseEntity<>(heartServiceImpl.HeartList(memberId),HttpStatus.OK);
 
+    }
+    @DeleteMapping("/member")
+    public ResponseEntity<?>  withDrawal(@AuthenticationPrincipal PrincipalDetails principalDetails){
+        Long memberId = principalDetails.getMemberDto().getMemberId();
+        boolean result = memberServiceImpl.delete(memberId);
+
+        return  result? new ResponseEntity<>(result,HttpStatus.OK) : new ResponseEntity<>(result,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 
