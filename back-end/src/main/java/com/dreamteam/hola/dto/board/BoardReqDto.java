@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -22,7 +21,7 @@ import java.util.List;
 @Builder
 public class BoardReqDto {      // update, create 용 DTO
     @ApiModelProperty(value="작성된 게시글 id", example="4")
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(value = "board_id")
     private Long  id;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -59,12 +58,20 @@ public class BoardReqDto {      // update, create 용 DTO
     @ApiModelProperty(value="시작 예정일", example="2022-09-14", required = true)
     @NotNull
 //    @Pattern(regexp = "^20(\\d{2})-(\\d{2})-(\\d{2})")
-    private Date startDate;   //시작 예정일
+    private String startDate;   //시작 예정일
 
     @ApiModelProperty(value="연락 방법", example="이메일", required = true, allowableValues = "\"카카오톡 오픈채팅\",\"구글폼\",\"이메일\"")
     @NotBlank
 //    @Pattern(regexp = "[카카오톡 오픈채팅|구글폼|이메일]")
     private String contactType;
+
+    @ApiModelProperty(value="작성일(작성 안해도 됨)")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String regDate;
+
+    @ApiModelProperty(value="수정일(작성 안해도 됨)")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String modDate;
 
     @ApiModelProperty(value="연락 링크", example="test233@gmail.com", required = true)
     @NotBlank

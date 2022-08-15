@@ -1,15 +1,21 @@
 package com.dreamteam.hola.service;
 
 import com.dreamteam.hola.dao.*;
-import com.dreamteam.hola.dto.CommentDto;
 import com.dreamteam.hola.dto.RecommendedBoardDto;
 import com.dreamteam.hola.dto.SkillDto;
-import com.dreamteam.hola.dto.board.*;
+import com.dreamteam.hola.dto.board.BoardDetailDto;
+import com.dreamteam.hola.dto.board.BoardFilterDto;
+import com.dreamteam.hola.dto.board.BoardListDto;
+import com.dreamteam.hola.dto.board.BoardReqDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -32,15 +38,8 @@ public class BoardServiceImpl implements BoardService {
         
         // 조회수 증가
         boardMapper.updateViewCnt(boardId);
-        
-        // 댓글과 대댓글 조회 및 Dto에 Set
-        List<CommentDto> comments = commentMapper.findAllCommentByBoardId(boardId);
+
         findBoard.setCommentCnt(commentMapper.CountByBoardId(boardId));
-        for (CommentDto commentDto : comments) {
-            commentDto.setBigCommentCnt(commentMapper.CountBigComments(boardId, commentDto.getCommentId()));
-            commentDto.setBigComments(commentMapper.findAllBigCommentByBoardIdAndCGroup(boardId, commentDto.getCommentId()));
-        }
-        findBoard.setComments(comments);
 
         // 게시글에 사용된 skill 조회 및 Dto에 set
         List<String> skills = skillMapper.findAllByBoardId(boardId);
@@ -97,12 +96,22 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional
-    public int update(Long id, BoardReqDto boardDto) {
-        boardMapper.update(id, boardDto);
-        boardSkillMapper.deleteAllByBoardId(id);
+    public int update(Long memberId, BoardReqDto boardDto) {
+
+        if(boardMapper.findById(boardDto.getId()) == null){
+            throw new NullPointerException();
+        }
+
+        Date date = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String updateDate = dateFormat.format(date);
+
+        boardDto.setModDate(updateDate);
+        boardMapper.update(memberId, boardDto);
+        boardSkillMapper.deleteAllByBoardId(boardDto.getId());
         boardDto.getSkills().forEach(skills -> {
             SkillDto skillDto = skillMapper.findBySkillType(skills);
-            boardSkillMapper.save(id,skillDto.getSkillId());
+            boardSkillMapper.save(boardDto.getId(),skillDto.getSkillId());
         });
         return 1;
     }

@@ -23,7 +23,7 @@ public interface BoardMapper {
 
     int updateRecruitStatus(Long id, String status);
 
-    int update(Long id, BoardReqDto boardDto);
+    int update(Long memberId, BoardReqDto boardDto);
 
 
     void calScore();
