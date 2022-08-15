@@ -1,6 +1,5 @@
 package com.dreamteam.hola.util.jwt;
 
-import com.dreamteam.hola.util.ex.ExceptionCode;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
 import org.springframework.security.core.AuthenticationException;
