@@ -1,8 +1,7 @@
 package com.dreamteam.hola.util.oauth2;
 
 import com.dreamteam.hola.dao.MemberMapper;
-import com.dreamteam.hola.domain.Member;
-import com.dreamteam.hola.dto.MemberDto;
+import com.dreamteam.hola.dto.member.MemberDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -43,19 +42,18 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         // SuccessHandler가 사용할 수 있도록 서비스 등록 (Attributes에서 자세한 사용자 정보를 담고 있다)
         OAuth2Attribute oAuth2Attribute = OAuth2Attribute.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
-        Member member = oAuth2Attribute.convertToMember(registrationId);
+        MemberDto member = oAuth2Attribute.convertToMember(registrationId);
         saveOrUpdate(member);
 
         return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")), oAuth2Attribute.getAttributes(), oAuth2Attribute.getAttributeKey());
     }
 
-    private void saveOrUpdate(Member member){
-        MemberDto findMemberDto = memberMapper.findByNickname(member.getNickname());
-        MemberDto memberDto = member.toDto();
+    private void saveOrUpdate(MemberDto memberDto){
+        MemberDto findMemberDto = memberMapper.findByEmail(memberDto.getEmail());
+
         if(findMemberDto == null){
             memberMapper.signup(memberDto);
         }else {
-            memberDto.setMemberId(findMemberDto.getMemberId());
             memberMapper.update(memberDto);
         }
     }

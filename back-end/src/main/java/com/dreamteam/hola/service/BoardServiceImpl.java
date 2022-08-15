@@ -2,6 +2,7 @@ package com.dreamteam.hola.service;
 
 import com.dreamteam.hola.dao.*;
 import com.dreamteam.hola.dto.RecommendedBoardDto;
+import com.dreamteam.hola.dto.board.RecommendedBoardDto;
 import com.dreamteam.hola.dto.SkillDto;
 import com.dreamteam.hola.dto.board.BoardDetailDto;
 import com.dreamteam.hola.dto.board.BoardFilterDto;
@@ -12,10 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor
