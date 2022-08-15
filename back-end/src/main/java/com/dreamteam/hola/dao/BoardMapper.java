@@ -1,6 +1,6 @@
 package com.dreamteam.hola.dao;
 
-import com.dreamteam.hola.dto.RecommendedBoardDto;
+import com.dreamteam.hola.dto.board.RecommendedBoardDto;
 import com.dreamteam.hola.dto.board.BoardDetailDto;
 import com.dreamteam.hola.dto.board.BoardListDto;
 import com.dreamteam.hola.dto.board.BoardReqDto;

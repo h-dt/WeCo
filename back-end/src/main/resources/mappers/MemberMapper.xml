@@ -26,7 +26,7 @@
             #{password},
             #{email},
             #{profileImage},
-            #{role},
+            'ROLE_USER',
             now(),
             null,
             'N',
@@ -46,7 +46,7 @@
 
     <select id="findByEmail" parameterType="String" resultType="MemberDto">
         SELECT
-            nickname,password,email,profile_image,reg_date
+            member_id,nickname,password,email,profile_image,reg_date,role
         FROM
             member
         WHERE
@@ -56,13 +56,23 @@
     </select>
 
 <!--    <insert id="signup" parameterType="MemberDto">-->
-<!--        insert into member (username, nickname, password, email, profile_image, role)-->
-<!--        values (#{username}, #{nickname}, #{password}, #{email}, #{profileImage}, #{role})-->
+<!--        insert into member (, nickname, password, email, profile_image, role)-->
+<!--        values (#{}, #{nickname}, #{password}, #{email}, #{profileImage}, #{role})-->
 <!--    </insert>-->
 
     <select id="findById" resultType="MemberDto">
         select
-        <include refid="memberColumns"/>
+            member_id,
+            nickname,
+            password,
+            email,
+            profile_image,
+            role,
+            reg_date,
+            mod_date,
+            withdrawal_yn,
+            withdrawal_date,
+            social_type
         from member
         where member_id = #{id}
             and
@@ -75,8 +85,17 @@
         set
         nickname=#{nickname},
         password=#{password},
-        profile_image=#{profileImage}
+        profile_image=#{profileImage},
+        mod_date=now()
         where member_id = #{memberId}
+    </update>
+
+    <update id="delete" parameterType="Long">
+        update member
+        set
+        withdrawal_yn = 'Y',
+        withdrawal_date=now()
+        where member_id= #{id}
     </update>
 
 

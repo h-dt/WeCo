@@ -15,7 +15,7 @@ public interface HeartMapper {
 
     int addHeart(Heart dto);
 
-    void deleteHeart(Long boardId,Long memberId);
+    int deleteHeart(Heart dto);
 
     List<BoardListDto> heartList(Long memberId);
 

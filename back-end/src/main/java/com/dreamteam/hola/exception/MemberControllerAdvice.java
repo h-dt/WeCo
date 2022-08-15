@@ -1,6 +1,7 @@
 package com.dreamteam.hola.exception;
 
 import com.dreamteam.hola.controller.MemberController;
+import org.apache.ibatis.jdbc.Null;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -35,6 +36,11 @@ public class MemberControllerAdvice {
         });
         return ErrorResponse.of(HttpStatus.BAD_REQUEST,errorList.toString());
 
+    }
+    @ExceptionHandler(NullPointerException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    protected ErrorResponse memberHandlerException3(NullPointerException ex){
+        return ErrorResponse.of(HttpStatus.UNAUTHORIZED,"인증되지 않는 회원입니다.");
     }
 
 

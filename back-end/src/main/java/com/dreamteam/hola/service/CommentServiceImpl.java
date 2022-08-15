@@ -2,10 +2,14 @@ package com.dreamteam.hola.service;
 
 import com.dreamteam.hola.dao.BoardMapper;
 import com.dreamteam.hola.dao.CommentMapper;
+
 import com.dreamteam.hola.dto.comment.CommentDto;
 import com.dreamteam.hola.dto.comment.CommentReqDto;
 import com.dreamteam.hola.exception.comment.BoardNotFoundException;
 import com.dreamteam.hola.exception.comment.CommentNotMatchException;
+import com.dreamteam.hola.dao.MemberMapper;
+import com.dreamteam.hola.dto.member.MemberDto;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
