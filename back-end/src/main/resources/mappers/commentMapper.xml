@@ -16,17 +16,8 @@
         <include refid="commentCommonColumns"/>
         from comment c
         join member m on m.member_id = c.member_id
-        where c.board_id = #{id} and c.c_depth = false
-        order by c.reg_date desc, c.comment_id desc;
-    </select>
-
-    <select id="findAllBigCommentByBoardIdAndCGroup" resultType="BigComment">
-        select
-        <include refid="commentCommonColumns"/>
-        from comment c
-        join member m on m.member_id = c.member_id
-        where c.board_id = #{boardId} and c.c_depth = true and c.c_group = #{cGroup}
-        order by c.reg_date desc, c.comment_id desc;
+        where c.board_id = #{id}
+        order by c.reg_date, c.comment_id;
     </select>
 
     <select id="CountByBoardId" resultType="Long">
@@ -36,23 +27,16 @@
     </select>
 
     <insert id="save" parameterType="CommentDto">
-        insert into comment (board_id, member_id, content, c_depth, c_group)
-        values (#{boardId}, #{memberId}, #{content}, #{cDepth}, #{cGroup});
+        insert into comment (board_id, member_id, content)
+        values (#{commentDto.boardId}, #{memberId}, #{commentDto.content});
     </insert>
 
     <update id="update" parameterType="CommentDto">
         update comment
-        set content = #{comment.content}
-        where comment_id = #{comment.commentId}
+        set content = #{commentDto.content},
+            mod_date = #{commentDto.modDate}
+        where comment_id = #{commentDto.commentId} and comment.board_id = #{commentDto.boardId} and comment.member_id = #{memberId}
     </update>
-
-    <select id="CountBigComments" resultType="Long">
-        select count(comment_id)
-        from comment
-        where board_id = #{id}
-          and c_depth = true
-          and c_group = #{cGroup};
-    </select>
 
     <select id="findById" resultType="CommentDto">
         select

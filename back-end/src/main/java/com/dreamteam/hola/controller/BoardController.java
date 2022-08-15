@@ -1,6 +1,7 @@
 package com.dreamteam.hola.controller;
 
 import com.dreamteam.hola.config.auth.PrincipalDetails;
+import com.dreamteam.hola.dto.board.BoardFilterDto;
 import com.dreamteam.hola.dto.board.*;
 import com.dreamteam.hola.exception.ErrorResponse;
 import com.dreamteam.hola.service.BoardServiceImpl;
@@ -96,10 +97,11 @@ public class BoardController {
             @ApiResponse(code = 500, message = "존재하지 않는 글입니다.", response = ErrorResponse.class)
     })
     @PatchMapping("/board/{id}")
-    public ResponseEntity<?> updateRecruitStatus(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long id) {
+    public ResponseEntity<?> updateRecruitStatus(@ApiIgnore @AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long id) {
         log.info("모집 마감 상태 변경 API");
         Long memberId = principalDetails.getMemberDto().getMemberId();
-        return new ResponseEntity<>(boardServiceimpl.updateRecruitStatus(memberId, id), HttpStatus.OK);
+        boardServiceimpl.updateRecruitStatus(memberId, id);
+        return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 
     /*********************************** PUT API ***********************************/
@@ -111,9 +113,10 @@ public class BoardController {
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 400, message = "올바르지 않은 매개변수 형식입니다.", response = ErrorResponse.class),
     })
-    @PutMapping("/board/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody BoardReqDto boardReqDto) {
-        boardServiceimpl.update(id, boardReqDto);
+    @PutMapping("/board")
+    public ResponseEntity<?> update(@ApiIgnore @AuthenticationPrincipal PrincipalDetails principalDetails, @Valid @RequestBody BoardReqDto boardReqDto) {
+        Long memberId = principalDetails.getMemberDto().getMemberId();
+        boardServiceimpl.update(memberId, boardReqDto);
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 

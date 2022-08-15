@@ -1,6 +1,5 @@
 package com.dreamteam.hola.util.jwt;
 
-import com.dreamteam.hola.util.ex.ExceptionCode;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;

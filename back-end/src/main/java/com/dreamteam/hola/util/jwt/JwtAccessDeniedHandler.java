@@ -1,6 +1,5 @@
 package com.dreamteam.hola.util.jwt;
 
-import com.dreamteam.hola.util.ex.ExceptionCode;
 import net.minidev.json.JSONObject;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
