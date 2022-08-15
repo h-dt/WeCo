@@ -1,4 +1,4 @@
-package com.dreamteam.hola.util.ex;
+package com.dreamteam.hola.util.jwt;
 
 import lombok.Getter;
 

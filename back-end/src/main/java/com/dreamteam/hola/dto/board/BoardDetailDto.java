@@ -1,6 +1,5 @@
 package com.dreamteam.hola.dto.board;
 
-import com.dreamteam.hola.dto.CommentDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -11,7 +10,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -54,7 +52,7 @@ public class BoardDetailDto {
     private String duration;
 
     @ApiModelProperty(value="시작 예정", example="2022-08-11")
-    private Date startDate;
+    private String startDate;
 
     @ApiModelProperty(value="연락 방법", example="카카오톡 오픈채팅")
     private String contactType;
@@ -63,7 +61,7 @@ public class BoardDetailDto {
     private String contact;
 
     @ApiModelProperty(value="작성 일", example="2022-08-09")
-    private Date regDate;
+    private String regDate;
 
     @ApiModelProperty(value="댓글 수", example="3")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -72,8 +70,4 @@ public class BoardDetailDto {
     @ApiModelProperty(value="사용 언어", example="[\"JPA\",\"React\",\"Spring\"]", allowEmptyValue = true)
     @Builder.Default
     private List<String> skills = new ArrayList<>();
-
-    @ApiModelProperty(value="댓글", example="[{\"comment_id\": 3, \"board_id\": 1, \"writer\": \"Wedi\"}, {\"comment_id\": 4, \"board_id\": 1, \"writer\": \"WeCo\"}]")
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private List<CommentDto> comments;
 }

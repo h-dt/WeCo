@@ -10,7 +10,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -51,7 +50,7 @@ public class BoardListDto {
     private String duration;
 
     @ApiModelProperty(value="시작 예정일", example="2022-08-11")
-    private Date startDate;
+    private String startDate;
 
     @ApiModelProperty(value="조회 수", example="29")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)

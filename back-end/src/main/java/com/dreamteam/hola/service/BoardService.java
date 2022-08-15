@@ -1,5 +1,6 @@
 package com.dreamteam.hola.service;
 
+import com.dreamteam.hola.dto.board.BoardFilterDto;
 import com.dreamteam.hola.dto.board.RecommendedBoardDto;
 import com.dreamteam.hola.dto.board.*;
 
@@ -17,7 +18,7 @@ public interface BoardService {
 
     int updateRecruitStatus(Long memberId, Long id);
 
-    int update(Long id, BoardReqDto BoardReqDto);
+    int update(Long memberId, BoardReqDto BoardReqDto);
     
     List<RecommendedBoardDto> getRecommendedBoardList();
 

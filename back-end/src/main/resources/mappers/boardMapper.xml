@@ -99,8 +99,9 @@
             b.duration      = #{boardDto.duration},
             b.start_date    = #{boardDto.startDate},
             b.contact_type  = #{boardDto.contactType},
-            b.contact       = #{boardDto.contact}
-            where board_id = #{id}
+            b.contact       = #{boardDto.contact},
+            b.mod_date      = #{boardDto.modDate}
+            where board_id = #{boardDto.id} and b.member_id = #{memberId};
     </update>
 
     <update id="calScore">
