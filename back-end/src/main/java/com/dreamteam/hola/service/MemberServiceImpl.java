@@ -80,12 +80,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public MemberDto getProfile(Long id) {
         MemberDto member = memberMapper.findById(id);
         return member;
     }
 
     @Override
+    @Transactional
     public void update(Long id,MemberDto memberDto, MultipartFile multipartFile) throws IOException {
 
         memberDto.setMemberId(id);
@@ -107,6 +109,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public boolean delete(Long id) {
         memberMapper.delete(id);
         return true;
