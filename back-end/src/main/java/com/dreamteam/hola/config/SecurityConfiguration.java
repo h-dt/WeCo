@@ -9,8 +9,10 @@ import com.dreamteam.hola.util.oauth2.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -44,8 +46,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // token 방식 처리 이므로 세션 필요없음
                 .and()
                 .authorizeRequests()
-                .antMatchers("/signin", "/signup", "/","/swagger-resources/**","/swagger-ui.html/**", "/v2/api-docs", "/webjars/**").permitAll()
+                .antMatchers("/signin", "/signup", "/", "/boards").permitAll()
                 .antMatchers("/images/**, /js/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/board/**").permitAll()
                 .anyRequest().hasRole("USER")
                 .and()
                 .exceptionHandling()
@@ -59,6 +62,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
         http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class); // jwt token 필터를 id/password 인증 필터 전에 넣기
+    }
+
+    @Override
+    public void configure(WebSecurity web) {
+        web.ignoring().antMatchers("/swagger-resources/**","/swagger-ui.html/**", "/v2/api-docs", "/webjars/**");
     }
 
 }
