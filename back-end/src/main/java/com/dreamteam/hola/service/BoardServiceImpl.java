@@ -1,13 +1,8 @@
 package com.dreamteam.hola.service;
 
 import com.dreamteam.hola.dao.*;
-import com.dreamteam.hola.dto.CommentDto;
-import com.dreamteam.hola.dto.board.RecommendedBoardDto;
 import com.dreamteam.hola.dto.SkillDto;
-import com.dreamteam.hola.dto.board.BoardDetailDto;
-import com.dreamteam.hola.dto.board.BoardFilterDto;
-import com.dreamteam.hola.dto.board.BoardListDto;
-import com.dreamteam.hola.dto.board.BoardReqDto;
+import com.dreamteam.hola.dto.board.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

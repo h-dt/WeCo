@@ -31,11 +31,10 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         // oAuth2User를 우리의 memberDto 로 변환하는 로직
 
         String nickname = ((String) oAuth2User.getAttributes().get("email")).split("@")[0];
-        System.out.println("nickname = " + nickname);;
 
-        log.info("토큰 발행 시작");
+        String email = (String) oAuth2User.getAttributes().get("email");
 
-        Token token = tokenProvider.createtoken(nickname, Role.ROLE_USER); //  넣어줘야함
+        Token token = tokenProvider.createtoken(email, Role.ROLE_USER); //  넣어줘야함
 
         log.info("발급 된 AccessToken : {}", token.getAccessToken());
         log.info("발급 된 RefreshToken : {}", token.getRefreshToken());
