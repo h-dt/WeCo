@@ -3,6 +3,7 @@ package com.dreamteam.hola.service;
 import com.dreamteam.hola.dao.*;
 import com.dreamteam.hola.dto.SkillDto;
 import com.dreamteam.hola.dto.board.*;
+import com.dreamteam.hola.exception.board.BoardAuthorizationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -97,6 +98,9 @@ public class BoardServiceImpl implements BoardService {
         if(boardMapper.findById(boardDto.getId()) == null){
             throw new NullPointerException();
         }
+        if(boardMapper.findByIdAndMemberId(boardDto.getId(),memberId) == null){
+            throw new BoardAuthorizationException("해당 게시글에 권한이 없습니다.");
+        }
 
         Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -128,7 +132,26 @@ public class BoardServiceImpl implements BoardService {
         return boardMapper.findAllByMemberId(memberId);
     }
 
+    @Override
+    @Transactional
+    public int delete(Long memberId,Long boardId) {
 
+        if(boardMapper.findById(boardId) == null){
+            throw new NullPointerException();
+        }
 
+        if(boardMapper.findByIdAndMemberId(boardId,memberId) == null){
+            throw new BoardAuthorizationException("해당 게시글에 권한이 없습니다.");
+        }
 
+        BoardReqDto boardDto = BoardReqDto.builder()
+                .memberId(memberId)
+                .id(boardId)
+                .build();
+
+        boardMapper.delete(boardDto);
+        boardSkillMapper.deleteAllByBoardId(boardDto.getId());
+
+        return 1;
+    }
 }

@@ -134,4 +134,10 @@
         join member m on b.member_id = m.member_id
         where b.member_id = #{memberId}
     </select>
+
+    <delete id="delete" parameterType="BoardReqDto">
+        update board
+        set delete_status = 'Y'
+        where board_id =#{id} and member_id = #{memberId}
+    </delete>
 </mapper>

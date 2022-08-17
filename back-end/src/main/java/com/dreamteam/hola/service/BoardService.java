@@ -24,6 +24,8 @@ public interface BoardService {
 
     List<BoardListDto> getMyBoards(Long memberId);
 
+    int delete(Long memberId, Long boardId);
+
 
 
 

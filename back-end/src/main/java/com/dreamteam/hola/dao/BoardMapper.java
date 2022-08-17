@@ -34,4 +34,6 @@ public interface BoardMapper {
 
     List<BoardListDto> findAllByMemberId(Long memberId);
 
+    int delete(BoardReqDto boardDto);
+
 }
