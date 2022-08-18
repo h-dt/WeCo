@@ -18,7 +18,7 @@
         <typeAlias type="com.dreamteam.hola.dto.member.MemberDto" alias="MemberDto"/>
         <typeAlias type="com.dreamteam.hola.dto.BoardSkillDto" alias="BoardSkillDto"/>
         <typeAlias type="com.dreamteam.hola.dto.SkillDto" alias="SkillDto"/>
-        <typeAlias type="com.dreamteam.hola.dto.RecommendedBoardDto" alias="RecommendedBoardDto" />
+        <typeAlias type="com.dreamteam.hola.dto.board.RecommendedBoardDto" alias="RecommendedBoardDto" />
         <typeAlias type="com.dreamteam.hola.dto.Heart" alias="Heart"/>
     </typeAliases>
 </configuration>

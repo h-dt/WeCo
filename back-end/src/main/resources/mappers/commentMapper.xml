@@ -26,12 +26,12 @@
         where board_id = #{id}
     </select>
 
-    <insert id="save" parameterType="CommentDto">
+    <insert id="save" parameterType="CommentReqDto">
         insert into comment (board_id, member_id, content)
         values (#{commentDto.boardId}, #{memberId}, #{commentDto.content});
     </insert>
 
-    <update id="update" parameterType="CommentDto">
+    <update id="update" parameterType="CommentReqDto">
         update comment
         set content = #{commentDto.content},
             mod_date = #{commentDto.modDate}
