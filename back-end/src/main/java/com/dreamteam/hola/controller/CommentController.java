@@ -43,6 +43,9 @@ public class CommentController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 400, message = "올바르지 않은 매개변수 형식입니다.", response = ErrorResponse.class),
+            @ApiResponse(code = 400, message = "게시글이 존재하지 않습니다.", response = ErrorResponse.class),
+            @ApiResponse(code = 400, message = "댓글에 해당되는 게시글 번호가 아닙니다.", response = ErrorResponse.class),
+            @ApiResponse(code = 500, message = "존재하지 않는 댓글입니다.", response = ErrorResponse.class),
     })
     @PutMapping("/comment")
     public ResponseEntity<?> update(@ApiIgnore @AuthenticationPrincipal PrincipalDetails principalDetails,

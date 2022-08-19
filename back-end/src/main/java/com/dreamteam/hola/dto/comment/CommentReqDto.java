@@ -22,6 +22,7 @@ public class CommentReqDto {
 //    private Long memeber_id;
 
     @ApiModelProperty(value="생성된 댓글 id", example="17")
+    @Positive
     private Long commentId;
 
     @ApiModelProperty(value="댓글이 생성될 게시글 id", example="4", required = true)
