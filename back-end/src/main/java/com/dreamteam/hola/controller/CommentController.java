@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,6 +21,7 @@ import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
+@Slf4j
 public class CommentController {
     private final CommentServiceImpl commentService;
 
@@ -63,5 +65,11 @@ public class CommentController {
     @GetMapping("/comment/{id}")
     public ResponseEntity<?> getComments(@PathVariable("id") Long boardId){
         return new ResponseEntity<>(commentService.getComments(boardId), HttpStatus.OK);
+    }
+    @DeleteMapping("/comment")
+    public ResponseEntity<?> deleteComment(@ApiIgnore @AuthenticationPrincipal PrincipalDetails principalDetails,@RequestBody CommentReqDto commentDto){
+        Long memberId = principalDetails.getMemberDto().getMemberId();
+        commentService.delete(memberId,commentDto);
+        return new ResponseEntity<>("OK",HttpStatus.OK);
     }
 }
