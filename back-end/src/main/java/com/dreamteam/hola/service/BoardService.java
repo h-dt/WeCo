@@ -1,7 +1,5 @@
 package com.dreamteam.hola.service;
 
-import com.dreamteam.hola.dto.board.BoardFilterDto;
-import com.dreamteam.hola.dto.board.RecommendedBoardDto;
 import com.dreamteam.hola.dto.board.*;
 
 import java.util.List;

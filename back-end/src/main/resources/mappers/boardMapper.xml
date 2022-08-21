@@ -14,7 +14,9 @@
         b.progress_type,
         b.start_date
     </sql>
+    <sql id="paging">
 
+    </sql>
     <select id="findById" resultType="BoardDetailDto">
         select
         <include refid="boardCommonColumns"/>,
@@ -43,9 +45,18 @@
 
     <select id="findAll" resultType="BoardListDto">
         select distinct
-        <include refid="boardCommonColumns"/>,
+        b.board_id id,
+        b.title,
+        m.nickname writer,
+        m.profile_image writerProfile,
+        b.recruit_type,
+        b.recruit_cnt,
+        b.duration,
+        b.progress_type,
+        b.start_date,
         b.view_cnt,
-        b.recruit_status
+        b.recruit_status,
+        b.reg_date
         from board b
         join member m on m.member_id = b.member_id
         join board_skill bs on b.board_id = bs.board_id
@@ -64,6 +75,8 @@
                 and recruit_status = #{recruitStatus}
             </if>
         </where>
+        order by b.reg_date desc
+        limit #{startRowNum}, #{rowCount}
     </select>
 
     <update id="updateViewCnt">

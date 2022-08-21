@@ -49,8 +49,24 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public List<BoardListDto> getBoards(BoardFilterDto boardReqDto) {
         // 모집 타입 + 기술 스택(옵션, 비어있을 수 있음)에 해당되는 게시글 모두 조회
+        final int PAGE_ROW_COUNT =20;
+
+        int pageNum =1;//초기값 지정
+
+        int strPageNum = boardReqDto.getStartRowNum();
+        if(strPageNum != 1){
+            pageNum = strPageNum;
+        }
+        int startRowNum = 0 + (pageNum - 1) * PAGE_ROW_COUNT;//보여줄 페이지의 시작 - 0부터 시작
+        int endRowNum = pageNum * PAGE_ROW_COUNT;
+        int rowCount = PAGE_ROW_COUNT;
+
+        boardReqDto.setStartRowNum(startRowNum);
+        boardReqDto.setEndRowNum(endRowNum);
+        boardReqDto.setRowCount(rowCount);//빌더패턴 쓸까 생각중
+
         System.out.println("boardReqDto = " + boardReqDto.toString());
-        List<BoardListDto> findAll = boardMapper.findAll(boardReqDto.getRecruitType(), boardReqDto.getRecruitStatus(), boardReqDto.getSkills());
+        List<BoardListDto> findAll = boardMapper.findAll(boardReqDto.getRecruitType(), boardReqDto.getRecruitStatus(), boardReqDto.getSkills(),boardReqDto.getStartRowNum(), boardReqDto.getRowCount());
         for (BoardListDto findBoard : findAll) {
             // 각 게시글에 사용된 기술 스택 set
             List<String> skills = skillMapper.findAllByBoardId(findBoard.getId());
@@ -139,7 +155,6 @@ public class BoardServiceImpl implements BoardService {
         if(boardMapper.findById(boardId) == null){
             throw new NullPointerException();
         }
-
         if(boardMapper.findByIdAndMemberId(boardId,memberId) == null){
             throw new BoardAuthorizationException("해당 게시글에 권한이 없습니다.");
         }

@@ -27,4 +27,10 @@ public class BoardFilterDto {
 
     @ApiModelProperty(name = "skills", value = "기술스택", dataType = "java.util.List<String>", notes = "조회할 게시글에 들어간 기술 스택 목록", example = "[\"JPA\",\"React\",\"Spring\"]")
     private List<String> skills;
+
+    private int startRowNum;
+
+    private int endRowNum;
+
+    private int rowCount;
 }
