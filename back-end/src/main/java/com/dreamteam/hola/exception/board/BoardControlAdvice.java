@@ -26,7 +26,7 @@ public class BoardControlAdvice {
     }
 
     @ExceptionHandler(BoardAuthorizationException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     protected ErrorResponse BoardAuthorizationException(){
         return ErrorResponse.of(HttpStatus.BAD_REQUEST, "해당 게시글에 권한이 없습니다.");
     }

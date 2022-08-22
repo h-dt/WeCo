@@ -31,16 +31,16 @@ public class CommentServiceImpl {
     public int save(Long memberId, CommentReqDto commentDto) {
         return commentMapper.save(memberId, commentDto);
     }
-    
+
     // Comment 수정하기_2022_06_19_by_김우진
     @Transactional
     public int update(Long memberId, CommentReqDto commentDto) {
         CommentDto findComment = commentMapper.findById(commentDto.getCommentId());
-        if(boardMapper.findById(commentDto.getBoardId()) == null){
+        if (boardMapper.findById(commentDto.getBoardId()) == null) {
             throw new BoardNotFoundException("게시글이 존재하지 않습니다.");
-        } else if(findComment == null){
+        } else if (findComment == null) {
             throw new NullPointerException();
-        } else if(!Objects.equals(findComment.getBoardId(), commentDto.getBoardId())){
+        } else if (!Objects.equals(findComment.getBoardId(), commentDto.getBoardId())) {
             throw new CommentNotMatchException("댓글에 해당되는 게시글 번호가 아닙니다.");
         }
 
@@ -54,5 +54,20 @@ public class CommentServiceImpl {
 
     public List<CommentDto> getComments(Long boardId) {
         return commentMapper.findAllCommentByBoardId(boardId);
+    }
+
+    @Transactional
+    public int delete(Long memberId, CommentReqDto commentDto) {
+        log.info("댓글 삭제 = ");
+        CommentDto findComment = commentMapper.findById(commentDto.getCommentId());
+
+        if (boardMapper.findById(commentDto.getBoardId()) == null) {
+            throw new BoardNotFoundException("게시글이 존재하지 않습니다.");
+        } else if (findComment == null) {
+            throw new NullPointerException();
+        } else if (!Objects.equals(findComment.getBoardId(), commentDto.getBoardId())) {
+            throw new CommentNotMatchException("댓글에 해당되는 게시글 번호가 아닙니다.");
+        }
+        return commentMapper.delete(memberId, commentDto);
     }
 }

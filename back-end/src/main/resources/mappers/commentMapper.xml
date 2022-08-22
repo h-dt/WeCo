@@ -45,4 +45,11 @@
         join member m on m.member_id = c.member_id
         where c.comment_id = #{id};
     </select>
+
+    <delete id="delete" parameterType="CommentReqDto">
+        delete from comment
+        where comment_id = #{commentDto.commentId}
+        and board_id = #{commentDto.boardId}
+        and member_id = #{memberId}
+    </delete>
 </mapper>
