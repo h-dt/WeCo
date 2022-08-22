@@ -136,22 +136,17 @@ public class BoardController {
         return new ResponseEntity<>(boardServiceimpl.getRecommendedBoardList(), HttpStatus.OK);
     }
 
-
     @ApiOperation(value ="해당 Board의 heart를 추가 (사용자당 하나의 heart만 가능)",notes = "좋아요 활성화")
     @ApiImplicitParam(name = "id", value = "포스트 대상 PK",dataType = "Long")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "true"),
-            @ApiResponse(code = 400, message = "false")
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 400, message = "존재하지 않는 글입니다.", response = ErrorResponse.class)
     })
     @PostMapping("/heart/{id}")
     public ResponseEntity<?> addHeart(@ApiIgnore @AuthenticationPrincipal PrincipalDetails principalDetails,@PathVariable("id") Long boardId){
-        boolean result = false;
-        if(principalDetails != null){
-             result=heartServiceImpl.save(boardId,principalDetails.getMemberDto().getMemberId());
-        }
-        return result ? new ResponseEntity<>(result,HttpStatus.OK) : new ResponseEntity<>(result,HttpStatus.BAD_REQUEST);
+        heartServiceImpl.save(boardId,principalDetails.getMemberDto().getMemberId());
+        return new ResponseEntity<>("OK",HttpStatus.OK);
     }
-
 
     @ApiOperation(value = "해당 Board의 Heart 삭제",notes = "좋아요 비활성화")
     @ApiImplicitParam(name = "id", value = "포스트 대상 PK",dataType = "Long")
@@ -172,5 +167,16 @@ public class BoardController {
 
         return result ? new ResponseEntity<>(result,HttpStatus.OK) : new ResponseEntity<>(result,HttpStatus.BAD_REQUEST);
 
+    }
+
+    @ApiOperation(value = "내가 좋아요한 게시글 모아보기",notes = "좋아요 모아보기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "좋아요한 게시글 List", response = BoardHeartDto.class, responseContainer = "List"),
+    })
+    @GetMapping("/myheart")
+    public ResponseEntity<?> showMyHeart (@ApiIgnore @AuthenticationPrincipal PrincipalDetails principalDetails){
+        log.info("id={}",principalDetails.getMemberDto().getMemberId());
+        Long memberId = principalDetails.getMemberDto().getMemberId();
+        return new ResponseEntity<>(heartServiceImpl.HeartList(memberId),HttpStatus.OK);
     }
 }
