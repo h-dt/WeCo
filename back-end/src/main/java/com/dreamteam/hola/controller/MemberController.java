@@ -56,6 +56,7 @@ public class MemberController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 400, message = "{nickname=닉네임은 특수문자를 제외한 2~10자리여야 합니다., email=이메일 형식이 올바르지 않습니다., password=비밀번호는 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.}", response = ErrorResponse.class),
+            @ApiResponse(code = 409, message = "중복되는 아이디 입니다.", response = ErrorResponse.class),
     })
     @PostMapping("/member")
     public ResponseEntity<?> signup(@Validated @RequestBody MemberDto memberDto) throws IOException {
