@@ -49,6 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/signin", "/signup", "/", "/boards").permitAll()
                 .antMatchers("/images/**, /js/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/board/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/member/**").permitAll()
                 .anyRequest().hasRole("USER")
                 .and()
                 .exceptionHandling()
