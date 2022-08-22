@@ -6,9 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface MemberMapper {
 
-
-    MemberDto findByNickname(String nickname);
-
     MemberDto findByEmail(String email);
 
     int signup(MemberDto memberDto);
@@ -19,5 +16,5 @@ public interface MemberMapper {
 
     int delete(Long id);
 
-
+    int updateProfile(MemberDto memberDto);
 }

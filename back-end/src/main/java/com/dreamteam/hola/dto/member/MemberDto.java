@@ -1,6 +1,7 @@
 package com.dreamteam.hola.dto.member;
 
 import com.dreamteam.hola.domain.Role;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
@@ -30,13 +31,25 @@ public class MemberDto {
     @Pattern(regexp = "^(?:\\w+\\.?)*\\w+@(?:\\w+\\.)+\\w+$", message = "이메일 형식이 올바르지 않습니다.")
     @NotBlank
     private String email;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String profileImage;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Role role;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDate regDate;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDate modDate;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String withdrawalYn;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDate withdrawalDate;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String socialType;//카카오,깃허브,구글
-
-
 }
