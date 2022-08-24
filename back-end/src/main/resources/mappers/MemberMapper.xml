@@ -35,15 +35,6 @@
         );
     </insert>
 
-    <select id="findByNickname" parameterType="String" resultType="MemberDto">
-        SELECT
-        <include refid="memberColumns"/>
-        FROM
-        member
-        WHERE
-        nickname=#{nickname}
-    </select>
-
     <select id="findByEmail" parameterType="String" resultType="MemberDto">
         SELECT
             member_id,nickname,password,email,profile_image,reg_date,role
@@ -77,17 +68,14 @@
         where member_id = #{id}
             and
             withdrawal_yn = 'N'
-
     </select>
 
     <update id="update" parameterType="MemberDto">
         update member
         set
         nickname=#{nickname},
-        password=#{password},
-        profile_image=#{profileImage},
         mod_date=now()
-        where member_id = #{memberId}
+        where member_id = #{memberId} and withdrawal_yn = 'N'
     </update>
 
     <update id="delete" parameterType="Long">
@@ -98,7 +86,21 @@
         where member_id= #{id}
     </update>
 
+    <update id="updateProfile" parameterType="MemberDto">
+        update member
+        set
+            profile_image=#{profileImage},
+            mod_date=now()
+        where member_id = #{memberId} and withdrawal_yn = 'N'
+    </update>
 
+    <update id="deleteProfile" parameterType="MemberDto">
+        update member
+        set
+            profile_image=#{profileImage},
+            mod_date=now()
+        where member_id = #{memberId} and withdrawal_yn = 'N'
+    </update>
 
 </mapper>
 

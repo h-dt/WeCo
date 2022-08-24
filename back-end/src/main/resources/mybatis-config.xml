@@ -13,6 +13,7 @@
         <typeAlias type="com.dreamteam.hola.dto.board.BoardDetailDto" alias="BoardDetailDto"/>
         <typeAlias type="com.dreamteam.hola.dto.board.BoardListDto" alias="BoardListDto"/>
         <typeAlias type="com.dreamteam.hola.dto.board.BoardFilterDto" alias="BoardFilterDto"/>
+        <typeAlias type="com.dreamteam.hola.dto.board.BoardHeartDto" alias="BoardHeartDto"/>
         <typeAlias type="com.dreamteam.hola.dto.comment.CommentDto" alias="CommentDto"/>
         <typeAlias type="com.dreamteam.hola.dto.comment.CommentReqDto" alias="CommentReqDto"/>
         <typeAlias type="com.dreamteam.hola.dto.member.MemberDto" alias="MemberDto"/>

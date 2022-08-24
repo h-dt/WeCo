@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Map;
 
@@ -18,7 +19,9 @@ public class OAuth2Attribute {
     private String email;
     private String name;
     private String picture;
-    private Role role;
+
+    @Value("${weco.default.profile}")
+    private String defaultProfile;
 
     static OAuth2Attribute of(String provider, String attributeKey, Map<String, Object> attributes) {
         switch (provider) {
@@ -37,7 +40,6 @@ public class OAuth2Attribute {
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
                 .picture((String) attributes.get("picture"))
-//                .role(attributes.get(""))
                 .attributes(attributes)
                 .attributeKey(attributeKey)
                 .build();
@@ -51,7 +53,6 @@ public class OAuth2Attribute {
                 .name((String) kakaoProfile.get("nickname"))
                 .email((String) kakaoAccount.get("email"))
                 .picture((String) kakaoProfile.get("profile_image_url"))
-//                .role((String) attributes.get(""))
                 .attributes(kakaoAccount)
                 .attributeKey(attributeKey)
                 .build();
@@ -60,8 +61,9 @@ public class OAuth2Attribute {
         return MemberDto.builder()
                 .email(email)
                 .nickname(provider+"_"+email.split("@")[0])
-                .profileImage(picture)
-                .role(role)
+                .password("$2a$12$L9Kbh/mnhsivijLqUIEDAeAXJmgEBgpypmDTsuI2s1tWSsFOYYAeC")
+                .profileImage(defaultProfile)
+                .role(Role.ROLE_USER)
                 .socialType(provider)
                 .build();
     }

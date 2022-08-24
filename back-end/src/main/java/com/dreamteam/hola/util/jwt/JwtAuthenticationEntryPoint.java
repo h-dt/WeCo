@@ -31,7 +31,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
             setResponse(response, ExceptionCode.UNSUPPORTED_TOKEN);
         } else {
             log.info("error code : {}", exception);
-            setResponse(response, ExceptionCode.ACCESS_DENIED);
+            setResponse(response, ExceptionCode.UNKNOWN_ERROR);
         }
     }
 

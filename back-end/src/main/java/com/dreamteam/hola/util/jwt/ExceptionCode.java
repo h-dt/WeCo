@@ -9,7 +9,6 @@ public enum ExceptionCode {
     WRONG_TYPE_TOKEN("401", "잘못된 타입입니다."),
     EXPIRED_TOKEN("401", "만료된 토큰입니다."),
     UNSUPPORTED_TOKEN("401", "지원하지 않는 토큰 형식입니다."),
-    ACCESS_DENIED("401", "잘못된 입력입니다."),
     PERMISSION_DENIED("403", "권한이 없습니다.");
 
     private final String code;

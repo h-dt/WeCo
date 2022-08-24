@@ -6,6 +6,7 @@ import com.dreamteam.hola.dao.MemberMapper;
 import com.dreamteam.hola.domain.Role;
 import com.dreamteam.hola.dto.member.MemberDto;
 import com.dreamteam.hola.dto.member.MemberLoginDto;
+import com.dreamteam.hola.dto.member.MemberUpdateDto;
 import com.dreamteam.hola.util.jwt.JwtTokenProvider;
 import com.dreamteam.hola.util.jwt.Token;
 import lombok.RequiredArgsConstructor;
@@ -16,53 +17,35 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
 @Slf4j
 public class MemberServiceImpl implements MemberService {
 
-    @Value("${file.upload.location}")
-    private String fileDir;
-
     private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final PrincipalDetailsService principalDetailsService;
+    private final S3FileUploadService s3FileUploadService;
+
+    @Value("${weco.default.profile}")
+    private String defaultProfile;
 
 
     @Override
     @Transactional
-    public boolean signup(MemberDto memberDto, MultipartFile multipartFile) throws IOException {
+    public boolean signup(MemberDto memberDto) throws IOException {
         log.info("Call Service SignUp");
 
         memberDto.setRole(Role.ROLE_USER);
         memberDto.setPassword(passwordEncoder.encode(memberDto.getPassword()));
 
-        log.info("multipart ={}",multipartFile);
-        String uuid = UUID.randomUUID().toString();
-        String originalFilename = multipartFile.getOriginalFilename();
-        String imageFileName = uuid + "_" + originalFilename.substring(originalFilename.lastIndexOf("."));
-
-        Path imageFilePath =  Paths.get(fileDir + "/"+imageFileName);
-
-        File file = new File("");
-        if(!new File(fileDir).exists()){
-            new File(fileDir).mkdirs();
+        if(memberDto.getProfileImage()==null){
+            memberDto.setProfileImage(defaultProfile);
         }
-
-        if(!multipartFile.isEmpty()) {
-            memberDto.setProfileImage(imageFilePath.toString());
-            multipartFile.transferTo(new File(imageFilePath.toString()));
-        }
-
-            return memberMapper.signup(memberDto) == 1;
-
+        return memberMapper.signup(memberDto) == 1;
     }
 
     @Override
@@ -81,37 +64,44 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public MemberDto getProfile(Long id) {
-        MemberDto member = memberMapper.findById(id);
-        return member;
+    public boolean updateProfile(Long memberId, MultipartFile profile) throws IOException {
+        MemberDto findMember = memberMapper.findById(memberId);
+
+        if(!findMember.getProfileImage().equals(defaultProfile)) {
+            log.info("현재 이미지가 기본 이미지가 아니므로 S3 상에서 삭제!!!");
+            s3FileUploadService.remove(findMember.getProfileImage());
+        }
+
+        if(profile == null){
+            log.info("profile이 null이므로 기본 이미지로 setting!!!");
+            findMember.setProfileImage(defaultProfile);
+        }else {
+            log.info("설정된 이미지로 profile setting!!!");
+            String uploadPath = s3FileUploadService.upload(profile);
+            findMember.setProfileImage(uploadPath);
+        }
+
+        memberMapper.updateProfile(findMember);
+        return true;
     }
 
     @Override
     @Transactional
-    public void update(Long id,MemberDto memberDto, MultipartFile multipartFile) throws IOException {
+    public boolean update(Long memberId, MemberUpdateDto memberDto){
+        MemberDto findMember = memberMapper.findById(memberId);
+        findMember.setNickname(memberDto.getNickname());
 
-        memberDto.setMemberId(id);
-        memberDto.setPassword(passwordEncoder.encode(memberDto.getPassword()));
-
-        String uuid = UUID.randomUUID().toString();
-        String originalFilename = multipartFile.getOriginalFilename();
-        String imageFileName = uuid + "_" + originalFilename.substring(originalFilename.lastIndexOf("."));
-
-        Path imageFilePath =  Paths.get(fileDir + "/"+imageFileName);
-
-        if(!multipartFile.isEmpty()) {
-            memberDto.setProfileImage(imageFilePath.toString());
-            multipartFile.transferTo(new File(imageFilePath.toString()));
-        }
-
-
-        memberMapper.update(memberDto);
+        return memberMapper.update(findMember) == 1;
     }
 
     @Override
     @Transactional
     public boolean delete(Long id) {
-        memberMapper.delete(id);
-        return true;
+        return memberMapper.delete(id) == 1;
+    }
+
+    @Override
+    public MemberDto getLoginMember(Long id) {
+        return memberMapper.findById(id);
     }
 }
