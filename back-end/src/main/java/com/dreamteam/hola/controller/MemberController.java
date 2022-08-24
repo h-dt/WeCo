@@ -3,10 +3,7 @@ package com.dreamteam.hola.controller;
 import com.dreamteam.hola.config.auth.PrincipalDetails;
 import com.dreamteam.hola.dto.member.MemberDto;
 import com.dreamteam.hola.dto.member.MemberLoginDto;
-<<<<<<< HEAD
 import com.dreamteam.hola.dto.member.MemberUpdateDto;
-=======
->>>>>>> 3301873f95e62ef221ccfe595aa29d32728c4fd4
 import com.dreamteam.hola.exception.ErrorResponse;
 import com.dreamteam.hola.service.HeartServiceImpl;
 import com.dreamteam.hola.service.MemberService;
