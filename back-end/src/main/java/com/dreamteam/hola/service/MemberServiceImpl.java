@@ -99,4 +99,9 @@ public class MemberServiceImpl implements MemberService {
     public boolean delete(Long id) {
         return memberMapper.delete(id) == 1;
     }
+
+    @Override
+    public MemberDto getLoginMember(Long id) {
+        return memberMapper.findById(id);
+    }
 }

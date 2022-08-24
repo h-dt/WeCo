@@ -68,7 +68,6 @@
         where member_id = #{id}
             and
             withdrawal_yn = 'N'
-
     </select>
 
     <update id="update" parameterType="MemberDto">

@@ -19,4 +19,6 @@ public interface MemberService {
     boolean update(Long id, MemberUpdateDto memberDto);
 
     boolean delete(Long id);
+
+    MemberDto getLoginMember(Long id);
 }

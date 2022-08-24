@@ -102,4 +102,14 @@ public class MemberController {
         memberServiceImpl.delete(memberId);
         return  new ResponseEntity<>("OK",HttpStatus.OK);
     }
+
+    @ApiOperation(value = "로그인한 사용자 정보 조회",notes = "로그인 한 사용자 정보를 조회합니다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "로그인한 사용자 정보", response = MemberDto.class)
+    })
+    @GetMapping("/member")
+    public ResponseEntity<?> getLoginMember(@ApiIgnore @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        Long memberId = principalDetails.getMemberDto().getMemberId();
+        return new ResponseEntity<>(memberServiceImpl.getLoginMember(memberId),HttpStatus.OK);
+    }
 }
