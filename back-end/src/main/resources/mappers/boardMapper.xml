@@ -14,9 +14,7 @@
         b.progress_type,
         b.start_date
     </sql>
-    <sql id="paging">
 
-    </sql>
     <select id="findById" resultType="BoardDetailDto">
         select
         <include refid="boardCommonColumns"/>,
@@ -55,8 +53,7 @@
         b.progress_type,
         b.start_date,
         b.view_cnt,
-        b.recruit_status,
-        b.reg_date
+        b.recruit_status
         from board b
         join member m on m.member_id = b.member_id
         join board_skill bs on b.board_id = bs.board_id
@@ -74,8 +71,9 @@
             <if test="recruitStatus != null">
                 and recruit_status = #{recruitStatus}
             </if>
+            and delete_status = 'N'
         </where>
-        order by b.reg_date desc
+        order by b.board_id desc
         limit #{startRowNum}, #{rowCount}
     </select>
 

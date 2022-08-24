@@ -63,4 +63,6 @@ public class BoardListDto {
     @ApiModelProperty(value="기술 스택", example="[\"JPA\",\"React\",\"Spring\"]")
     @Builder.Default
     private List<String> skills = new ArrayList<>();
+
+
 }
