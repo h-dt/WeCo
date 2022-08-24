@@ -111,12 +111,28 @@ public class BoardController {
     @ApiImplicitParam(name = "BoardReqDto", value = "수정에 필요한 내용을 담는 Request Body")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "올바르지 않은 매개변수 형식입니다.", response = ErrorResponse.class),
+            @ApiResponse(code = 400, message = "올바르지 않은 매개변수 형식입니다.", response = ErrorResponse.class)
     })
     @PutMapping("/board")
     public ResponseEntity<?> update(@ApiIgnore @AuthenticationPrincipal PrincipalDetails principalDetails, @Valid @RequestBody BoardReqDto boardReqDto) {
         Long memberId = principalDetails.getMemberDto().getMemberId();
         boardServiceimpl.update(memberId, boardReqDto);
+        return new ResponseEntity<>("OK", HttpStatus.OK);
+    }
+
+    //Board 게시글 클라이언트 에게 보이지 않게만 삭제처리
+    @ApiOperation(value = "게시글 삭제 API", notes = "로그인 한 사용자가 작성한 게시글을 삭제합니다.")
+    @ApiImplicitParam(name = "게시글 id", value = "삭제할 게시글 id", paramType = "path")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK", response = ErrorResponse.class),
+            @ApiResponse(code = 400, message = "존재하지 않는 글입니다.",response = ErrorResponse.class),
+            @ApiResponse(code = 401, message = "해당 게시글에 권한이 없습니다.",response = ErrorResponse.class)
+    })
+    @DeleteMapping("/board/{id}")
+    public ResponseEntity<?> delete(@ApiIgnore @AuthenticationPrincipal PrincipalDetails principalDetails,@PathVariable Long id){
+        Long memberId = principalDetails.getMemberDto().getMemberId();
+        boardServiceimpl.delete(memberId,id);
+
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 

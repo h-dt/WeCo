@@ -7,6 +7,7 @@ import com.dreamteam.hola.exception.file.NotAllowExtensionException;
 import com.dreamteam.hola.exception.file.NotExistException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -49,6 +50,12 @@ public class MemberControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ErrorResponse handleFileNameNullException(FileNameNullException fnn){
         return ErrorResponse.of(HttpStatus.BAD_REQUEST, fnn.getMessage());
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ErrorResponse memberHandlerException4(HttpMessageNotReadableException ex){
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST, "잘못된 형식으로 요청하였습니다.");
     }
 
     @ExceptionHandler(NotAllowExtensionException.class)

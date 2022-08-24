@@ -1,6 +1,7 @@
-package com.dreamteam.hola.exception;
+package com.dreamteam.hola.exception.board;
 
 import com.dreamteam.hola.controller.BoardController;
+import com.dreamteam.hola.exception.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -24,6 +25,11 @@ public class BoardControlAdvice {
         return ErrorResponse.of(HttpStatus.BAD_REQUEST, "올바르지 않은 매개변수 형식입니다.");
     }
 
+    @ExceptionHandler(BoardAuthorizationException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    protected ErrorResponse BoardAuthorizationException(){
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST, "해당 게시글에 권한이 없습니다.");
+    }
     // 이러한 방식으로 가능
     /**
      * javax.validation.Valid or @Validated 으로 binding error 발생 시 발생
@@ -35,4 +41,5 @@ public class BoardControlAdvice {
 //        final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE, e.getBindingResult());
 //        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 //    }
+
 }
