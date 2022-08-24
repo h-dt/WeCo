@@ -46,7 +46,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // token 방식 처리 이므로 세션 필요없음
                 .and()
                 .authorizeRequests()
-                .antMatchers("/signin", "/signup", "/", "/boards").permitAll()
+                .antMatchers("/signin", "/", "/boards").permitAll()
                 .antMatchers("/images/**, /js/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/board/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/member/**").permitAll()
