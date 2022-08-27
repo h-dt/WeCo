@@ -18,6 +18,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Configuration
@@ -34,7 +40,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -46,11 +52,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // token 방식 처리 이므로 세션 필요없음
                 .and()
                 .authorizeRequests()
-                .antMatchers("/signin", "/", "/boards").permitAll()
+                .antMatchers("/signin", "/", "/boards", "/login", "/oauth2/**").permitAll()
                 .antMatchers("/images/**, /js/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/member/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/board/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/comment/**").permitAll()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().hasRole("USER")
                 .and()
                 .exceptionHandling()
@@ -62,13 +69,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .successHandler(successHandler) // 로그인 성공 시, handler 설정
                 .userInfoEndpoint().userService(oAuth2UserService); // oauth2 성공 후 설정 시작 + oAuth2UserService 에서 서버에서 가져온 사용자 정보를 처리
 
-
+        http.cors();
         http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class); // jwt token 필터를 id/password 인증 필터 전에 넣기
     }
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/swagger-resources/**","/swagger-ui.html/**", "/v2/api-docs", "/webjars/**");
+        web.ignoring().antMatchers("/swagger-resources/**", "/swagger-ui.html/**", "/v2/api-docs", "/webjars/**", "/oauth2/**");
+    }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOriginPattern(CorsConfiguration.ALL);
+        configuration.setAllowedMethods(List.of(CorsConfiguration.ALL));
+        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token", "X-Requested-With","accept", "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
 }
