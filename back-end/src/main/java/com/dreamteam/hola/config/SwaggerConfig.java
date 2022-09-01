@@ -57,7 +57,7 @@ public class SwaggerConfig {
     @Bean
     public Docket allApi(){
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("USER")
+                .groupName("Public API")
                 .useDefaultResponseMessages(false)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.dreamteam.hola"))
