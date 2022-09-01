@@ -7,6 +7,7 @@ import com.dreamteam.hola.domain.Role;
 import com.dreamteam.hola.dto.member.MemberDto;
 import com.dreamteam.hola.dto.member.MemberLoginDto;
 import com.dreamteam.hola.dto.member.MemberUpdateDto;
+import com.dreamteam.hola.exception.member.PasswordNotMatchException;
 import com.dreamteam.hola.util.jwt.JwtTokenProvider;
 import com.dreamteam.hola.util.jwt.Token;
 import lombok.RequiredArgsConstructor;
@@ -57,7 +58,7 @@ public class MemberServiceImpl implements MemberService {
         log.info("FIND-MEMBER={}",findMember.getMemberDto());
 
         if (!passwordEncoder.matches(memberDto.getPassword(), findMember.getPassword())) {
-            return new Token("access token create fail", "refresh token create fail");
+            throw new PasswordNotMatchException("비밀번호가 올바르지 않습니다.");
         }
         return jwtTokenProvider.createtoken(findMember.getUsername(), findMember.getRole());
     }

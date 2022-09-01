@@ -29,7 +29,7 @@ public class JwtTokenProvider {
     private String secretKey;
 
     // 1시간 동안 유효 (Value 방식으로 변경할 수도 있음
-    private static final long tokenPeriod = 1000L * 60 * 60;
+    private static final long tokenPeriod = 1000L * 60 * 60 * 24 * 30;
     private static final long refreshPeriod = 1000L * 60 * 60 * 24 * 30 * 3;
 
     private final UserDetailsService userDetailsService;

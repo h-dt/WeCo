@@ -4,6 +4,7 @@ import com.dreamteam.hola.dao.MemberMapper;
 import com.dreamteam.hola.dto.member.MemberDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -21,6 +22,9 @@ import java.util.Collections;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final MemberMapper memberMapper;
+
+    @Value("${weco.default.profile}")
+    private String defaultProfile;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -43,6 +47,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuth2Attribute oAuth2Attribute = OAuth2Attribute.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
         MemberDto member = oAuth2Attribute.convertToMember(registrationId);
+        log.info("member: {}", member);
         saveOrUpdate(member);
 
         return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")), oAuth2Attribute.getAttributes(), oAuth2Attribute.getAttributeKey());
@@ -52,6 +57,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         MemberDto findMemberDto = memberMapper.findByEmail(memberDto.getEmail());
 
         if(findMemberDto == null){
+            log.info("memberDto : {}", memberDto);
+            if(memberDto.getProfileImage() == null){
+                memberDto.setProfileImage(defaultProfile);
+            }
             memberMapper.signup(memberDto);
         }else {
             memberMapper.update(memberDto);
