@@ -2,14 +2,12 @@ package com.dreamteam.hola.util.oauth2;
 
 import com.dreamteam.hola.domain.Role;
 import com.dreamteam.hola.dto.member.MemberDto;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 
+@Slf4j
 @ToString
 @Builder(access = AccessLevel.PRIVATE)
 @Getter
@@ -19,9 +17,6 @@ public class OAuth2Attribute {
     private String email;
     private String name;
     private String picture;
-
-    @Value("${weco.default.profile}")
-    private String defaultProfile;
 
     static OAuth2Attribute of(String provider, String attributeKey, Map<String, Object> attributes) {
         switch (provider) {
@@ -62,7 +57,6 @@ public class OAuth2Attribute {
                 .email(email)
                 .nickname(provider+"_"+email.split("@")[0])
                 .password("$2a$12$L9Kbh/mnhsivijLqUIEDAeAXJmgEBgpypmDTsuI2s1tWSsFOYYAeC")
-                .profileImage(defaultProfile)
                 .role(Role.ROLE_USER)
                 .socialType(provider)
                 .build();

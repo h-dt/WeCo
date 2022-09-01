@@ -48,8 +48,8 @@ public class MemberControllerAdvice {
 
     @ExceptionHandler(FileNameNullException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    protected ErrorResponse handleFileNameNullException(FileNameNullException fnn){
-        return ErrorResponse.of(HttpStatus.BAD_REQUEST, fnn.getMessage());
+    protected ErrorResponse handleFileNameNullException(FileNameNullException fnnException){
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST, fnnException.getMessage());
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
@@ -60,13 +60,19 @@ public class MemberControllerAdvice {
 
     @ExceptionHandler(NotAllowExtensionException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    protected ErrorResponse handleNotAllowExtenstionException(NotAllowExtensionException nae){
-        return ErrorResponse.of(HttpStatus.BAD_REQUEST, nae.getMessage());
+    protected ErrorResponse handleNotAllowExtenstionException(NotAllowExtensionException naeException){
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST, naeException.getMessage());
     }
 
     @ExceptionHandler(NotExistException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    protected ErrorResponse handleNotExistException(NotExistException nee){
-        return ErrorResponse.of(HttpStatus.BAD_REQUEST, nee.getMessage());
+    protected ErrorResponse handleNotExistException(NotExistException neeException){
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST, neeException.getMessage());
+    }
+
+    @ExceptionHandler(PasswordNotMatchException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ErrorResponse handleNotExistException(PasswordNotMatchException pnmException){
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST, pnmException.getMessage());
     }
 }

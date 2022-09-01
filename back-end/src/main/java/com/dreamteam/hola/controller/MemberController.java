@@ -45,10 +45,7 @@ public class MemberController {
     @PostMapping("/signin")
     public ResponseEntity<?> signin(@Validated @RequestBody MemberLoginDto memberDto) {
         Token result = memberServiceImpl.signin(memberDto);
-        if(result.getAccessToken().equals("access token create fail"))
-            return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
-        else
-            return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @ApiOperation(value = "회원가입",notes = "신규 사용자를 생성합니다.")
