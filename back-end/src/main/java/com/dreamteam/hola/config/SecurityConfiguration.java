@@ -53,7 +53,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/signin", "/", "/boards", "/login").permitAll()
                 .antMatchers("/images/**, /js/**").permitAll()
-                .antMatchers("/swagger-resources/**", "/swagger-ui.html/**", "/v2/api-docs", "/webjars/**", "/oauth2/**").permitAll()
+                .antMatchers("/swagger-resources/**", "/swagger-ui.html/**", "/v3/api-docs", "/webjars/**", "/oauth2/**","/swagger-ui/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/member/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/board/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/comment/**").permitAll()

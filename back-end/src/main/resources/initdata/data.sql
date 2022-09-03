@@ -34,6 +34,8 @@ insert into board_skill (board_id, skill_id) values (2, 4);
 insert into board_skill (board_id, skill_id) values (3, 1);
 insert into board_skill (board_id, skill_id) values (3, 5);
 
+
+
 insert into comment (board_id, member_id, content, c_depth) values (1, 2, "board1 comment1", false);
 insert into comment (board_id, member_id, content, c_depth) values (1, 2, "board1 comment2", false);
 insert into comment (board_id, member_id, content, c_depth) values (1, 2, "board1 comment3", false);
@@ -83,9 +85,9 @@ insert into comment (board_id, member_id, content, c_depth, c_group) values (3, 
 insert into comment (board_id, member_id, content, c_depth, c_group) values (3, 2, "board3의 5번 댓글의 대댓글4", true, 12);
 
 insert into heart ( board_id,member_id) values ( 1,1);
-insert into heart ( board_id,member_id) values ( 1,3);
-insert into heart ( board_id,member_id) values ( 2,1);
-insert into heart (board_id,member_id) values (1,3);
 insert into heart (board_id,member_id) values (1,2);
+insert into heart ( board_id,member_id) values ( 2,1);
+insert into heart ( board_id, member_id) values (2,3)
+
 
 

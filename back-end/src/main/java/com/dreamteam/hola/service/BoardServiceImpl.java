@@ -20,6 +20,8 @@ import java.util.List;
 @Slf4j
 public class BoardServiceImpl implements BoardService {
 
+
+
     private final BoardMapper boardMapper;
     private final MemberMapper memberMapper;
     private final BoardSkillMapper boardSkillMapper;

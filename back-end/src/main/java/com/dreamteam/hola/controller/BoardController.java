@@ -1,12 +1,19 @@
 package com.dreamteam.hola.controller;
 
 import com.dreamteam.hola.config.auth.PrincipalDetails;
+import com.dreamteam.hola.dto.board.BoardDetailDto;
 import com.dreamteam.hola.dto.board.BoardFilterDto;
-import com.dreamteam.hola.dto.board.*;
+import com.dreamteam.hola.dto.board.BoardReqDto;
 import com.dreamteam.hola.exception.ErrorResponse;
 import com.dreamteam.hola.service.BoardServiceImpl;
 import com.dreamteam.hola.service.HeartServiceImpl;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -29,24 +36,20 @@ public class BoardController {
     /*********************************** GET API ***********************************/
 
     // Board 1개 가져오기_2022_06_06_by_김우진
-    @ApiOperation(value = "게시글 조회 API", notes = "게시글 id를 통해서 게시글 정보를 조회합니다.")
-    @ApiParam(name = "게시글 id", value = "조회할 게시글 id", required = true, type = "path")
+    @Operation(summary= "게시글 조회 API",description = "게시글 id를 통해서 게시글 정보를 조회합니다.")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "조회된 게시글 상세 정보", response = BoardDetailDto.class),
-            @ApiResponse(code = 500, message = "존재하지 않는 글입니다.", response = ErrorResponse.class)
+            @ApiResponse(responseCode = "200", description = "조회된 게시글 상세 정보",content = @Content(schema = @Schema(implementation = BoardDetailDto.class))),
+            @ApiResponse(responseCode = "500", description = "존재하지 않는 글입니다.", content =@Content(schema=@Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping("/board/{id}")
-    public ResponseEntity<?> getBoard(@PathVariable Long id) {
+    public ResponseEntity<?> getBoard(@Parameter(name = "id", description = "조회할 게시글 id",required = true, example = "1",in= ParameterIn.PATH) @PathVariable("id") Long id) {
 
         log.info(id + "번의 게시글 조회 API");
 
         return new ResponseEntity<>(boardServiceimpl.getBoard(id), HttpStatus.OK);
     }
 
-    @ApiOperation(value = "내가 작성한 게시글 조회 API", notes = "로그인한 사용자의 정보로 그 Member가 작성한 게시글 조회합니다.")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "Member가 작성한 게시글 List", response = BoardListDto.class, responseContainer = "List"),
-    })
+
     // 내가 작성한 게시글 보기_2022_07_12_by_김우진
     @GetMapping("/my-boards")
     public ResponseEntity<?> getMyBoards(@ApiIgnore @AuthenticationPrincipal PrincipalDetails principalDetails){
@@ -58,13 +61,7 @@ public class BoardController {
     /*********************************** POST API ***********************************/
 
     // Board 전체 List 가져오기_2022_06_08_by_김우진
-    @ApiOperation(value = "조건에 맞는 전체 게시글 조회 API", notes = "모집구분(전체/프로젝트/스터디), 기술스택, 모집상태에 따라서 게시글 조회")
-    @ApiImplicitParam(name = "BoardReqDto", value = "조회에 필요한 조건을 담는 Request Body")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "결과에 맞게 조회된 게시글 List", response = BoardListDto.class, responseContainer = "List"),
-            @ApiResponse(code = 400, message = "올바르지 않은 매개변수 형식입니다.", response = ErrorResponse.class),
-            @ApiResponse(code = 500, message = "존재하지 않는 글입니다.", response = ErrorResponse.class)
-    })
+
     @PostMapping("/boards")
     public ResponseEntity<?> getBoards(@Valid @RequestBody BoardFilterDto boardReqDto) {
         log.info("조건에 맞는 board 전체 게시글 조회 API");
@@ -72,15 +69,15 @@ public class BoardController {
     }
 
     //Board 게시물 등록하기_2022_06_22_by_정은비
-    @ApiOperation(value = "게시글 등록 API", notes = "로그인 한 사용자를 작성자로 게시글 작성합니다.")
-    @ApiImplicitParam(name = "BoardReqDto", value = "작성에 필요한 내용을 담는 Request Body")
+
+    @Operation(summary = "게시글 등록 API",description = "로그인 한 사용자를 작성자로 게시글을 작성합니다.")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "올바르지 않은 매개변수 형식입니다.", response = ErrorResponse.class),
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "올바르지 않은 매개변수 형식입니다.",content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PostMapping("/board")
-    public ResponseEntity<?> save(@ApiIgnore @AuthenticationPrincipal PrincipalDetails principalDetails,
-                                      @Valid @RequestBody BoardReqDto boardDto) {
+    public ResponseEntity<?> save(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                                  @Valid @RequestBody BoardReqDto boardDto) {
         Long memberId = principalDetails.getMemberDto().getMemberId();
         boardServiceimpl.save(memberId, boardDto);
 
@@ -90,12 +87,7 @@ public class BoardController {
     /*********************************** PATCH API ***********************************/
 
     // 모집 마감 토글_2022_06_19_by_김우진
-    @ApiOperation(value = "게시글 모집 마감 토클 API", notes = "모집 활성/모집 비활성 토클")
-    @ApiImplicitParam(name = "게시글 id", value = "모집 상태를 변경할 게시글 id", paramType = "path")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 500, message = "존재하지 않는 글입니다.", response = ErrorResponse.class)
-    })
+
     @PatchMapping("/board/{id}")
     public ResponseEntity<?> updateRecruitStatus(@ApiIgnore @AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long id) {
         log.info("모집 마감 상태 변경 API");
@@ -107,12 +99,7 @@ public class BoardController {
     /*********************************** PUT API ***********************************/
 
     // Board 전체 수정_2022_06_19_by_김우진 - skilltype 추가 해야 함
-    @ApiOperation(value = "게시글 수정 API", notes = "로그인 한 사용자가 작성한 게시글을 수정합니다.")
-    @ApiImplicitParam(name = "BoardReqDto", value = "수정에 필요한 내용을 담는 Request Body")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "올바르지 않은 매개변수 형식입니다.", response = ErrorResponse.class)
-    })
+
     @PutMapping("/board")
     public ResponseEntity<?> update(@ApiIgnore @AuthenticationPrincipal PrincipalDetails principalDetails, @Valid @RequestBody BoardReqDto boardReqDto) {
         Long memberId = principalDetails.getMemberDto().getMemberId();
@@ -121,13 +108,7 @@ public class BoardController {
     }
 
     //Board 게시글 클라이언트 에게 보이지 않게만 삭제처리
-    @ApiOperation(value = "게시글 삭제 API", notes = "로그인 한 사용자가 작성한 게시글을 삭제합니다.")
-    @ApiImplicitParam(name = "게시글 id", value = "삭제할 게시글 id", paramType = "path")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "OK", response = ErrorResponse.class),
-            @ApiResponse(code = 400, message = "존재하지 않는 글입니다.",response = ErrorResponse.class),
-            @ApiResponse(code = 401, message = "해당 게시글에 권한이 없습니다.",response = ErrorResponse.class)
-    })
+
     @DeleteMapping("/board/{id}")
     public ResponseEntity<?> delete(@ApiIgnore @AuthenticationPrincipal PrincipalDetails principalDetails,@PathVariable Long id){
         Long memberId = principalDetails.getMemberDto().getMemberId();
@@ -143,33 +124,20 @@ public class BoardController {
 
     // 추천 게시물 List 가져오기_2022_07_11_by_정은비
 
-    @ApiOperation(value = "추천 게시글 API",notes = "댓글수,조회수,등록날짜에 따른 점수로 10개의 게시글 추천게시글 목록")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "추천 게시글 List", response = RecommendedBoardDto.class, responseContainer = "List")
-    })
+
     @GetMapping("/board/recommend")
     public ResponseEntity<?> getRecommendedBoardList() {
         return new ResponseEntity<>(boardServiceimpl.getRecommendedBoardList(), HttpStatus.OK);
     }
 
-    @ApiOperation(value ="해당 Board의 heart를 추가 (사용자당 하나의 heart만 가능)",notes = "좋아요 활성화")
-    @ApiImplicitParam(name = "id", value = "포스트 대상 PK",dataType = "Long")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "존재하지 않는 글입니다.", response = ErrorResponse.class)
-    })
+
     @PostMapping("/heart/{id}")
     public ResponseEntity<?> addHeart(@ApiIgnore @AuthenticationPrincipal PrincipalDetails principalDetails,@PathVariable("id") Long boardId){
         heartServiceImpl.save(boardId,principalDetails.getMemberDto().getMemberId());
         return new ResponseEntity<>("OK",HttpStatus.OK);
     }
 
-    @ApiOperation(value = "해당 Board의 Heart 삭제",notes = "좋아요 비활성화")
-    @ApiImplicitParam(name = "id", value = "포스트 대상 PK",dataType = "Long")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "true"),
-            @ApiResponse(code = 400, message = "false")
-    })
+
     @DeleteMapping("/heart/{id}")
     public ResponseEntity<?> deleteHeart(@ApiIgnore @AuthenticationPrincipal PrincipalDetails principalDetails,@PathVariable("id") Long boardId){
 
@@ -185,10 +153,7 @@ public class BoardController {
 
     }
 
-    @ApiOperation(value = "내가 좋아요한 게시글 모아보기",notes = "좋아요 모아보기")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "좋아요한 게시글 List", response = BoardHeartDto.class, responseContainer = "List"),
-    })
+
     @GetMapping("/myheart")
     public ResponseEntity<?> showMyHeart (@ApiIgnore @AuthenticationPrincipal PrincipalDetails principalDetails){
         log.info("id={}",principalDetails.getMemberDto().getMemberId());
