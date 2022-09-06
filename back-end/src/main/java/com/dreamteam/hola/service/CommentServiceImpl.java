@@ -2,6 +2,7 @@ package com.dreamteam.hola.service;
 
 import com.dreamteam.hola.dao.BoardMapper;
 import com.dreamteam.hola.dao.CommentMapper;
+import com.dreamteam.hola.dto.board.BoardDetailDto;
 import com.dreamteam.hola.dto.comment.CommentDto;
 import com.dreamteam.hola.dto.comment.CommentReqDto;
 import com.dreamteam.hola.exception.comment.BoardNotFoundException;
@@ -29,6 +30,10 @@ public class CommentServiceImpl {
     // Comment 생성하기_2022_06_17_by_김우진
     @Transactional
     public int save(Long memberId, CommentReqDto commentDto) {
+        BoardDetailDto findBoard = boardMapper.findById(commentDto.getBoardId());
+        if(findBoard == null){
+            throw new BoardNotFoundException("게시글이 존재하지 않습니다.");
+        }
         return commentMapper.save(memberId, commentDto);
     }
 
