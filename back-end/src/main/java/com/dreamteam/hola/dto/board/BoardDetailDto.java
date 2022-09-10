@@ -1,5 +1,6 @@
 package com.dreamteam.hola.dto.board;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -44,12 +45,14 @@ public class BoardDetailDto {
 
     private String duration;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd HH:mm:ss",timezone = "Asia/Seoul")
     private String startDate;
 
     private String contactType;
 
     private String contact;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd HH:mm:ss",timezone = "Asia/Seoul")
     private String regDate;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)

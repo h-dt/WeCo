@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @JsonPropertyOrder({"commentId", "boardId", "writer", "content"})
 @Data
 public class CommentDto {
+
     private Long commentId;
 
     private Long boardId;

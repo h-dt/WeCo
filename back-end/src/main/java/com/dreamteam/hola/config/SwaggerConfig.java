@@ -3,6 +3,10 @@ package com.dreamteam.hola.config;
 import com.dreamteam.hola.dto.board.BoardDetailDto;
 import com.dreamteam.hola.dto.board.BoardListDto;
 import com.dreamteam.hola.dto.board.RecommendedBoardDto;
+import com.dreamteam.hola.dto.comment.CommentDto;
+import com.dreamteam.hola.dto.comment.CommentReqDto;
+import com.dreamteam.hola.dto.comment.CommentResDto;
+import com.dreamteam.hola.dto.comment.CommentUpdateDto;
 import com.dreamteam.hola.exception.ErrorResponse;
 import com.fasterxml.classmate.TypeResolver;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +51,12 @@ public class SwaggerConfig {
                 typeResolver.resolve(BoardDetailDto.class),
                 typeResolver.resolve(ErrorResponse.class),
                 typeResolver.resolve(RecommendedBoardDto.class),
-                typeResolver.resolve(BoardListDto.class)
+                typeResolver.resolve(BoardListDto.class),
+                typeResolver.resolve(CommentReqDto.class),
+                typeResolver.resolve(CommentUpdateDto.class),
+                typeResolver.resolve(CommentDto.class),
+                typeResolver.resolve(CommentResDto.class)
+
 
 
         );

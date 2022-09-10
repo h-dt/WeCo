@@ -11,9 +11,9 @@
         c.reg_date
     </sql>
 
-    <select id="findAllCommentByBoardId" resultType="CommentDto">
+    <select id="findAllCommentByBoardId" resultType="CommentResDto">
         select
-        <include refid="commentCommonColumns"/>
+        m.profile_image,m.nickname,c.content,c.reg_date
         from comment c
         join member m on m.member_id = c.member_id
         where c.board_id = #{id}
@@ -27,14 +27,14 @@
     </select>
 
     <insert id="save" parameterType="CommentReqDto">
-        insert into comment (board_id, member_id, content)
-        values (#{commentDto.boardId}, #{memberId}, #{commentDto.content});
+        insert into comment (board_id, member_id, content,reg_date,mod_date)
+        values (#{commentDto.boardId}, #{memberId}, #{commentDto.content}, now(),null);
     </insert>
 
-    <update id="update" parameterType="CommentReqDto">
+    <update id="update" parameterType="CommentUpdateDto">
         update comment
         set content = #{commentDto.content},
-            mod_date = #{commentDto.modDate}
+            mod_date = now()
         where comment_id = #{commentDto.commentId} and comment.board_id = #{commentDto.boardId} and comment.member_id = #{memberId}
     </update>
 
@@ -46,7 +46,7 @@
         where c.comment_id = #{id};
     </select>
 
-    <delete id="delete" parameterType="CommentReqDto">
+    <delete id="delete" parameterType="CommentUpdateDto">
         delete from comment
         where comment_id = #{commentDto.commentId}
         and board_id = #{commentDto.boardId}
