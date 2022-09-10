@@ -1,5 +1,6 @@
 package com.dreamteam.hola.dto.comment;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -34,8 +35,10 @@ public class CommentUpdateDto {
     private String content;
 
     @Schema(hidden = true)
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd HH:mm:ss",timezone = "Asia/Seoul")
     private LocalDateTime regDate;
 
     @Schema(hidden = true)
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd HH:mm:ss",timezone = "Asia/Seoul")
     private LocalDateTime modDate;
 }
