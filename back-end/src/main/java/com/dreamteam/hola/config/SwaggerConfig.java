@@ -1,6 +1,8 @@
 package com.dreamteam.hola.config;
 
 import com.dreamteam.hola.dto.board.BoardDetailDto;
+import com.dreamteam.hola.dto.board.BoardListDto;
+import com.dreamteam.hola.dto.board.RecommendedBoardDto;
 import com.dreamteam.hola.exception.ErrorResponse;
 import com.fasterxml.classmate.TypeResolver;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +45,9 @@ public class SwaggerConfig {
                 //타입리졸버 설정
                 .additionalModels(
                 typeResolver.resolve(BoardDetailDto.class),
-                typeResolver.resolve(ErrorResponse.class)
+                typeResolver.resolve(ErrorResponse.class),
+                typeResolver.resolve(RecommendedBoardDto.class),
+                typeResolver.resolve(BoardListDto.class)
 
 
         );

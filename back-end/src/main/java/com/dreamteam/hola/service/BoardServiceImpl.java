@@ -9,10 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -51,8 +47,23 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public List<BoardListDto> getBoards(BoardFilterDto boardReqDto) {
         // 모집 타입 + 기술 스택(옵션, 비어있을 수 있음)에 해당되는 게시글 모두 조회
+        final int PAGE_ROW_COUNT =20;
+
+        int pageNum =1;//초기값 지정
+
+        int strPageNum = boardReqDto.getStartRowNum();
+        if(strPageNum != 1){
+            pageNum = strPageNum;
+        }
+        int startRowNum = 0 + (pageNum - 1) * PAGE_ROW_COUNT;//보여줄 페이지의 시작 - 0부터 시작
+        int endRowNum = pageNum * PAGE_ROW_COUNT;
+        int rowCount = PAGE_ROW_COUNT;
+
+        boardReqDto.setStartRowNum(startRowNum);
+        boardReqDto.setEndRowNum(endRowNum);
+        boardReqDto.setRowCount(rowCount);//빌더패턴 쓸까 생각중
         System.out.println("boardReqDto = " + boardReqDto.toString());
-        List<BoardListDto> findAll = boardMapper.findAll(boardReqDto.getRecruitType(), boardReqDto.getRecruitStatus(), boardReqDto.getSkills());
+        List<BoardListDto> findAll = boardMapper.findAll(boardReqDto.getRecruitType(), boardReqDto.getRecruitStatus(), boardReqDto.getSkills(),boardReqDto.getStartRowNum(), boardReqDto.getRowCount());
         for (BoardListDto findBoard : findAll) {
             // 각 게시글에 사용된 기술 스택 set
             List<String> skills = skillMapper.findAllByBoardId(findBoard.getId());
@@ -95,7 +106,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional
-    public int update(Long memberId, BoardReqDto boardDto) {
+    public int update(Long memberId, BoardUpdateDto boardDto) {
 
         if(boardMapper.findById(boardDto.getId()) == null){
             throw new NullPointerException();
@@ -104,11 +115,11 @@ public class BoardServiceImpl implements BoardService {
             throw new BoardAuthorizationException("해당 게시글에 권한이 없습니다.");
         }
 
-        Date date = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String updateDate = dateFormat.format(date);
-
-        boardDto.setModDate(updateDate);
+//        Date date = Calendar.getInstance().getTime();
+//        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        String updateDate = dateFormat.format(date);
+//
+//        boardDto.setModDate(updateDate);
         boardMapper.update(memberId, boardDto);
         boardSkillMapper.deleteAllByBoardId(boardDto.getId());
         boardDto.getSkills().forEach(skills -> {

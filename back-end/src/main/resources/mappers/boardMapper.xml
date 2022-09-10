@@ -75,9 +75,9 @@
 
     <insert id="save" parameterType="BoardReqDto">
         insert into board (member_id, title, content, recruit_type, recruit_cnt, progress_type, duration, contact_type, contact,
-        start_date)
+        start_date,reg_date,mod_date)
         values (#{memberId}, #{title}, #{content}, #{recruitType}, #{recruitCnt},#{progressType}, #{duration}, #{contactType},
-        #{contact}, #{startDate})
+        #{contact}, #{startDate},now(),null)
         <selectKey keyProperty="id" resultType="long" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
@@ -89,7 +89,7 @@
         where board_id = #{id}
     </update>
 
-    <update id="update" parameterType="BoardReqDto">
+    <update id="update" parameterType="BoardUpdateDto">
         update board b
         set b.title         = #{boardDto.title},
             b.content       = #{boardDto.content},
@@ -100,7 +100,7 @@
             b.start_date    = #{boardDto.startDate},
             b.contact_type  = #{boardDto.contactType},
             b.contact       = #{boardDto.contact},
-            b.mod_date      = #{boardDto.modDate}
+            b.mod_date      = now()
             where board_id = #{boardDto.id} and b.member_id = #{memberId};
     </update>
 

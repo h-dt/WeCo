@@ -18,7 +18,7 @@ public interface BoardService {
 
     int updateRecruitStatus(Long memberId, Long id);
 
-    int update(Long memberId, BoardReqDto BoardReqDto);
+    int update(Long memberId, BoardUpdateDto boardUpdateDto);
     
     List<RecommendedBoardDto> getRecommendedBoardList();
 
