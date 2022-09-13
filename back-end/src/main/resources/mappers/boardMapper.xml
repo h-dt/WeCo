@@ -64,6 +64,8 @@
                 and recruit_status = #{recruitStatus}
             </if>
         </where>
+        order by b.board_id desc
+        limit #{startRowNum}, #{rowCount}
     </select>
 
     <update id="updateViewCnt">
