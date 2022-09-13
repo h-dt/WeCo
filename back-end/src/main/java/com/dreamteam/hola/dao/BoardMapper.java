@@ -1,9 +1,6 @@
 package com.dreamteam.hola.dao;
 
-import com.dreamteam.hola.dto.board.RecommendedBoardDto;
-import com.dreamteam.hola.dto.board.BoardDetailDto;
-import com.dreamteam.hola.dto.board.BoardListDto;
-import com.dreamteam.hola.dto.board.BoardReqDto;
+import com.dreamteam.hola.dto.board.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -15,7 +12,7 @@ public interface BoardMapper {
     BoardDetailDto findByIdAndMemberId(Long id, Long memberId);
 
 
-    List<BoardListDto> findAll(String recruitType, String recruitStatus, List<String> skillTypes);
+    List<BoardListDto> findAll(String recruitType, String recruitStatus, List<String> skillTypes,int startRowNum,int rowCount);
 
     void updateViewCnt(Long id);
 
@@ -23,7 +20,7 @@ public interface BoardMapper {
 
     int updateRecruitStatus(Long id, String status);
 
-    int update(Long memberId, BoardReqDto boardDto);
+    int update(Long memberId, BoardUpdateDto boardDto);
 
 
     void calScore();
