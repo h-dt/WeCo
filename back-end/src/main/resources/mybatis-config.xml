@@ -17,6 +17,8 @@
         <typeAlias type="com.dreamteam.hola.dto.board.BoardHeartDto" alias="BoardHeartDto"/>
         <typeAlias type="com.dreamteam.hola.dto.comment.CommentDto" alias="CommentDto"/>
         <typeAlias type="com.dreamteam.hola.dto.comment.CommentReqDto" alias="CommentReqDto"/>
+        <typeAlias type="com.dreamteam.hola.dto.comment.CommentUpdateDto" alias="CommentUpdateDto"/>
+        <typeAlias type="com.dreamteam.hola.dto.comment.CommentResDto" alias="CommentResDto"/>
         <typeAlias type="com.dreamteam.hola.dto.member.MemberDto" alias="MemberDto"/>
         <typeAlias type="com.dreamteam.hola.dto.member.MemberSignInDto" alias="MemberSignInDto"/>
         <typeAlias type="com.dreamteam.hola.dto.BoardSkillDto" alias="BoardSkillDto"/>
