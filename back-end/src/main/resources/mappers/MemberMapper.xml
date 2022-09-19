@@ -17,15 +17,14 @@
         social_type
     </sql>
 
-    <insert id="signup" parameterType="MemberDto">
+    <insert id="signup" useGeneratedKeys="true" parameterType="MemberSignupDto">
         INSERT INTO member(
-        <include refid="memberColumns"/>
+            nickname, password, email, profile_image, role, reg_date, mod_date, withdrawal_yn, withdrawal_date, social_type
         )VALUES(
-            #{memberId},
             #{nickname},
             #{password},
             #{email},
-            #{profileImage},
+            IFNULL(#{profileImage},'https://weco-image.s3.ap-northeast-2.amazonaws.com/profile/default/weco-profile.png'),
             'ROLE_USER',
             now(),
             null,
@@ -35,7 +34,7 @@
         );
     </insert>
 
-    <select id="findByEmail" parameterType="String" resultType="MemberDto">
+    <select id="findByEmail" parameterType="String" resultType="MemberInfoDto">
         SELECT
             member_id,nickname,password,email,profile_image,reg_date,role
         FROM
@@ -51,7 +50,7 @@
 <!--        values (#{}, #{nickname}, #{password}, #{email}, #{profileImage}, #{role})-->
 <!--    </insert>-->
 
-    <select id="findById" resultType="MemberDto">
+    <select id="findById" resultType="MemberInfoDto">
         select
             member_id,
             nickname,
@@ -70,11 +69,11 @@
             withdrawal_yn = 'N'
     </select>
 
-    <update id="update" parameterType="MemberDto">
+    <update id="update" parameterType="MemberUpdateDto" useGeneratedKeys="true" keyProperty="id">
         update member
         set
-        nickname=#{nickname},
-        mod_date=now()
+        nickname = #{nickname},
+        mod_date = now()
         where member_id = #{memberId} and withdrawal_yn = 'N'
     </update>
 
@@ -82,25 +81,24 @@
         update member
         set
         withdrawal_yn = 'Y',
-        withdrawal_date=now()
-        where member_id= #{id}
+        withdrawal_date = now()
+        where member_id = #{id}
     </update>
 
-    <update id="updateProfile" parameterType="MemberDto">
+    <update id="updateProfile" parameterType="MemberSignupDto"  useGeneratedKeys="true" keyProperty="id">
         update member
         set
-            profile_image=#{profileImage},
-            mod_date=now()
+            profile_image = #{profileImage},
+            mod_date = now()
         where member_id = #{memberId} and withdrawal_yn = 'N'
     </update>
 
-    <update id="deleteProfile" parameterType="MemberDto">
+    <update id="deleteProfile" parameterType="MemberSignupDto">
         update member
         set
-            profile_image=#{profileImage},
-            mod_date=now()
+            profile_image = #{profileImage},
+            mod_date = now()
         where member_id = #{memberId} and withdrawal_yn = 'N'
     </update>
-
 </mapper>
 

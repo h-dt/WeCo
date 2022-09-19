@@ -1,7 +1,7 @@
 package com.dreamteam.hola.config.auth;
 
 import com.dreamteam.hola.domain.Role;
-import com.dreamteam.hola.dto.member.MemberDto;
+import com.dreamteam.hola.dto.member.MemberInfoDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,15 +25,15 @@ public class PrincipalDetails implements UserDetails,OAuth2User{
 //Member Object의 타입은 UserDetails 타입의 객체여야 합니다.
 //Security Session -> Authentication -> UserDetails 타입
 
-    private MemberDto memberDto;//콤포지션
+    private MemberInfoDto memberDto;//콤포지션
     private Map<String,Object> attributes;
 
     //일반 로그인
-    public PrincipalDetails(MemberDto memberDto){
+    public PrincipalDetails(MemberInfoDto memberDto){
         this.memberDto = memberDto;
     }
 
-    public PrincipalDetails(MemberDto memberDto, Map<String,Object>attributes){
+    public PrincipalDetails(MemberInfoDto memberDto, Map<String,Object>attributes){
         this.memberDto = memberDto;
         this.attributes = attributes;
     }

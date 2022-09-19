@@ -3,9 +3,9 @@ package com.dreamteam.hola.service;
 import com.dreamteam.hola.config.auth.PrincipalDetails;
 import com.dreamteam.hola.config.auth.PrincipalDetailsService;
 import com.dreamteam.hola.dao.MemberMapper;
-import com.dreamteam.hola.domain.Role;
-import com.dreamteam.hola.dto.member.MemberDto;
+import com.dreamteam.hola.dto.member.MemberInfoDto;
 import com.dreamteam.hola.dto.member.MemberLoginDto;
+import com.dreamteam.hola.dto.member.MemberSignupDto;
 import com.dreamteam.hola.dto.member.MemberUpdateDto;
 import com.dreamteam.hola.exception.member.PasswordNotMatchException;
 import com.dreamteam.hola.util.jwt.JwtTokenProvider;
@@ -20,9 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
-@Slf4j
 public class MemberServiceImpl implements MemberService {
 
     private final MemberMapper memberMapper;
@@ -32,21 +32,15 @@ public class MemberServiceImpl implements MemberService {
     private final S3FileUploadService s3FileUploadService;
 
     @Value("${weco.default.profile}")
-    private String defaultProfile;
-
+    private String DEFAULT_PROFILE;
 
     @Override
     @Transactional
-    public boolean signup(MemberDto memberDto) throws IOException {
+    public void signup(MemberSignupDto requestDto) {
         log.info("Call Service SignUp");
 
-        memberDto.setRole(Role.ROLE_USER);
-        memberDto.setPassword(passwordEncoder.encode(memberDto.getPassword()));
-
-        if(memberDto.getProfileImage()==null){
-            memberDto.setProfileImage(defaultProfile);
-        }
-        return memberMapper.signup(memberDto) == 1;
+        requestDto.setPassword(passwordEncoder.encode(requestDto.getPassword()));
+        memberMapper.signup(requestDto);
     }
 
     @Override
@@ -65,44 +59,42 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public boolean updateProfile(Long memberId, MultipartFile profile) throws IOException {
-        MemberDto findMember = memberMapper.findById(memberId);
+    public Long updateProfile(Long memberId, MultipartFile profile) throws IOException {
+        MemberInfoDto findMember = memberMapper.findById(memberId);
 
-        if(!findMember.getProfileImage().equals(defaultProfile)) {
+        if(!findMember.getProfileImage().equals(DEFAULT_PROFILE)) {
             log.info("현재 이미지가 기본 이미지가 아니므로 S3 상에서 삭제!!!");
             s3FileUploadService.remove(findMember.getProfileImage());
         }
 
         if(profile == null){
             log.info("profile이 null이므로 기본 이미지로 setting!!!");
-            findMember.setProfileImage(defaultProfile);
+            findMember.setProfileImage(DEFAULT_PROFILE);
         }else {
             log.info("설정된 이미지로 profile setting!!!");
             String uploadPath = s3FileUploadService.upload(profile);
             findMember.setProfileImage(uploadPath);
         }
-
-        memberMapper.updateProfile(findMember);
-        return true;
+        return memberMapper.updateProfile(findMember);
     }
 
     @Override
     @Transactional
-    public boolean update(Long memberId, MemberUpdateDto memberDto){
-        MemberDto findMember = memberMapper.findById(memberId);
+    public Long update(Long memberId, MemberUpdateDto memberDto){
+        MemberInfoDto findMember = memberMapper.findById(memberId);
         findMember.setNickname(memberDto.getNickname());
 
-        return memberMapper.update(findMember) == 1;
+        return memberMapper.update(findMember);
     }
 
     @Override
     @Transactional
-    public boolean delete(Long id) {
-        return memberMapper.delete(id) == 1;
+    public Long delete(Long id) {
+        return memberMapper.delete(id);
     }
 
     @Override
-    public MemberDto getLoginMember(Long id) {
+    public MemberInfoDto getLoginMember(Long id) {
         return memberMapper.findById(id);
     }
 }

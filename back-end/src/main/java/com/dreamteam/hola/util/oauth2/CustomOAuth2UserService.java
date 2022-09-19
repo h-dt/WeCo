@@ -1,10 +1,10 @@
 package com.dreamteam.hola.util.oauth2;
 
 import com.dreamteam.hola.dao.MemberMapper;
-import com.dreamteam.hola.dto.member.MemberDto;
+import com.dreamteam.hola.dto.member.MemberInfoDto;
+import com.dreamteam.hola.dto.member.MemberSignupDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -23,8 +23,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     private final MemberMapper memberMapper;
 
-    @Value("${weco.default.profile}")
-    private String defaultProfile;
+//    @Value("${weco.default.profile}")
+//    private String defaultProfile;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -46,24 +46,21 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         // SuccessHandler가 사용할 수 있도록 서비스 등록 (Attributes에서 자세한 사용자 정보를 담고 있다)
         OAuth2Attribute oAuth2Attribute = OAuth2Attribute.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
-        MemberDto member = oAuth2Attribute.convertToMember(registrationId);
+        MemberSignupDto member = oAuth2Attribute.convertToMember(registrationId);
         log.info("member: {}", member);
         saveOrUpdate(member);
 
         return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")), oAuth2Attribute.getAttributes(), oAuth2Attribute.getAttributeKey());
     }
 
-    private void saveOrUpdate(MemberDto memberDto){
-        MemberDto findMemberDto = memberMapper.findByEmail(memberDto.getEmail());
+    private void saveOrUpdate(MemberSignupDto requestDto){
+        MemberInfoDto findMemberDto = memberMapper.findByEmail(requestDto.getEmail());
 
-        if(findMemberDto == null){
-            log.info("memberDto : {}", memberDto);
-            if(memberDto.getProfileImage() == null){
-                memberDto.setProfileImage(defaultProfile);
-            }
-            memberMapper.signup(memberDto);
-        }else {
-            memberMapper.update(memberDto);
+        if(findMemberDto == null) {
+            memberMapper.signup(requestDto);
         }
+//        }else {
+//            memberMapper.update(requestDto);
+//        }
     }
 }
