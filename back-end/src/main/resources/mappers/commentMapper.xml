@@ -16,7 +16,7 @@
         m.profile_image,m.nickname,c.content,c.reg_date
         from comment c
         join member m on m.member_id = c.member_id
-        where c.board_id = #{id}
+        where c.board_id = #{boardId}
         order by c.reg_date, c.comment_id;
     </select>
 
@@ -46,10 +46,9 @@
         where c.comment_id = #{id};
     </select>
 
-    <delete id="delete" parameterType="CommentUpdateDto">
+    <delete id="delete" parameterType="Long">
         delete from comment
-        where comment_id = #{commentDto.commentId}
-        and board_id = #{commentDto.boardId}
-        and member_id = #{memberId}
+        where comment_id = #{commentId}
+
     </delete>
 </mapper>

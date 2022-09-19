@@ -18,7 +18,7 @@ public interface CommentMapper {
 
     int update(Long memberId, CommentUpdateDto commentDto);
 
-    CommentDto findById(Long id);
+    CommentDto findById(Long commentId);
 
-    int delete(Long memberId, CommentUpdateDto commentDto);
+    int delete(Long memberId, Long commentId);
 }

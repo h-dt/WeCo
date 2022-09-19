@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -51,21 +52,22 @@ public class CommentServiceImpl {
     }
 
     public List<CommentResDto> getComments(Long boardId) {
+        log.info(Arrays.toString(commentMapper.findAllCommentByBoardId(boardId).toArray()));
         return commentMapper.findAllCommentByBoardId(boardId);
     }
 
     @Transactional
-    public int delete(Long memberId, CommentUpdateDto commentDto) {
+    public int delete(Long memberId, Long commentId) {
         log.info("댓글 삭제 = ");
-        CommentDto findComment = commentMapper.findById(commentDto.getCommentId());
+        CommentDto findComment = commentMapper.findById(commentId);
 
-        if (boardMapper.findById(commentDto.getBoardId()) == null) {
+        if (boardMapper.findById(findComment.getBoardId()) == null) {
             throw new BoardNotFoundException("게시글이 존재하지 않습니다.");
         } else if (findComment == null) {
             throw new NullPointerException();
-        } else if (!Objects.equals(findComment.getBoardId(), commentDto.getBoardId())) {
+        } else if (!Objects.equals(findComment.getBoardId(), findComment.getBoardId())) {
             throw new CommentNotMatchException("댓글에 해당되는 게시글 번호가 아닙니다.");
         }
-        return commentMapper.delete(memberId, commentDto);
+        return commentMapper.delete(memberId, commentId);
     }
 }

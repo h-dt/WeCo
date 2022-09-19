@@ -55,6 +55,7 @@ public class CommentController {
     @PutMapping("/comment")
     public ResponseEntity<?> update(@ApiIgnore @AuthenticationPrincipal PrincipalDetails principalDetails,
                                     @Parameter @Valid @RequestBody CommentUpdateDto commentDto) {
+
         Long memberId = principalDetails.getMemberDto().getMemberId();
         commentService.update(memberId, commentDto);
         return new ResponseEntity<>("OK", HttpStatus.OK);
@@ -76,11 +77,11 @@ public class CommentController {
             @ApiResponse(responseCode = "400", description = "댓글에 해당되는 게시글 번호가 아닙니다.", content =@Content(schema=@Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = "존재하지 않는 댓글입니다.", content =@Content(schema=@Schema(implementation = ErrorResponse.class)))
     })
-    @DeleteMapping("/comment")
+    @DeleteMapping("/comment/{id}")
     public ResponseEntity<?> deleteComment(@ApiIgnore @AuthenticationPrincipal PrincipalDetails principalDetails,
-                                           @Parameter @RequestBody CommentUpdateDto commentDto){
+                                           @Parameter(name = "id" , example = "1",required = true,description = "삭제할 댓글의 id") @PathVariable("id") Long commentId){
         Long memberId = principalDetails.getMemberDto().getMemberId();
-        commentService.delete(memberId,commentDto);
+        commentService.delete(memberId,commentId);
         return new ResponseEntity<>("OK",HttpStatus.OK);
     }
 }
