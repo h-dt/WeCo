@@ -166,5 +166,6 @@ public class BoardServiceImpl implements BoardService {
         boardSkillMapper.deleteAllByBoardId(boardDto.getId());
 
         return 1;
+
     }
 }
