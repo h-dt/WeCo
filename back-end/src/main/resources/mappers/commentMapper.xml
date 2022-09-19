@@ -13,7 +13,7 @@
 
     <select id="findAllCommentByBoardId" resultType="CommentResDto">
         select
-        m.profile_image,m.nickname,c.content,c.reg_date
+        m.profile_image,m.nickname,c.content,c.reg_date,c.board_id,c.comment_id
         from comment c
         join member m on m.member_id = c.member_id
         where c.board_id = #{boardId}
