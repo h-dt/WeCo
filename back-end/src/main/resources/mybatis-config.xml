@@ -8,22 +8,28 @@
         <setting name="jdbcTypeForNull" value="NULL"/>
     </settings>
 
+
     <typeAliases>
+        <typeAlias type="com.dreamteam.hola.dto.member.MemberInfoDto" alias="MemberInfoDto"/>
+        <typeAlias type="com.dreamteam.hola.dto.member.MemberSignupDto" alias="MemberSignupDto"/>
+        <typeAlias type="com.dreamteam.hola.dto.member.MemberLoginDto" alias="MemberLoginDto"/>
+        <typeAlias type="com.dreamteam.hola.dto.member.MemberUpdateDto" alias="MemberUpdateDto"/>
+
         <typeAlias type="com.dreamteam.hola.dto.board.BoardReqDto" alias="BoardReqDto"/>
         <typeAlias type="com.dreamteam.hola.dto.board.BoardDetailDto" alias="BoardDetailDto"/>
         <typeAlias type="com.dreamteam.hola.dto.board.BoardUpdateDto" alias="BoardUpdateDto"/>
         <typeAlias type="com.dreamteam.hola.dto.board.BoardListDto" alias="BoardListDto"/>
         <typeAlias type="com.dreamteam.hola.dto.board.BoardFilterDto" alias="BoardFilterDto"/>
         <typeAlias type="com.dreamteam.hola.dto.board.BoardHeartDto" alias="BoardHeartDto"/>
+        <typeAlias type="com.dreamteam.hola.dto.board.RecommendedBoardDto" alias="RecommendedBoardDto" />
+
         <typeAlias type="com.dreamteam.hola.dto.comment.CommentDto" alias="CommentDto"/>
         <typeAlias type="com.dreamteam.hola.dto.comment.CommentReqDto" alias="CommentReqDto"/>
         <typeAlias type="com.dreamteam.hola.dto.comment.CommentUpdateDto" alias="CommentUpdateDto"/>
         <typeAlias type="com.dreamteam.hola.dto.comment.CommentResDto" alias="CommentResDto"/>
-        <typeAlias type="com.dreamteam.hola.dto.member.MemberDto" alias="MemberDto"/>
-        <typeAlias type="com.dreamteam.hola.dto.member.MemberSignInDto" alias="MemberSignInDto"/>
-        <typeAlias type="com.dreamteam.hola.dto.BoardSkillDto" alias="BoardSkillDto"/>
+
         <typeAlias type="com.dreamteam.hola.dto.SkillDto" alias="SkillDto"/>
-        <typeAlias type="com.dreamteam.hola.dto.board.RecommendedBoardDto" alias="RecommendedBoardDto" />
+        <typeAlias type="com.dreamteam.hola.dto.BoardSkillDto" alias="BoardSkillDto"/>
         <typeAlias type="com.dreamteam.hola.dto.Heart" alias="Heart"/>
     </typeAliases>
 </configuration>

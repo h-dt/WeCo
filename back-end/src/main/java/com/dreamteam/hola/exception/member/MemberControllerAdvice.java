@@ -23,7 +23,7 @@ public class MemberControllerAdvice {
     @ExceptionHandler(DuplicateKeyException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     protected ErrorResponse memberHandlerException1(){
-        return ErrorResponse.of(HttpStatus.CONFLICT,"중복되는 아이디 입니다.");
+        return ErrorResponse.of(HttpStatus.CONFLICT,"해당 이메일은 이미 존재합니다.");
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -41,9 +41,9 @@ public class MemberControllerAdvice {
 
     }
     @ExceptionHandler(NullPointerException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ErrorResponse memberHandlerException3(NullPointerException ex){
-        return ErrorResponse.of(HttpStatus.UNAUTHORIZED,"인증되지 않는 회원입니다.");
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST,"존재하지 않는 회원입니다.");
     }
 
     @ExceptionHandler(FileNameNullException.class)

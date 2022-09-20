@@ -1,20 +1,21 @@
 package com.dreamteam.hola.dao;
 
-import com.dreamteam.hola.dto.member.MemberDto;
+import com.dreamteam.hola.dto.member.MemberInfoDto;
+import com.dreamteam.hola.dto.member.MemberSignupDto;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface MemberMapper {
 
-    MemberDto findByEmail(String email);
+    MemberInfoDto findByEmail(String email);
 
-    int signup(MemberDto memberDto);
+    Long signup(MemberSignupDto reqeustDto);
 
-    MemberDto findById(Long id);
+    MemberInfoDto findById(Long id);
 
-    int update(MemberDto memberDto);
+    Long update(MemberInfoDto memberDto);
 
-    int delete(Long id);
+    Long delete(Long id);
 
-    int updateProfile(MemberDto memberDto);
+    Long updateProfile(MemberInfoDto memberDto);
 }
