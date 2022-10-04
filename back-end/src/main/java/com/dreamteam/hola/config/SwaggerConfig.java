@@ -27,12 +27,11 @@ import springfox.documentation.spring.web.plugins.Docket;
 import java.util.Arrays;
 import java.util.List;
 
-@Configuration
 @RequiredArgsConstructor
+@Configuration
 public class SwaggerConfig {
 
     private final TypeResolver typeResolver;
-
 
     @Bean
     public Docket api(){
@@ -46,7 +45,7 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("com.dreamteam.hola"))
                 .paths(PathSelectors.any())
                 .build()
-                //타입리졸버 설정
+                /** 타입리졸버 설정 */
                 .additionalModels(
                 typeResolver.resolve(BoardDetailDto.class),
                 typeResolver.resolve(ErrorResponse.class),
@@ -67,6 +66,7 @@ public class SwaggerConfig {
                 .securityReferences(defaultAuth())
                 .build();
     }
+
     private List<SecurityReference> defaultAuth(){
         AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
@@ -74,6 +74,7 @@ public class SwaggerConfig {
         return Arrays.asList(new SecurityReference("X-AUTH-TOKEN", authorizationScopes));
 
     }
+
     private ApiInfo apiInfo(){
         return new ApiInfoBuilder()
                 .title("API")
@@ -81,8 +82,8 @@ public class SwaggerConfig {
                 .version("1.0")
                 .build();
     }
+
     private ApiKey apiKey(){
         return new ApiKey("X-AUTH-TOKEN", "X-AUTH-TOKEN", "header");
     }
-
 }

@@ -8,15 +8,17 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-//시큐리티 설정에서 loginProcessingUrl("/login")
-//login 요청이 오면 자동으로 UserDetailsService 타입으로 IOC 되어있는 loadUserByUsername 함수가 실행
-@Service
 @RequiredArgsConstructor
+@Service
 public class PrincipalDetailsService implements UserDetailsService {
 
     private final MemberMapper memberMapper;
 
-    //시큐리티 session(Authentication(내부 UserDetails))
+    /**
+     * @param email 로그인 요청 온 email
+     * @return Member 정보로 만들어진 Sercurity context에 저장될 UserDetails 객체
+     * @throws UsernameNotFoundException 검사한 email이 DB에 존재하지 않는 경우 발생
+     */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
